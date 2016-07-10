@@ -1,4 +1,4 @@
-package sokoban.utils;
+package sokoban.boxengine.utils;
 
 import java.awt.*;
 import java.util.ArrayList;

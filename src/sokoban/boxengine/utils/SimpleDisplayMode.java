@@ -1,4 +1,4 @@
-package sokoban.utils;
+package sokoban.boxengine.utils;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -6,7 +6,7 @@ import java.util.ArrayList;
 /**
  * Created by CodeingBoy on 2016-7-10-0010.
  */
-public class SimpleDisplayMode extends DisplayMode {
+public class SimpleDisplayMode extends sokoban.boxengine.utils.DisplayMode {
     public SimpleDisplayMode(java.awt.DisplayMode displayMode) {
         super(displayMode);
     }
@@ -30,7 +30,7 @@ public class SimpleDisplayMode extends DisplayMode {
 
     @Override
     public boolean equals(Object obj) {
-        DisplayMode another = (DisplayMode) obj;
+        sokoban.boxengine.utils.DisplayMode another = (sokoban.boxengine.utils.DisplayMode) obj;
         if (this.size == another.size)
             return true;
         else
