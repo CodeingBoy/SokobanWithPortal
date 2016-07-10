@@ -1,20 +1,35 @@
 package sokoban.dialog;
 
 import sokoban.boxengine.FrameRate;
+import sokoban.utils.Log;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.image.BufferStrategy;
 
 /**
  * Created by CodeingBoy on 2016-7-10-0010.
  */
-public class GameDialog extends JFrame {
+public class GameDialog extends JFrame implements Runnable {
     private FrameRate frameRate = null;
+    private BufferStrategy bufferStrategy;
+    private Thread renderThread;
+    private boolean rendering = false;
 
     public GameDialog() throws HeadlessException {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setSize(400, 300);
         setTitle("GameDialog");
+        setIgnoreRepaint(true); // active rendering, need not passive repaint 主动渲染，无须被动渲染
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                onWindowClosing();
+            }
+        });
     }
 
     public static void main(String[] args) {
@@ -29,15 +44,43 @@ public class GameDialog extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                dialog.createGUI();
+                dialog.createAndShowGUI();
                 dialog.setVisible(true);
             }
         });
     }
 
-    public void createGUI() {
-        GamePanel gamePanel = new GamePanel();
-        add(gamePanel);
+    private void onWindowClosing() {
+        Log.d("stopping rendering...");
+        rendering = false;
+        try {
+            renderThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Log.d("render thread stopped!");
+
+        Log.d("Exiting...");
+        // TODO: Wait for Log dialog
+        // try {
+        //     LogDialog.getInstance().wait();
+        // } catch (InterruptedException e) {
+        //     e.printStackTrace();
+        // }
+        System.exit(0);
+    }
+
+    public void createAndShowGUI() {
+        Canvas canvas = new Canvas();
+        canvas.setBackground(Color.black);
+        add(canvas);
+        setVisible(true);
+
+        canvas.createBufferStrategy(2);
+        bufferStrategy = canvas.getBufferStrategy();
+
+        renderThread = new Thread(this);
+        renderThread.start();
     }
 
     public FrameRate getFrameRate() {
@@ -50,21 +93,54 @@ public class GameDialog extends JFrame {
         this.frameRate = frameRate;
     }
 
-    private class GamePanel extends JPanel {
-
-        @Override
-        public void paint(Graphics g) {
-            super.paint(g);
-            onPaint(g);
-            repaint();
-        }
-
-        private void onPaint(Graphics g) {
-            if (frameRate != null) {
-                frameRate.calculate();
-                g.setColor(Color.white);
-                g.drawString(frameRate.getLatestFrameRateString(), 50, 50);
-            }
+    @Override
+    public void run() {
+        rendering = true;
+        frameRate.initialize();
+        while (rendering) {
+            renderLoop();
         }
     }
+
+    private void renderLoop() {
+        do {
+            do {
+                Graphics g = bufferStrategy.getDrawGraphics();
+                g.clearRect(0, 0, getWidth(), getHeight());
+                render(g);
+
+                if (g != null) {
+                    g.dispose();
+                }
+            } while (bufferStrategy.contentsRestored());
+            bufferStrategy.show();
+        } while (bufferStrategy.contentsLost());
+    }
+
+    private void render(Graphics g) {
+        if (frameRate != null) {
+            frameRate.calculate();
+            g.setColor(Color.white);
+            g.drawString(frameRate.getLatestFrameRateString(), 50, 50);
+        }
+    }
+
+
+    // private class GamePanel extends JPanel {
+    //
+    //     @Override
+    //     public void paint(Graphics g) {
+    //         super.paint(g);
+    //         onPaint(g);
+    //         repaint();
+    //     }
+    //
+    //     private void onPaint(Graphics g) {
+    //         if (frameRate != null) {
+    //             frameRate.calculate();
+    //             g.setColor(Color.white);
+    //             g.drawString(frameRate.getLatestFrameRateString(), 50, 50);
+    //         }
+    //     }
+    // }
 }
