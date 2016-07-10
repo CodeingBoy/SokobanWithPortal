@@ -18,7 +18,7 @@ public class SetttingDialog extends JDialog {
         setModal(true);
         setResizable(false);
         setTitle("游戏设置");
-        setLayout(new BorderLayout());
+        setLayout(new BorderLayout(0, 0));
 
         try {
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
@@ -67,6 +67,7 @@ public class SetttingDialog extends JDialog {
     }
 
     private class SettingGridPanel extends JPanel {
+        private final JSlider bgmVolume = new JSlider();
         private final JSlider volume = new JSlider();
 
         public SettingGridPanel() {
@@ -74,9 +75,10 @@ public class SetttingDialog extends JDialog {
 
             add(new JLabel("分辨率：", JLabel.RIGHT));
             add(new JComboBox<String>());
-            add(new JLabel("音效：", JLabel.RIGHT));
+            add(new JLabel("背景音乐音量：", JLabel.RIGHT));
+            add(bgmVolume);
+            add(new JLabel("动作音效音量：", JLabel.RIGHT));
             add(volume);
-
         }
     }
 
@@ -93,11 +95,16 @@ public class SetttingDialog extends JDialog {
 
     private class CheckBoxPanel extends JPanel {
         private final JCheckBox fullScreen = new JCheckBox("全屏模式运行");
+        private final JCheckBox developerComment = new JCheckBox("开发者注释");
+        private final JCheckBox showLogs = new JCheckBox("显示日志");
+
 
         public CheckBoxPanel() {
             setLayout(new GridLayout(0, 3, 5, 5));
 
             add(fullScreen);
+            add(developerComment);
+            add(showLogs);
         }
     }
 }
