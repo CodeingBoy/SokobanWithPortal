@@ -13,7 +13,7 @@ import java.awt.event.ActionListener;
 public class LogDialog extends JFrame {
     private static LogDialog ourInstance = new LogDialog();
     private final JList<String> logs;
-    private final DefaultListModel logContainer = new DefaultListModel();
+    private final DefaultListModel logContainer = Log.getLogContainer();
 
     private LogDialog() {
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -38,21 +38,14 @@ public class LogDialog extends JFrame {
         logs.setFont(new Font("宋体", Font.PLAIN, 15));
         logs.setModel(logContainer);
 
-        JButton btnClose = new JButton("关闭");
-        btnClose.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setVisible(false);
-            }
-        });
-
         add(new JScrollPane(logs));
-        add(btnClose, BorderLayout.SOUTH);
+        add(new ButtonPanel(), BorderLayout.SOUTH);
     }
 
     public static LogDialog getInstance() {
         return ourInstance;
     }
+
 
     public static void main(String[] args) {
         LogDialog.getInstance().setVisible(true);
@@ -63,13 +56,31 @@ public class LogDialog extends JFrame {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
         }
     }
 
-    public void addLog(String content) {
-        logContainer.addElement(content);
-        logs.setSelectedIndex(logContainer.getSize() - 1);
-    }
+    private class ButtonPanel extends JPanel {
+        public ButtonPanel() {
+            setLayout(new GridLayout(0, 2));
 
+            JButton btnClose = new JButton("关闭");
+            btnClose.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    getInstance().setVisible(false);
+                }
+            });
+
+            JButton btnClear = new JButton("清除");
+            btnClear.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    logContainer.clear();
+                }
+            });
+
+            add(btnClear);
+            add(btnClose);
+        }
+    }
 }
