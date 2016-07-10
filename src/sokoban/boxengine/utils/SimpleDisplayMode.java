@@ -11,18 +11,22 @@ public class SimpleDisplayMode extends sokoban.boxengine.utils.DisplayMode {
         super(displayMode);
     }
 
+    public SimpleDisplayMode(DisplayMode displayMode) {
+        super(displayMode.size, displayMode.bitDepth, java.awt.DisplayMode.REFRESH_RATE_UNKNOWN);
+    }
+
     public SimpleDisplayMode(Dimension size, int bitDepth, int refreshRate) {
         super(size, bitDepth, refreshRate);
     }
 
     public static SimpleDisplayMode[] getDisplayModes() {
-        java.awt.DisplayMode[] originDisplayModes =
-                GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayModes();
+        DisplayMode[] originDisplayModes = DisplayMode.getDisplayModes();
 
         ArrayList<SimpleDisplayMode> displayModes = new ArrayList<SimpleDisplayMode>();
-        for (java.awt.DisplayMode mode : originDisplayModes) {
-            if (!displayModes.contains(mode))
-                displayModes.add(new SimpleDisplayMode(mode));
+        for (DisplayMode mode : originDisplayModes) {
+            SimpleDisplayMode addingMode = new SimpleDisplayMode(mode);
+            if (!displayModes.contains(addingMode))
+                displayModes.add(addingMode);
         }
 
         return displayModes.toArray(new SimpleDisplayMode[0]);
@@ -30,8 +34,9 @@ public class SimpleDisplayMode extends sokoban.boxengine.utils.DisplayMode {
 
     @Override
     public boolean equals(Object obj) {
-        sokoban.boxengine.utils.DisplayMode another = (sokoban.boxengine.utils.DisplayMode) obj;
-        if (this.size == another.size)
+        sokoban.boxengine.utils.DisplayMode that = (sokoban.boxengine.utils.DisplayMode) obj;
+
+        if (this.size.equals(that.size))
             return true;
         else
             return false;
@@ -39,6 +44,6 @@ public class SimpleDisplayMode extends sokoban.boxengine.utils.DisplayMode {
 
     @Override
     public String toString() {
-        return (int)size.getWidth() + " x " + (int)size.getHeight();
+        return (int) size.getWidth() + " x " + (int) size.getHeight();
     }
 }

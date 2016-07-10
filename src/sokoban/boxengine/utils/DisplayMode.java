@@ -53,6 +53,19 @@ public class DisplayMode {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        DisplayMode that = (DisplayMode) o;
+
+        if (bitDepth != that.bitDepth) return false;
+        if (refreshRate != that.refreshRate) return false;
+        return size != null ? size.equals(that.size) : that.size == null;
+
+    }
+
+    @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("DisplayMode{");
         sb.append("size=").append(size);
