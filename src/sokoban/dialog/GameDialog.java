@@ -1,6 +1,6 @@
 package sokoban.dialog;
 
-import sokoban.boxengine.FrameRate;
+import sokoban.game.utils.FrameRateCalculator;
 import sokoban.utils.Log;
 
 import javax.swing.*;
@@ -13,7 +13,7 @@ import java.awt.image.BufferStrategy;
  * Created by CodeingBoy on 2016-7-10-0010.
  */
 public class GameDialog extends JFrame implements Runnable {
-    private FrameRate frameRate = null;
+    private FrameRateCalculator frameRate = null;
     private BufferStrategy bufferStrategy;
     private Thread renderThread;
     private boolean rendering = false;
@@ -34,7 +34,7 @@ public class GameDialog extends JFrame implements Runnable {
 
     public static void main(String[] args) {
         GameDialog dialog = new GameDialog();
-        FrameRate frameRate = new FrameRate();
+        FrameRateCalculator frameRate = new FrameRateCalculator();
         frameRate.setShouldLog(true);
         dialog.setFrameRate(frameRate);
 
@@ -83,11 +83,11 @@ public class GameDialog extends JFrame implements Runnable {
         renderThread.start();
     }
 
-    public FrameRate getFrameRate() {
+    public FrameRateCalculator getFrameRate() {
         return frameRate;
     }
 
-    public void setFrameRate(FrameRate frameRate) {
+    public void setFrameRate(FrameRateCalculator frameRate) {
         if (frameRate != null && !frameRate.isInitalized())
             frameRate.initialize();
         this.frameRate = frameRate;
