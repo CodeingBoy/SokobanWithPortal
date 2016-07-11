@@ -8,7 +8,7 @@ import java.awt.event.KeyListener;
  */
 public class KeyboardInput implements KeyListener {
     private int[] keyLastFrames = new int[256];
-    private boolean[] isKeyPressed = new boolean[256];
+    private boolean[] isKeyPressing = new boolean[256];
 
     public boolean isKeyDown(int keyCode) {
         return keyLastFrames[keyCode] > 0;
@@ -18,9 +18,9 @@ public class KeyboardInput implements KeyListener {
         return keyLastFrames[keyCode] == 1;
     }
 
-    public void poll() {
-        for (int i = 0; i < isKeyPressed.length; i++) {
-            if (isKeyPressed[i])
+    public synchronized void poll() {
+        for (int i = 0; i < isKeyPressing.length; i++) {
+            if (isKeyPressing[i])
                 keyLastFrames[i]++;
             else
                 keyLastFrames[i] = 0;
@@ -35,14 +35,14 @@ public class KeyboardInput implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         int keyCode = e.getKeyCode();
-        if (keyCode >= 0 && keyCode < isKeyPressed.length)
-            isKeyPressed[keyCode] = true;
+        if (keyCode >= 0 && keyCode < isKeyPressing.length)
+            isKeyPressing[keyCode] = true;
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
         int keyCode = e.getKeyCode();
-        if (keyCode >= 0 && keyCode < isKeyPressed.length)
-            isKeyPressed[keyCode] = false;
+        if (keyCode >= 0 && keyCode < isKeyPressing.length)
+            isKeyPressing[keyCode] = false;
     }
 }
