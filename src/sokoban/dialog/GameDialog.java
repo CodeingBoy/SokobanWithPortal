@@ -1,7 +1,9 @@
 package sokoban.dialog;
 
-import sokoban.game.KeyboardInputHandler;
 import sokoban.game.engine.input.KeyboardInput;
+import sokoban.game.engine.input.MouseInput;
+import sokoban.game.engine.input.handler.SimpleKeyboardInputHandler;
+import sokoban.game.engine.input.handler.SimpleMouseInputHandler;
 import sokoban.game.utils.FrameRateCalculator;
 import sokoban.utils.Log;
 
@@ -19,7 +21,8 @@ public class GameDialog extends JFrame implements Runnable {
     private BufferStrategy bufferStrategy;
     private Thread renderThread;
     private boolean rendering = false;
-    private KeyboardInputHandler handler;
+    private SimpleKeyboardInputHandler keyboardInputHandler;
+    private SimpleMouseInputHandler mouseInputHandler;
 
     public GameDialog() throws HeadlessException {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -83,8 +86,13 @@ public class GameDialog extends JFrame implements Runnable {
         bufferStrategy = canvas.getBufferStrategy();
 
         KeyboardInput keyboardInput = new KeyboardInput();
+        MouseInput mouseInput = new MouseInput();
         canvas.addKeyListener(keyboardInput);
-        handler = new KeyboardInputHandler(keyboardInput);
+        canvas.addMouseListener(mouseInput);
+        canvas.addMouseMotionListener(mouseInput);
+        canvas.addMouseWheelListener(mouseInput);
+        keyboardInputHandler = new SimpleKeyboardInputHandler(keyboardInput);
+        mouseInputHandler = new SimpleMouseInputHandler(mouseInput);
 
         renderThread = new Thread(this);
         renderThread.start();
@@ -105,7 +113,10 @@ public class GameDialog extends JFrame implements Runnable {
         rendering = true;
         frameRate.initialize();
         while (rendering) {
-            handler.processInput();
+            keyboardInputHandler.poll();
+            keyboardInputHandler.processInput();
+            mouseInputHandler.poll();
+            mouseInputHandler.processInput();
             renderLoop();
         }
     }
