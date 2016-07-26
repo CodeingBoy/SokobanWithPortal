@@ -1,5 +1,7 @@
 package sokoban.dialog;
 
+import sokoban.game.utils.SimpleDisplayMode;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -74,7 +76,7 @@ public class SetttingDialog extends JDialog {
             setLayout(new GridLayout(0, 2, 5, 5));
 
             add(new JLabel("分辨率：", JLabel.RIGHT));
-            add(new JComboBox<String>());
+            add(new JComboBox<SimpleDisplayMode>(SimpleDisplayMode.getDisplayModes()));
             add(new JLabel("背景音乐音量：", JLabel.RIGHT));
             add(bgmVolume);
             add(new JLabel("动作音效音量：", JLabel.RIGHT));

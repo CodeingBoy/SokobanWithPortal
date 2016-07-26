@@ -1,5 +1,7 @@
 package sokoban.dialog;
 
+import sokoban.utils.Log;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -7,7 +9,7 @@ import java.awt.*;
  * Created by CodeingBoy on 2016-7-7-0007.
  */
 public class SplashDialog extends JFrame {
-    final LoadingInformationPanel infPanel = new LoadingInformationPanel();
+    final LoadingInformationPanel infPanel;
 
     public SplashDialog() {
         setUndecorated(true);
@@ -18,6 +20,20 @@ public class SplashDialog extends JFrame {
         setLocationRelativeTo(null);
         setLayout(null);
 
+        try {
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        }
+
+        infPanel = new LoadingInformationPanel();
+
         ImageIcon splashPic = new ImageIcon("splash.png");
         JLabel picLabel = new JLabel(splashPic);
         picLabel.setVerticalAlignment(JLabel.TOP);
@@ -26,6 +42,8 @@ public class SplashDialog extends JFrame {
 
         infPanel.setBounds(0, 300, 500, 100);
         add(infPanel);
+
+        Log.d("Splash loaded!");
     }
 
     public static void main(String[] args) {
@@ -36,10 +54,17 @@ public class SplashDialog extends JFrame {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        dlg.extendDialog(500, 400, 5, false);
+        dlg.expand(500, 400, 5, false);
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        new SetttingDialog(dlg).setVisible(true);
     }
 
-    public void extendDialog(int width, int height, int step, boolean keepCenter) {
+    public void expand(int width, int height, int step, boolean keepCenter) {
         for (int i = 0; i < Math.max(width, height) / step; i++) {
             setSize(getWidth() < width ? getWidth() + step : width,
                     getHeight() < height ? getHeight() + step : height);
@@ -47,9 +72,10 @@ public class SplashDialog extends JFrame {
             try {
                 Thread.sleep(5);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                Log.d(e.getLocalizedMessage());
             }
         }
+        Log.d("Splash expanded!");
     }
 
     public void setLabel(String content) {
@@ -72,6 +98,7 @@ class LoadingInformationPanel extends JPanel {
         label.setHorizontalAlignment(JLabel.CENTER);
 
         progressBar.setValue(50);
+        progressBar.setSize(500, 20);
 
         add(progressBar);
         add(label);
