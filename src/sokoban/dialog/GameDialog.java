@@ -1,5 +1,7 @@
 package sokoban.dialog;
 
+import sokoban.game.engine.graphics.Matrix3x3f;
+import sokoban.game.engine.graphics.Vector2f;
 import sokoban.game.engine.input.KeyboardInput;
 import sokoban.game.engine.input.MouseInput;
 import sokoban.game.engine.input.handler.SimpleKeyboardInputHandler;
@@ -12,6 +14,7 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
+import java.util.ArrayList;
 
 /**
  * Created by CodeingBoy on 2016-7-10-0010.
@@ -23,10 +26,13 @@ public class GameDialog extends JFrame implements Runnable {
     private boolean rendering = false;
     private SimpleKeyboardInputHandler keyboardInputHandler;
     private SimpleMouseInputHandler mouseInputHandler;
+    private float angel;
+    private ArrayList<Point> points = new ArrayList();
+    private float earthRot, moonRot;
 
     public GameDialog() throws HeadlessException {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setSize(400, 300);
+        setSize(500, 500);
         setTitle("GameDialog");
         setIgnoreRepaint(true); // active rendering, need not passive repaint 主动渲染，无须被动渲染
         addWindowListener(new WindowAdapter() {
@@ -118,6 +124,11 @@ public class GameDialog extends JFrame implements Runnable {
             mouseInputHandler.poll();
             mouseInputHandler.processInput();
             renderLoop();
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -142,6 +153,52 @@ public class GameDialog extends JFrame implements Runnable {
             g.setColor(Color.white);
             g.drawString(frameRate.getLatestFrameRateString(), 50, 50);
         }
+
+        // calc the square pos
+        Matrix3x3f squMat = Matrix3x3f.translate(100, 100);
+        squMat = squMat.mul(squMat.rotate(angel));
+        squMat = squMat.mul(squMat.translate(200, 200));
+        angel += Math.toRadians(0.03);
+        Vector2f squVec = squMat.mul(new Vector2f(0, 0, 1));
+
+        // draw the square
+        g.setColor(Color.green);
+        g.fillRect((int) squVec.x - 10, (int) squVec.y - 10, 20, 20);
+
+        // calc the sun pos
+        Matrix3x3f sunMat = Matrix3x3f.translate(getWidth() / 2, getHeight() / 2);
+        Vector2f sunVec = sunMat.toVector();
+
+        // draw the sun
+        g.setColor(Color.yellow);
+        g.fillOval((int) sunVec.x - 50, (int) sunVec.y - 50, 100, 100);
+
+        // draw the orbit
+        g.setColor(Color.white);
+        g.drawOval((int) sunVec.x - getWidth() / 4, (int) sunVec.y - getWidth() / 4, getWidth() / 2, getWidth() / 2);
+
+        // calc the earth pos
+        Matrix3x3f earthMat = Matrix3x3f.translate(getWidth() / 4, 0);
+        earthMat = earthMat.mul(earthMat.rotate(earthRot));
+        earthMat = earthMat.mul(sunMat);
+        earthRot += Math.toRadians(0.5);
+        Vector2f earthVec = earthMat.toVector();
+
+        // draw the earth
+        g.setColor(Color.blue);
+        g.fillOval((int) earthVec.x - 10, (int) earthVec.y - 10, 20, 20);
+
+        // calc the moon pos
+        Matrix3x3f moonMat = Matrix3x3f.translate(30, 0);
+        moonMat = moonMat.mul(Matrix3x3f.rotate(moonRot));
+        moonMat = moonMat.mul(earthMat);
+        moonRot += Math.toRadians(2.5);
+        Vector2f moonVec = moonMat.toVector();
+
+        // draw the moon
+        g.setColor(Color.gray);
+        g.fillOval((int) moonVec.x - 5, (int) moonVec.y - 5, 10, 10);
+
     }
 
 
