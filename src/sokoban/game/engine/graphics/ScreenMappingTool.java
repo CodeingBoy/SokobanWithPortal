@@ -46,7 +46,7 @@ public class ScreenMappingTool {
         s2wMatrix = Matrix3x3f.translate(-translate_x, -translate_y).mul(Matrix3x3f.scale(scale_x, -scale_y));
     }
 
-    public Matrix3x3f getScreenMatrix(Matrix3x3f matrix) {
+    public Matrix3x3f worldToScreen(Matrix3x3f matrix) {
         return w2sMatrix.mul(matrix);
     }
 
