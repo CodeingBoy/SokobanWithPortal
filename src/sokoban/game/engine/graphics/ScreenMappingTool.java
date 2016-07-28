@@ -8,7 +8,7 @@ import java.awt.*;
 public class ScreenMappingTool {
     private float worldWidth, worldHeight;
     private float canvasWidth, canvasHeight;
-    private Matrix3x3f mappingMatrix;
+    private Matrix3x3f w2sMatrix, s2wMatrix;
 
     public ScreenMappingTool(float worldWidth, float worldHeight, Canvas canvas) {
         this.worldWidth = worldWidth;
@@ -42,19 +42,25 @@ public class ScreenMappingTool {
         float translate_x = canvasWidth / 2;
         float translate_y = canvasHeight / 2;
         // calc matrix
-        mappingMatrix = Matrix3x3f.scale(scale_x, -scale_y).mul(Matrix3x3f.translate(translate_x, translate_y));
+        w2sMatrix = Matrix3x3f.scale(scale_x, -scale_y).mul(Matrix3x3f.translate(translate_x, translate_y));
+        s2wMatrix = Matrix3x3f.translate(-translate_x, -translate_y).mul(Matrix3x3f.scale(scale_x, -scale_y));
     }
 
     public Matrix3x3f getScreenMatrix(Matrix3x3f matrix) {
-        return mappingMatrix.mul(matrix);
+        return w2sMatrix.mul(matrix);
     }
 
     public Point worldToScreen(Point worldPoint) {
-        Vector2f v = getScreenMatrix(Matrix3x3f.translate(new Point(worldPoint.x, worldPoint.y))).toVector();
+        Vector2f v = w2sMatrix.mul(Matrix3x3f.translate(new Point(worldPoint.x, worldPoint.y))).toVector();
         return new Point((int) v.x, (int) v.y);
     }
 
-    public Matrix3x3f getMappingMatrix() {
-        return mappingMatrix;
+    public Point screenToWorld(Point screenPoint) {
+        Vector2f v = s2wMatrix.mul(Matrix3x3f.translate(new Point(screenPoint.x, screenPoint.y))).toVector();
+        return new Point((int) v.x, (int) v.y);
+    }
+
+    public Matrix3x3f getW2sMatrix() {
+        return w2sMatrix;
     }
 }
