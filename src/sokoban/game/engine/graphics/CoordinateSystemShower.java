@@ -16,16 +16,14 @@ public class CoordinateSystemShower {
         }
     }
 
-    public static void drawWorldXAxis(Graphics g, int start, int end, int step, int length, boolean drawText, int textY) {
+    public static void drawWorldXAxis(Graphics g, int start, int end, int step, int length, int textYOffset) {
+        drawWorldXAxis(g, start, end, step, length);
+
         for (int i = start; i <= end; i += step) {
-            g.drawLine(i, 0, i, length);
-            if (drawText)
-                g.drawString(String.valueOf(i), i, textY);
+            g.drawString(String.valueOf(i), i, textYOffset);
         }
         for (int i = -start; i <= -end; i -= step) {
-            g.drawLine(i, 0, i, length);
-            if (drawText)
-                g.drawString(String.valueOf(i), i, textY);
+            g.drawString(String.valueOf(i), i, textYOffset);
         }
     }
 
@@ -38,21 +36,19 @@ public class CoordinateSystemShower {
         }
     }
 
-    public static void drawWorldYAxis(Graphics g, int start, int end, int step, int length, boolean drawText, int textX) {
+    public static void drawWorldYAxis(Graphics g, int start, int end, int step, int length, int textXOffset) {
+        drawWorldYAxis(g, start, end, step, length);
+
         for (int i = start; i <= end; i += step) {
-            g.drawLine(0, i, length, i);
-            if (drawText)
-                g.drawString(String.valueOf(i), textX, i);
+            g.drawString(String.valueOf(i), textXOffset, i);
         }
         for (int i = -start; i <= -end; i -= step) {
-            g.drawLine(0, i, length, i);
-            if (drawText)
-                g.drawString(String.valueOf(i), textX, i);
+            g.drawString(String.valueOf(i), textXOffset, i);
         }
     }
 
     public static void drawScreenXAxis(Graphics g, int start, int end, int step, int length, ScreenMappingTool screenMappingTool) {
-        final Point ORIGIN = screenMappingTool.getScreenPoint(new Point(0, 0)); // 坐标原点
+        final Point ORIGIN = screenMappingTool.worldToScreen(new Point(0, 0)); // 坐标原点
         for (int i = start; i <= end; i += step)
             g.drawLine(ORIGIN.x + i, ORIGIN.y - length / 2, ORIGIN.x + i, ORIGIN.y + length / 2);
 
@@ -61,36 +57,36 @@ public class CoordinateSystemShower {
     }
 
     public static void drawScreenXAxis(Graphics g, int start, int end, int step, int length,
-                                       ScreenMappingTool screenMappingTool, int textY) {
+                                       ScreenMappingTool screenMappingTool, int textYOffset) {
         drawScreenXAxis(g, start, end, step, length, screenMappingTool);
 
-        final Point GRIDORIGIN = screenMappingTool.getScreenPoint(new Point(0, 0)); // 坐标原点
+        final Point ORIGIN = screenMappingTool.worldToScreen(new Point(0, 0)); // 坐标原点
         for (int i = start; i <= end; i += step)
-            g.drawString(String.valueOf(i), GRIDORIGIN.x + i, GRIDORIGIN.y + textY);
+            g.drawString(String.valueOf(i), ORIGIN.x + i, ORIGIN.y + textYOffset);
 
         for (int i = -start; i >= -end; i -= step)
-            g.drawString(String.valueOf(i), GRIDORIGIN.x + i, GRIDORIGIN.y + textY);
+            g.drawString(String.valueOf(i), ORIGIN.x + i, ORIGIN.y + textYOffset);
     }
 
     public static void drawScreenYAxis(Graphics g, int start, int end, int step, int length, ScreenMappingTool screenMappingTool) {
-        final Point ORIGIN = screenMappingTool.getScreenPoint(new Point(0, 0)); // 坐标原点
+        final Point ORIGIN = screenMappingTool.worldToScreen(new Point(0, 0)); // 坐标原点
         for (int i = start; i <= end; i += step)
-            g.drawLine(ORIGIN.x - length / 2, ORIGIN.y + i, ORIGIN.y + length / 2, ORIGIN.y + i);
+            g.drawLine(ORIGIN.x - length / 2, ORIGIN.y + i, ORIGIN.x + length / 2, ORIGIN.y + i);
 
         for (int i = -start; i >= -end; i -= step)
-            g.drawLine(ORIGIN.x - length / 2, ORIGIN.y + i, ORIGIN.y + length / 2, ORIGIN.y + i);
+            g.drawLine(ORIGIN.x - length / 2, ORIGIN.y + i, ORIGIN.x + length / 2, ORIGIN.y + i);
 
     }
 
     public static void drawScreenYAxis(Graphics g, int start, int end, int step, int length,
-                                       ScreenMappingTool screenMappingTool, int textX) {
+                                       ScreenMappingTool screenMappingTool, int textXOffset) {
         drawScreenYAxis(g, start, end, step, length, screenMappingTool);
 
-        final Point GRIDORIGIN = screenMappingTool.getScreenPoint(new Point(0, 0)); // 坐标原点
+        final Point GRIDORIGIN = screenMappingTool.worldToScreen(new Point(0, 0)); // 坐标原点
         for (int i = start; i <= end; i += step)
-            g.drawString(String.valueOf(i), GRIDORIGIN.x + textX, GRIDORIGIN.y + i);
+            g.drawString(String.valueOf(i), GRIDORIGIN.x + textXOffset, GRIDORIGIN.y + i);
 
         for (int i = -start; i >= -end; i -= step)
-            g.drawString(String.valueOf(i), GRIDORIGIN.x + textX, GRIDORIGIN.y + i);
+            g.drawString(String.valueOf(i), GRIDORIGIN.x + textXOffset, GRIDORIGIN.y + i);
     }
 }
