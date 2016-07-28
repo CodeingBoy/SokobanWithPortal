@@ -84,9 +84,9 @@ public class CoordinateSystemShower {
 
         final Point ORIGIN = screenMappingTool.worldToScreen(new Point(0, 0)); // 坐标原点
         for (int i = start; i <= end; i += step)
-            g.drawString(String.valueOf(i), ORIGIN.x + textXOffset, ORIGIN.y + i);
+            g.drawString(String.valueOf(i), ORIGIN.x + textXOffset, ORIGIN.y - i); // 由于屏幕坐标系y轴往下增加 因此原点-i
 
         for (int i = -start; i >= -end; i -= step)
-            g.drawString(String.valueOf(i), ORIGIN.x + textXOffset, ORIGIN.y + i);
+            g.drawString(String.valueOf(i), ORIGIN.x + textXOffset, ORIGIN.y - i);
     }
 }
