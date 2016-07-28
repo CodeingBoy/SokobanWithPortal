@@ -16,4 +16,8 @@ public abstract class MouseInputHandler implements InputHandler {
     public final void poll() {
         input.poll();
     }
+
+    public MouseInput getInput() {
+        return input;
+    }
 }

@@ -1,7 +1,7 @@
 package sokoban.dialog;
 
 import sokoban.game.engine.GameWindow;
-import sokoban.game.engine.Scene;
+import sokoban.game.engine.SuperScene;
 import sokoban.game.engine.graphics.CoordinateSystemShower;
 import sokoban.game.engine.graphics.Matrix3x3f;
 import sokoban.game.engine.graphics.ScreenMappingTool;
@@ -20,17 +20,16 @@ import java.awt.event.ComponentEvent;
 /**
  * Created by CodeigBoy on 2016-7-10-0010.
  */
-public class GameDialog extends Scene implements Runnable {
+public class GameDialog extends SuperScene implements Runnable {
     private FrameRateCalculator frameRate = null;
     private SimpleKeyboardInputHandler keyboardInputHandler;
     private SimpleMouseInputHandler mouseInputHandler;
     private float angel;
     private float earthRot, moonRot;
     private ScreenMappingTool screenMappingTool;
-    private long curTime, lastTime;
-    private double nsPerSec;
 
     public GameDialog() throws HeadlessException {
+        super(new SimpleKeyboardInputHandler(new KeyboardInput()), new SimpleMouseInputHandler(new MouseInput()));
         // setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         // setSize(500, 500);
         // setTitle("GameDialog");
@@ -94,16 +93,9 @@ public class GameDialog extends Scene implements Runnable {
                 screenMappingTool = new ScreenMappingTool(5, 5, canvas);
             }
         });
-        // addComponentListener(new ResizingHandler(canvas, getContentPane(), 4, 3, 0));
 
-        KeyboardInput keyboardInput = new KeyboardInput();
-        MouseInput mouseInput = new MouseInput();
-        canvas.addKeyListener(keyboardInput);
-        canvas.addMouseListener(mouseInput);
-        canvas.addMouseMotionListener(mouseInput);
-        canvas.addMouseWheelListener(mouseInput);
-        keyboardInputHandler = new SimpleKeyboardInputHandler(keyboardInput);
-        mouseInputHandler = new SimpleMouseInputHandler(mouseInput);
+        super.onInitialize();
+        // addComponentListener(new ResizingHandler(canvas, getContentPane(), 4, 3, 0));
     }
 
     @Override
@@ -112,52 +104,11 @@ public class GameDialog extends Scene implements Runnable {
     }
 
     @Override
-    public void onPrepareRendering() {
-        frameRate.initialize();
-
-        curTime = System.nanoTime();
-        lastTime = curTime;
-    }
-
-    @Override
-    public void onRendering() {
-        curTime = System.nanoTime();
-        nsPerSec = curTime - lastTime;
-        lastTime = curTime;
-
-        keyboardInputHandler.poll();
-        keyboardInputHandler.processInput();
-        mouseInputHandler.poll();
-        mouseInputHandler.processInput();
-        renderLoop(nsPerSec / 1.0E9);
-        try {
-            Thread.sleep(5);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
     public void onExitingRendering() {
 
     }
 
-    private void renderLoop(double delta) {
-        do {
-            do {
-                Graphics g = bufferStrategy.getDrawGraphics();
-                g.clearRect(0, 0, getWidth(), getHeight());
-                render(g, delta);
-
-                if (g != null) {
-                    g.dispose();
-                }
-            } while (bufferStrategy.contentsRestored());
-            bufferStrategy.show();
-        } while (bufferStrategy.contentsLost());
-    }
-
-    private void render(Graphics g, double delta) {
+    protected void render(Graphics g, double delta) {
         if (frameRate != null) {
             frameRate.calculate();
             g.setColor(Color.white);
@@ -173,6 +124,7 @@ public class GameDialog extends Scene implements Runnable {
 
         // calc the square pos
         Matrix3x3f squMat = Matrix3x3f.translate(100, 100);
+
         squMat = squMat.mul(Matrix3x3f.rotate(angel));
         squMat = squMat.mul(Matrix3x3f.translate(200, 200));
         squMat = screenMappingTool.worldToScreen(squMat);

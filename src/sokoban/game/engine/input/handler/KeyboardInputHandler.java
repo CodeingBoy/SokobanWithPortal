@@ -16,4 +16,8 @@ public abstract class KeyboardInputHandler implements InputHandler {
     public final void poll() {
         input.poll();
     }
+
+    public KeyboardInput getInput() {
+        return input;
+    }
 }
