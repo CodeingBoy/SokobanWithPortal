@@ -1,5 +1,7 @@
 package sokoban.dialog;
 
+import sokoban.game.engine.GameWindow;
+import sokoban.game.engine.Scene;
 import sokoban.game.engine.graphics.CoordinateSystemShower;
 import sokoban.game.engine.graphics.Matrix3x3f;
 import sokoban.game.engine.graphics.ScreenMappingTool;
@@ -9,47 +11,39 @@ import sokoban.game.engine.input.MouseInput;
 import sokoban.game.engine.input.handler.SimpleKeyboardInputHandler;
 import sokoban.game.engine.input.handler.SimpleMouseInputHandler;
 import sokoban.game.utils.FrameRateCalculator;
-import sokoban.utils.Log;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.image.BufferStrategy;
-import java.util.ArrayList;
 
 /**
- * Created by CodeingBoy on 2016-7-10-0010.
+ * Created by CodeigBoy on 2016-7-10-0010.
  */
-public class GameDialog extends JFrame implements Runnable {
+public class GameDialog extends Scene implements Runnable {
     private FrameRateCalculator frameRate = null;
-    private Canvas canvas;
-    private BufferStrategy bufferStrategy;
-    private Thread renderThread;
-    private boolean rendering = false;
     private SimpleKeyboardInputHandler keyboardInputHandler;
     private SimpleMouseInputHandler mouseInputHandler;
     private float angel;
-    private ArrayList<Point> points = new ArrayList();
     private float earthRot, moonRot;
     private ScreenMappingTool screenMappingTool;
+    private long curTime, lastTime;
+    private double nsPerSec;
 
     public GameDialog() throws HeadlessException {
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setSize(500, 500);
-        setTitle("GameDialog");
-        setIgnoreRepaint(true); // active rendering, need not passive repaint 主动渲染，无须被动渲染
-        setBackground(Color.gray);
-        getContentPane().setBackground(Color.blue);
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                super.windowClosing(e);
-                onWindowClosing();
-            }
-        });
+        // setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        // setSize(500, 500);
+        // setTitle("GameDialog");
+        // setIgnoreRepaint(true); // active rendering, need not passive repaint 主动渲染，无须被动渲染
+        // setBackground(Color.gray);
+        // getContentPane().setBackground(Color.blue);
+        // addWindowListener(new WindowAdapter() {
+        //     @Override
+        //     public void windowClosing(WindowEvent e) {
+        //         super.windowClosing(e);
+        //         onWindowClosing();
+        //     }
+        // });
     }
 
     public static void main(String[] args) {
@@ -61,47 +55,40 @@ public class GameDialog extends JFrame implements Runnable {
         LogDialog logDialog = LogDialog.getInstance();
         logDialog.setVisible(true);
 
+        GameWindow gameWindow = new GameWindow(new Dimension(500, 400), "GameDialog", dialog);
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                dialog.createAndShowGUI();
-                dialog.setVisible(true);
+                gameWindow.showWindow();
+                gameWindow.setVisible(true);
             }
         });
     }
 
-    private void onWindowClosing() {
-        Log.d("stopping rendering...");
-        rendering = false;
-        try {
-            renderThread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        Log.d("render thread stopped!");
-
-        Log.d("Exiting...");
-        // TODO: Wait for Log dialog
-        // try {
-        //     LogDialog.getInstance().wait();
-        // } catch (InterruptedException e) {
-        //     e.printStackTrace();
-        // }
-        System.exit(0);
+    public FrameRateCalculator getFrameRate() {
+        return frameRate;
     }
 
-    public void createAndShowGUI() {
-        canvas = new Canvas();
-        canvas.setBackground(Color.black);
-        add(canvas);
-        setVisible(true);
+    public void setFrameRate(FrameRateCalculator frameRate) {
+        if (frameRate != null && !frameRate.isInitalized())
+            frameRate.initialize();
+        this.frameRate = frameRate;
+    }
 
-        canvas.createBufferStrategy(2);
-        bufferStrategy = canvas.getBufferStrategy();
+    @Override
+    public void onPrepare() {
+
+    }
+
+    @Override
+    public void onInitialize() {
+        canvas = new Canvas();
+        canvas.setSize(500,400);
+        canvas.setBackground(Color.black);
 
         screenMappingTool = new ScreenMappingTool(5, 5, canvas);
 
-        addComponentListener(new ComponentAdapter() {
+        window.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
                 screenMappingTool = new ScreenMappingTool(5, 5, canvas);
@@ -117,46 +104,42 @@ public class GameDialog extends JFrame implements Runnable {
         canvas.addMouseWheelListener(mouseInput);
         keyboardInputHandler = new SimpleKeyboardInputHandler(keyboardInput);
         mouseInputHandler = new SimpleMouseInputHandler(mouseInput);
-
-        renderThread = new Thread(this);
-        renderThread.start();
-    }
-
-    public FrameRateCalculator getFrameRate() {
-        return frameRate;
-    }
-
-    public void setFrameRate(FrameRateCalculator frameRate) {
-        if (frameRate != null && !frameRate.isInitalized())
-            frameRate.initialize();
-        this.frameRate = frameRate;
     }
 
     @Override
-    public void run() {
-        rendering = true;
+    public void onDestroy() {
+
+    }
+
+    @Override
+    public void onPrepareRendering() {
         frameRate.initialize();
 
-        long curTime = System.nanoTime();
-        long lastTime = curTime;
-        double nsPerSec;
+        curTime = System.nanoTime();
+        lastTime = curTime;
+    }
 
-        while (rendering) {
-            curTime = System.nanoTime();
-            nsPerSec = curTime - lastTime;
-            lastTime = curTime;
+    @Override
+    public void onRendering() {
+        curTime = System.nanoTime();
+        nsPerSec = curTime - lastTime;
+        lastTime = curTime;
 
-            keyboardInputHandler.poll();
-            keyboardInputHandler.processInput();
-            mouseInputHandler.poll();
-            mouseInputHandler.processInput();
-            renderLoop(nsPerSec / 1.0E9);
-            try {
-                Thread.sleep(5);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        keyboardInputHandler.poll();
+        keyboardInputHandler.processInput();
+        mouseInputHandler.poll();
+        mouseInputHandler.processInput();
+        renderLoop(nsPerSec / 1.0E9);
+        try {
+            Thread.sleep(5);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onExitingRendering() {
+
     }
 
     private void renderLoop(double delta) {
@@ -181,18 +164,18 @@ public class GameDialog extends JFrame implements Runnable {
             g.drawString(frameRate.getLatestFrameRateString(), 50, 50);
         }
 
-        // CoordinateSystemShower.drawWorldXAxis(g, 0, 300, 50, canvas.getHeight(), true, 20);
-        // CoordinateSystemShower.drawWorldYAxis(g, 0, 300, 50, canvas.getWidth(), true, 20);
+        // CoordinateSystemShower.drawScreenAxis(g, 0, 300, 50, canvas.getHeight(), 0);
+        // CoordinateSystemShower.drawWorldYAxis(g, 0, 300, 50, canvas.getWidth(), 0);
         // System.out.println("in render " + canvas.getSize());
 
-        CoordinateSystemShower.drawScreenXAxis(g, 0, 300, 50, canvas.getHeight(), screenMappingTool, 0);
-        CoordinateSystemShower.drawScreenYAxis(g, 0, 300, 50, canvas.getWidth(), screenMappingTool, 0);
+        CoordinateSystemShower.drawWorldXAxis(g, 0, 300, 50, canvas.getHeight(), screenMappingTool, 0);
+        CoordinateSystemShower.drawWorldYAxis(g, 0, 300, 50, canvas.getWidth(), screenMappingTool, 0);
 
         // calc the square pos
         Matrix3x3f squMat = Matrix3x3f.translate(100, 100);
         squMat = squMat.mul(Matrix3x3f.rotate(angel));
         squMat = squMat.mul(Matrix3x3f.translate(200, 200));
-        squMat = screenMappingTool.getScreenMatrix(squMat);
+        squMat = screenMappingTool.worldToScreen(squMat);
         angel += Math.toRadians(0.03);
         Vector2f squVec = squMat.mul(new Vector2f(0, 0, 1));
 
@@ -238,23 +221,4 @@ public class GameDialog extends JFrame implements Runnable {
         g.fillOval((int) moonVec.x - 5, (int) moonVec.y - 5, 10, 10);
 
     }
-
-
-    // private class GamePanel extends JPanel {
-    //
-    //     @Override
-    //     public void paint(Graphics g) {
-    //         super.paint(g);
-    //         onPaint(g);
-    //         repaint();
-    //     }
-    //
-    //     private void onPaint(Graphics g) {
-    //         if (frameRate != null) {
-    //             frameRate.calculate();
-    //             g.setColor(Color.white);
-    //             g.drawString(frameRate.getLatestFrameRateString(), 50, 50);
-    //         }
-    //     }
-    // }
 }
