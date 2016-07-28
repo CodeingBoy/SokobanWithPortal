@@ -1,5 +1,7 @@
 package sokoban.game.engine.graphics;
 
+import java.awt.*;
+
 /**
  * Created by CodeingBoy on 2016-7-26-0026.
  */
@@ -32,6 +34,10 @@ public class Matrix3x3f {
                 {3f, 2f, 1f},
                 {3f, 2f, 1f}, {3f, 2f, 1f}
         }).mul(Matrix3x3f.ZERO));
+    }
+
+    public static Matrix3x3f translate(Point p) {
+        return translate(p.x, p.y);
     }
 
     public static Matrix3x3f translate(Vector2f vector) {
