@@ -98,14 +98,6 @@ public class Matrix3x3f {
         return new Matrix3x3f(result);
     }
 
-    public float[][] getMatrix() {
-        return matrix;
-    }
-
-    public void setMatrix(float[][] matrix) {
-        this.matrix = matrix;
-    }
-
     public Matrix3x3f mul(Matrix3x3f m) {
         float[][] result = new float[3][3];
         for (int i = 0; i < result.length; i++) { // row
