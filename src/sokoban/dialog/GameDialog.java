@@ -1,7 +1,6 @@
 package sokoban.dialog;
 
-import sokoban.game.engine.GameWindow;
-import sokoban.game.engine.SuperScene;
+import sokoban.game.engine.scenes.InputableScene;
 import sokoban.game.engine.graphics.CoordinateSystemShower;
 import sokoban.game.engine.graphics.Matrix3x3f;
 import sokoban.game.engine.graphics.ScreenMappingTool;
@@ -10,7 +9,10 @@ import sokoban.game.engine.input.KeyboardInput;
 import sokoban.game.engine.input.MouseInput;
 import sokoban.game.engine.input.handler.SimpleKeyboardInputHandler;
 import sokoban.game.engine.input.handler.SimpleMouseInputHandler;
-import sokoban.game.utils.FrameRateCalculator;
+import sokoban.game.engine.scenes.FrameRateScene;
+import sokoban.game.engine.GameWindow;
+import sokoban.game.engine.scenes.SuperScene;
+import sokoban.game.engine.scenes.SuperSceneDecorator;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,16 +22,15 @@ import java.awt.event.ComponentEvent;
 /**
  * Created by CodeigBoy on 2016-7-10-0010.
  */
-public class GameDialog extends SuperScene implements Runnable {
-    private FrameRateCalculator frameRate = null;
-    private SimpleKeyboardInputHandler keyboardInputHandler;
-    private SimpleMouseInputHandler mouseInputHandler;
+public class GameDialog extends SuperSceneDecorator implements Runnable {
+    private SuperScene scene;
     private float angel;
     private float earthRot, moonRot;
     private ScreenMappingTool screenMappingTool;
 
-    public GameDialog() throws HeadlessException {
-        super(new SimpleKeyboardInputHandler(new KeyboardInput()), new SimpleMouseInputHandler(new MouseInput()));
+    public GameDialog(SuperScene scene) throws HeadlessException {
+        super(scene);
+        this.scene = scene;
         // setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         // setSize(500, 500);
         // setTitle("GameDialog");
@@ -46,43 +47,31 @@ public class GameDialog extends SuperScene implements Runnable {
     }
 
     public static void main(String[] args) {
-        GameDialog dialog = new GameDialog();
-        FrameRateCalculator frameRate = new FrameRateCalculator();
-        frameRate.setShouldLog(true);
-        dialog.setFrameRate(frameRate);
+        GameDialog scene = new GameDialog(new FrameRateScene(
+                new InputableScene(new SuperScene(), new SimpleKeyboardInputHandler(new KeyboardInput()),
+                        new SimpleMouseInputHandler(new MouseInput())),
+                50, 50));
+        // FrameRateCalculator frameRate = new FrameRateCalculator();
+        // frameRate.setShouldLog(true);
+        // scene.setFrameRate(frameRate);
 
         LogDialog logDialog = LogDialog.getInstance();
         logDialog.setVisible(true);
 
-        GameWindow gameWindow = new GameWindow(new Dimension(500, 400), "GameDialog", dialog);
+        GameWindow gameWindow = new GameWindow(new Dimension(500, 400), "GameDialog", scene);
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
                 gameWindow.showWindow();
-                gameWindow.setVisible(true);
+                // gameWindow.setVisible(true);
             }
         });
-    }
-
-    public FrameRateCalculator getFrameRate() {
-        return frameRate;
-    }
-
-    public void setFrameRate(FrameRateCalculator frameRate) {
-        if (frameRate != null && !frameRate.isInitalized())
-            frameRate.initialize();
-        this.frameRate = frameRate;
-    }
-
-    @Override
-    public void onPrepare() {
-
     }
 
     @Override
     public void onInitialize() {
         canvas = new Canvas();
-        canvas.setSize(500,400);
+        // canvas.setSize(500, 400);
         canvas.setBackground(Color.black);
 
         screenMappingTool = new ScreenMappingTool(5, 5, canvas);
@@ -94,27 +83,12 @@ public class GameDialog extends SuperScene implements Runnable {
             }
         });
 
-        super.onInitialize();
+        // scene.onInitialize();
         // addComponentListener(new ResizingHandler(canvas, getContentPane(), 4, 3, 0));
     }
 
-    @Override
-    public void onDestroy() {
-
-    }
-
-    @Override
-    public void onExitingRendering() {
-
-    }
-
-    protected void render(Graphics g, double delta) {
-        if (frameRate != null) {
-            frameRate.calculate();
-            g.setColor(Color.white);
-            g.drawString(frameRate.getLatestFrameRateString(), 50, 50);
-        }
-
+    public void render(Graphics g, double delta) {
+        scene.render(g, delta);
         // CoordinateSystemShower.drawScreenAxis(g, 0, 300, 50, canvas.getHeight(), 0);
         // CoordinateSystemShower.drawWorldYAxis(g, 0, 300, 50, canvas.getWidth(), 0);
         // System.out.println("in render " + canvas.getSize());
