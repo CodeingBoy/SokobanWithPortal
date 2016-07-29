@@ -1,9 +1,10 @@
-package sokoban.game.engine;
+package sokoban.game.engine.scenes;
 
 /**
  * Created by CodeingBoy on 2016-7-28-0028.
  */
 
+import sokoban.game.engine.GameWindow;
 import sokoban.utils.Log;
 
 import java.awt.*;
@@ -19,7 +20,7 @@ public abstract class Scene implements Runnable {
     /**
      * GameWindow 初始化或切换场景时会调用此函数 可以重写该函数以更改游戏窗口的部分属性
      *
-     * @see sokoban.game.engine.GameWindow#GameWindow(Dimension, String, Scene)
+     * @see GameWindow#GameWindow(Dimension, String, Scene)
      */
     public abstract void onPrepare();
 
@@ -34,8 +35,8 @@ public abstract class Scene implements Runnable {
     /**
      * 场景被切换或游戏窗口关闭时会调用此函数 请重写该函数以确保您的资源被正确释放
      *
-     * @see sokoban.game.engine.GameWindow#switchScene(Scene)
-     * @see sokoban.game.engine.GameWindow#GameWindow(Dimension, String, Scene)
+     * @see GameWindow#switchScene(Scene)
+     * @see GameWindow#GameWindow(Dimension, String, Scene)
      */
     public abstract void onDestroy();
 
