@@ -1,6 +1,6 @@
 package sokoban.dialog;
 
-import sokoban.game.engine.scenes.InputableScene;
+import sokoban.game.engine.GameWindow;
 import sokoban.game.engine.graphics.CoordinateSystemShower;
 import sokoban.game.engine.graphics.Matrix3x3f;
 import sokoban.game.engine.graphics.ScreenMappingTool;
@@ -9,10 +9,10 @@ import sokoban.game.engine.input.KeyboardInput;
 import sokoban.game.engine.input.MouseInput;
 import sokoban.game.engine.input.handler.SimpleKeyboardInputHandler;
 import sokoban.game.engine.input.handler.SimpleMouseInputHandler;
+import sokoban.game.engine.scenes.BasicScene;
 import sokoban.game.engine.scenes.FrameRateScene;
-import sokoban.game.engine.GameWindow;
+import sokoban.game.engine.scenes.InputableScene;
 import sokoban.game.engine.scenes.SuperScene;
-import sokoban.game.engine.scenes.SuperSceneDecorator;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,14 +22,22 @@ import java.awt.event.ComponentEvent;
 /**
  * Created by CodeigBoy on 2016-7-10-0010.
  */
-public class GameDialog extends SuperSceneDecorator implements Runnable {
+public class GameDialog extends SuperScene implements Runnable {
     private SuperScene scene;
     private float angel;
     private float earthRot, moonRot;
     private ScreenMappingTool screenMappingTool;
 
+    public GameDialog() {
+    }
+
+    @Override
+    public void beforeRendering() {
+        scene.beforeRendering();
+    }
+
     public GameDialog(SuperScene scene) throws HeadlessException {
-        super(scene);
+        super();
         this.scene = scene;
         // setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         // setSize(500, 500);
@@ -48,12 +56,10 @@ public class GameDialog extends SuperSceneDecorator implements Runnable {
 
     public static void main(String[] args) {
         GameDialog scene = new GameDialog(new FrameRateScene(
-                new InputableScene(new SuperScene(), new SimpleKeyboardInputHandler(new KeyboardInput()),
+                new InputableScene(new BasicScene(), new SimpleKeyboardInputHandler(new KeyboardInput()),
                         new SimpleMouseInputHandler(new MouseInput())),
-                50, 50));
-        // FrameRateCalculator frameRate = new FrameRateCalculator();
+                50, 50, Color.white, true));
         // frameRate.setShouldLog(true);
-        // scene.setFrameRate(frameRate);
 
         LogDialog logDialog = LogDialog.getInstance();
         logDialog.setVisible(true);
@@ -66,6 +72,11 @@ public class GameDialog extends SuperSceneDecorator implements Runnable {
                 // gameWindow.setVisible(true);
             }
         });
+    }
+
+    @Override
+    public void onPrepare() {
+
     }
 
     @Override
@@ -85,6 +96,21 @@ public class GameDialog extends SuperSceneDecorator implements Runnable {
 
         // scene.onInitialize();
         // addComponentListener(new ResizingHandler(canvas, getContentPane(), 4, 3, 0));
+    }
+
+    @Override
+    public void onDestroy() {
+
+    }
+
+    @Override
+    public void onExitingRendering() {
+
+    }
+
+    @Override
+    public void afterTiming() {
+        scene.afterTiming();
     }
 
     public void render(Graphics g, double delta) {

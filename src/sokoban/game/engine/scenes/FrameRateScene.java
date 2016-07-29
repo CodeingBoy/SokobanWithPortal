@@ -10,12 +10,10 @@ import java.awt.*;
 public class FrameRateScene extends SuperSceneDecorator {
     int x, y;
     Color color;
-    private SuperScene scene;
     private FrameRateCalculator frameRate = new FrameRateCalculator();
 
     public FrameRateScene(SuperScene scene, int x, int y) {
         super(scene);
-        this.scene = scene;
         this.x = x;
         this.y = y;
         this.color = Color.white;
@@ -23,15 +21,22 @@ public class FrameRateScene extends SuperSceneDecorator {
 
     public FrameRateScene(SuperScene scene, int x, int y, Color color) {
         super(scene);
-        this.scene = scene;
         this.x = x;
         this.y = y;
         this.color = color;
     }
 
+    public FrameRateScene(SuperScene scene, int x, int y, Color color, boolean shouldLog) {
+        super(scene);
+        this.x = x;
+        this.y = y;
+        this.color = color;
+        frameRate.setShouldLog(shouldLog);
+    }
+
     @Override
-    public void onPrepareRendering() {
-        scene.onPrepareRendering();
+    public void beforeRendering() {
+        super.onPrepareRendering();
         frameRate.initialize();
     }
 
@@ -40,6 +45,6 @@ public class FrameRateScene extends SuperSceneDecorator {
         frameRate.calculate();
         g.setColor(color);
         g.drawString(frameRate.getLatestFrameRateString(), x, y);
-        scene.render(g, delta);
+        super.render(g, delta);
     }
 }

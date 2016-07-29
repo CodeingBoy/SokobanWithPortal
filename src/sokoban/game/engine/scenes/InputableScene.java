@@ -9,18 +9,16 @@ import sokoban.game.engine.input.handler.MouseInputHandler;
 public class InputableScene extends SuperSceneDecorator {
     private KeyboardInputHandler keyboardInputHandler;
     private MouseInputHandler mouseInputHandler;
-    private SuperScene scene;
 
     public InputableScene(SuperScene scene, KeyboardInputHandler keyboardInputHandler, MouseInputHandler mouseInputHandler) {
         super(scene);
-        this.scene = scene;
         this.keyboardInputHandler = keyboardInputHandler;
         this.mouseInputHandler = mouseInputHandler;
     }
 
     @Override
     public void onInitialize() {
-        scene.onInitialize();
+        super.onInitialize();
         canvas.addKeyListener(keyboardInputHandler.getInput());
         canvas.addMouseListener(mouseInputHandler.getInput());
         canvas.addMouseMotionListener(mouseInputHandler.getInput());
@@ -28,11 +26,11 @@ public class InputableScene extends SuperSceneDecorator {
     }
 
     @Override
-    public void onRendering() {
+    public void afterTiming() {
         keyboardInputHandler.poll();
         keyboardInputHandler.processInput();
         mouseInputHandler.poll();
         mouseInputHandler.processInput();
-        scene.onRendering();
+        super.afterTiming();
     }
 }

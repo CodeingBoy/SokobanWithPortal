@@ -6,7 +6,7 @@ import java.awt.*;
  * Created by CodeingBoy on 2016-7-28-0028.
  */
 public abstract class SuperSceneDecorator extends SuperScene {
-    protected SuperScene superScene;
+    private SuperScene superScene;
 
     public SuperSceneDecorator(SuperScene superScene) {
         this.superScene = superScene;
@@ -18,13 +18,13 @@ public abstract class SuperSceneDecorator extends SuperScene {
     }
 
     @Override
-    public void onRendering() {
-        superScene.onRendering();
+    public void onPrepareRendering() {
+        superScene.onPrepareRendering();
     }
 
     @Override
-    public void onPrepareRendering() {
-        superScene.onPrepareRendering();
+    public void beforeRendering() {
+        superScene.beforeRendering();
     }
 
     @Override
@@ -40,6 +40,11 @@ public abstract class SuperSceneDecorator extends SuperScene {
     @Override
     public void onExitingRendering() {
         superScene.onExitingRendering();
+    }
+
+    @Override
+    public void afterTiming() {
+        superScene.afterTiming();
     }
 
     @Override
