@@ -1,23 +1,17 @@
-package sokoban.game.engine;
-
-import sokoban.game.engine.input.handler.KeyboardInputHandler;
-import sokoban.game.engine.input.handler.MouseInputHandler;
+package sokoban.game.engine.scenes;
 
 import java.awt.*;
 
 /**
  * Created by CodeingBoy on 2016-7-28-0028.
  */
-public abstract class SuperScene extends Scene {
+public class SuperScene extends Scene {
     private int sleepNanoSecond = 10;
     private long curTime, lastTime;
     private double nsPerSec;
-    private KeyboardInputHandler keyboardInputHandler;
-    private MouseInputHandler mouseInputHandler;
 
-    public SuperScene(KeyboardInputHandler keyboardInputHandler, MouseInputHandler mouseInputHandler) {
-        this.keyboardInputHandler = keyboardInputHandler;
-        this.mouseInputHandler = mouseInputHandler;
+    public SuperScene() {
+
     }
 
     public int getSleepNanoSecond() {
@@ -29,15 +23,27 @@ public abstract class SuperScene extends Scene {
     }
 
     @Override
+    public void onPrepare() {
+
+    }
+
+    @Override
     public void onInitialize() {
-        canvas.addKeyListener(keyboardInputHandler.getInput());
-        canvas.addMouseListener(mouseInputHandler.getInput());
-        canvas.addMouseMotionListener(mouseInputHandler.getInput());
-        canvas.addMouseWheelListener(mouseInputHandler.getInput());
+        // canvas.addKeyListener(keyboardInputHandler.getInput());
+        // canvas.addMouseListener(mouseInputHandler.getInput());
+        // canvas.addMouseMotionListener(mouseInputHandler.getInput());
+        // canvas.addMouseWheelListener(mouseInputHandler.getInput());
+    }
+
+    @Override
+    public void onDestroy() {
+
     }
 
     @Override
     public void onPrepareRendering() {
+        curTime = System.nanoTime();
+        lastTime = curTime;
     }
 
     @Override
@@ -46,16 +52,17 @@ public abstract class SuperScene extends Scene {
         nsPerSec = curTime - lastTime;
         lastTime = curTime;
 
-        keyboardInputHandler.poll();
-        keyboardInputHandler.processInput();
-        mouseInputHandler.poll();
-        mouseInputHandler.processInput();
         renderLoop(nsPerSec / 1.0E9);
         try {
             Thread.sleep(sleepNanoSecond);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onExitingRendering() {
+
     }
 
     private final void renderLoop(double delta) {
@@ -73,5 +80,7 @@ public abstract class SuperScene extends Scene {
         } while (bufferStrategy.contentsLost());
     }
 
-    protected abstract void render(Graphics g, double delta);
+    public void render(Graphics g, double delta){
+
+    }
 }
