@@ -1,5 +1,7 @@
 package sokoban.game.engine;
 
+import sokoban.game.engine.scenes.Scene;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
