@@ -5,9 +5,9 @@ import java.awt.*;
 /**
  * Created by CodeingBoy on 2016-7-28-0028.
  */
-public class BasicScene extends SuperScene {
+public class EmptyScene extends SuperScene {
 
-    public BasicScene() {
+    public EmptyScene() {
 
     }
 
