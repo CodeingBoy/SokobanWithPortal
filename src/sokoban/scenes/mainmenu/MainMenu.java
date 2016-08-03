@@ -20,6 +20,8 @@ import java.util.Map;
  * Created by CodeingBoy on 2016-8-2-0002.
  */
 public final class MainMenu extends SuperScene {
+    private static final int WORLD_WIDTH = 100;
+    private static final int WORLD_HEIGHT = 100;
     private final Image banner = Toolkit.getDefaultToolkit().getImage("banner.png");
     private final Image start = Toolkit.getDefaultToolkit().getImage("start.png");
     private SuperScene superScene;
@@ -94,17 +96,15 @@ public final class MainMenu extends SuperScene {
         canvas = new Canvas();
         canvas.setBackground(Color.black);
 
-        screenMappingTool = new ScreenMappingTool(100, 100, canvas);
+        screenMappingTool = new ScreenMappingTool(WORLD_WIDTH, WORLD_HEIGHT, canvas);
 
         window.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                screenMappingTool = new ScreenMappingTool(100, 100, canvas);
+                screenMappingTool = new ScreenMappingTool(WORLD_WIDTH, WORLD_HEIGHT, canvas);
                 refreshObjects();
             }
         });
-
-        // setSleepNanoSecond(500);
     }
 
     @Override
