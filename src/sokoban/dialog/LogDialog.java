@@ -3,6 +3,8 @@ package sokoban.dialog;
 import sokoban.utils.Log;
 
 import javax.swing.*;
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,6 +16,7 @@ public class LogDialog extends JFrame {
     private static LogDialog ourInstance = new LogDialog();
     private final JList<String> logs;
     private final DefaultListModel logContainer = Log.getLogContainer();
+    private final JScrollPane jScrollPane;
 
     private LogDialog() {
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -38,7 +41,27 @@ public class LogDialog extends JFrame {
         logs.setFont(new Font("宋体", Font.PLAIN, 15));
         logs.setModel(logContainer);
 
-        add(new JScrollPane(logs));
+        logContainer.addListDataListener(new ListDataListener() {
+            @Override
+            public void intervalAdded(ListDataEvent e) {
+                JScrollBar sBar = jScrollPane.getVerticalScrollBar();
+                jScrollPane.getViewport().setViewPosition(new Point(0, sBar.getMaximum()));
+            }
+
+            @Override
+            public void intervalRemoved(ListDataEvent e) {
+
+            }
+
+            @Override
+            public void contentsChanged(ListDataEvent e) {
+
+            }
+        });
+
+        jScrollPane = new JScrollPane(logs);
+
+        add(jScrollPane);
         add(new ButtonPanel(), BorderLayout.SOUTH);
     }
 
