@@ -9,7 +9,7 @@ import sokoban.game.engine.input.KeyboardInput;
 import sokoban.game.engine.input.MouseInput;
 import sokoban.game.engine.input.handler.SimpleKeyboardInputHandler;
 import sokoban.game.engine.input.handler.SimpleMouseInputHandler;
-import sokoban.game.engine.scenes.BasicScene;
+import sokoban.game.engine.scenes.EmptyScene;
 import sokoban.game.engine.scenes.FrameRateScene;
 import sokoban.game.engine.scenes.InputableScene;
 import sokoban.game.engine.scenes.SuperScene;
@@ -56,7 +56,7 @@ public class GameDialog extends SuperScene implements Runnable {
 
     public static void main(String[] args) {
         GameDialog scene = new GameDialog(new FrameRateScene(
-                new InputableScene(new BasicScene(), new SimpleKeyboardInputHandler(new KeyboardInput()),
+                new InputableScene(new EmptyScene(), new SimpleKeyboardInputHandler(new KeyboardInput()),
                         new SimpleMouseInputHandler(new MouseInput())),
                 50, 50, Color.white, true));
         // frameRate.setShouldLog(true);
