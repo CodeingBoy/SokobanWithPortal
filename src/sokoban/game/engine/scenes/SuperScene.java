@@ -1,5 +1,8 @@
 package sokoban.game.engine.scenes;
 
+import sokoban.game.engine.input.handler.KeyboardInputHandler;
+import sokoban.game.engine.input.handler.MouseInputHandler;
+
 import java.awt.*;
 
 /**
@@ -9,9 +12,24 @@ public abstract class SuperScene extends Scene {
     private int sleepNanoSecond = 10;
     private long curTime, lastTime;
     private double nsPerSec;
+    private KeyboardInputHandler keyboardInputHandler;
+    private MouseInputHandler mouseInputHandler;
 
     public SuperScene() {
 
+    }
+
+    public SuperScene(KeyboardInputHandler keyboardInputHandler, MouseInputHandler mouseInputHandler) {
+        this.keyboardInputHandler = keyboardInputHandler;
+        this.mouseInputHandler = mouseInputHandler;
+    }
+
+    public void setKeyboardInputHandler(KeyboardInputHandler keyboardInputHandler) {
+        this.keyboardInputHandler = keyboardInputHandler;
+    }
+
+    public void setMouseInputHandler(MouseInputHandler mouseInputHandler) {
+        this.mouseInputHandler = mouseInputHandler;
     }
 
     @Override
@@ -21,6 +39,19 @@ public abstract class SuperScene extends Scene {
         beforeRendering();
     }
 
+    @Override
+    public void onInitialize() {
+        if (keyboardInputHandler != null) {
+            canvas.addKeyListener(keyboardInputHandler.getInput());
+            canvas.addMouseListener(mouseInputHandler.getInput());
+        }
+
+        if (mouseInputHandler != null) {
+            canvas.addMouseMotionListener(mouseInputHandler.getInput());
+            canvas.addMouseWheelListener(mouseInputHandler.getInput());
+        }
+    }
+
     public abstract void beforeRendering();
 
     @Override
@@ -28,6 +59,15 @@ public abstract class SuperScene extends Scene {
         curTime = System.nanoTime();
         nsPerSec = curTime - lastTime;
         lastTime = curTime;
+
+        if (keyboardInputHandler != null) {
+            keyboardInputHandler.poll();
+            keyboardInputHandler.processInput();
+        }
+        if (mouseInputHandler != null) {
+            mouseInputHandler.poll();
+            mouseInputHandler.processInput();
+        }
 
         afterTiming();
 
