@@ -24,8 +24,6 @@ public final class MainMenu extends SuperScene {
     private final Image start = Toolkit.getDefaultToolkit().getImage("start.png");
     private SuperScene superScene;
     private ScreenMappingTool screenMappingTool;
-    private sokoban.game.engine.graphics.shapes.Polygon bgRect;
-    private double rotateAngle;
     private Map<String, Drawable> drawables = new HashMap<>();
 
     public MainMenu() {
@@ -44,13 +42,13 @@ public final class MainMenu extends SuperScene {
     @Override
     public void beforeRendering() {
         superScene.beforeRendering();
-        createObjects();
+        refreshObjects();
     }
 
-    private void createObjects() {
+    private void refreshObjects() {
         int width = (int) (Math.min(getHeight(), getWidth()) * 0.8);
-        bgRect = new Square(new Vector2f(-width / 2, -width / 2), width);
-        bgRect.setRotateDelta(Math.toRadians(90));
+        Square bgRect = new Square(new Vector2f(-width / 2, -width / 2), width);
+        bgRect.setRotateSpeed(Math.toRadians(90));
         Point center = screenMappingTool.worldToScreen(new Point(0, 0));
         bgRect.setCenter(Matrix3x3f.translate(center.x, center.y));
         drawables.put("bgRect", bgRect);
@@ -102,7 +100,7 @@ public final class MainMenu extends SuperScene {
             @Override
             public void componentResized(ComponentEvent e) {
                 screenMappingTool = new ScreenMappingTool(100, 100, canvas);
-                createObjects();
+                refreshObjects();
             }
         });
 
