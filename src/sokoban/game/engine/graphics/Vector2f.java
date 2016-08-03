@@ -1,5 +1,7 @@
 package sokoban.game.engine.graphics;
 
+import java.awt.*;
+
 /**
  * Created by CodeingBoy on 2016-7-16-0016.
  */
@@ -14,6 +16,10 @@ public class Vector2f {
 
     public Vector2f(double x, double y) {
         this(x, y, 1);
+    }
+
+    public Vector2f(Point p) {
+        this(p.x, p.y, 1);
     }
 
     /**

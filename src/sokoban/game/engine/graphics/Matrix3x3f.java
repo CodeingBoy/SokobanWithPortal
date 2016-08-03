@@ -7,22 +7,22 @@ import java.awt.*;
  */
 public class Matrix3x3f {
     public final static Matrix3x3f ZERO = new Matrix3x3f(
-            new float[][]{
+            new double[][]{
                     {0f, 0f, 0f},
                     {0f, 0f, 0f},
                     {0f, 0f, 0f}
             }
     );
     public final static Matrix3x3f IDENTITY = new Matrix3x3f(
-            new float[][]{
+            new double[][]{
                     {1f, 0f, 0f},
                     {0f, 1f, 0f},
                     {0f, 0f, 1f}
             }
     );
-    private float[][] matrix = new float[3][3];
+    private double[][] matrix = new double[3][3];
 
-    public Matrix3x3f(float[][] matrix) {
+    public Matrix3x3f(double[][] matrix) {
         this.matrix = matrix;
     }
 
@@ -30,7 +30,7 @@ public class Matrix3x3f {
     }
 
     public static void main(String[] args) {
-        System.out.println(new Matrix3x3f(new float[][]{
+        System.out.println(new Matrix3x3f(new double[][]{
                 {3f, 2f, 1f},
                 {3f, 2f, 1f}, {3f, 2f, 1f}
         }).mul(Matrix3x3f.ZERO));
@@ -44,16 +44,16 @@ public class Matrix3x3f {
         return translate(vector.x, vector.y);
     }
 
-    public static Matrix3x3f translate(float x, float y) {
-        return new Matrix3x3f(new float[][]{
+    public static Matrix3x3f translate(double x, double y) {
+        return new Matrix3x3f(new double[][]{
                 {1f, 0f, 0f},
                 {0f, 1f, 0f},
                 {x, y, 1f}
         });
     }
 
-    public static Matrix3x3f scale(float x, float y) {
-        return new Matrix3x3f(new float[][]{
+    public static Matrix3x3f scale(double x, double y) {
+        return new Matrix3x3f(new double[][]{
                 {x, 0f, 0f},
                 {0f, y, 0f},
                 {0f, 0f, 1f}
@@ -64,8 +64,8 @@ public class Matrix3x3f {
         return scale(vector.x, vector.y);
     }
 
-    public static Matrix3x3f shear(float x, float y) {
-        return new Matrix3x3f(new float[][]{
+    public static Matrix3x3f shear(double x, double y) {
+        return new Matrix3x3f(new double[][]{
                 {1f, y, 0f},
                 {x, 1f, 0f},
                 {0f, 0f, 1f}
@@ -76,16 +76,16 @@ public class Matrix3x3f {
         return shear(vector.x, vector.y);
     }
 
-    public static Matrix3x3f rotate(float rad) {
-        return new Matrix3x3f(new float[][]{
-                {(float) Math.cos(rad), (float) Math.sin(rad), 0f},
-                {(float) -Math.sin(rad), (float) Math.cos(rad), 0f},
+    public static Matrix3x3f rotate(double rad) {
+        return new Matrix3x3f(new double[][]{
+                {(double) Math.cos(rad), (double) Math.sin(rad), 0f},
+                {(double) -Math.sin(rad), (double) Math.cos(rad), 0f},
                 {0f, 0f, 1f}
         });
     }
 
     public Matrix3x3f add(Matrix3x3f m) {
-        float[][] result = new float[3][3];
+        double[][] result = new double[3][3];
         for (int i = 0; i < result.length; i++) {
             for (int j = 0; j < result[i].length; j++) {
                 result[i][j] = this.matrix[i][j] + m.matrix[i][j];
@@ -95,7 +95,7 @@ public class Matrix3x3f {
     }
 
     public Matrix3x3f sub(Matrix3x3f m) {
-        float[][] result = new float[3][3];
+        double[][] result = new double[3][3];
         for (int i = 0; i < result.length; i++) {
             for (int j = 0; j < result[i].length; j++) {
                 result[i][j] = this.matrix[i][j] - m.matrix[i][j];
@@ -105,7 +105,7 @@ public class Matrix3x3f {
     }
 
     public Matrix3x3f mul(Matrix3x3f m) {
-        float[][] result = new float[3][3];
+        double[][] result = new double[3][3];
         for (int i = 0; i < result.length; i++) { // row
             for (int j = 0; j < result[i].length; j++) { // col
                 for (int k = 0; k < result[i].length; k++) {
@@ -129,19 +129,24 @@ public class Matrix3x3f {
     }
 
     public Vector2f mul(Vector2f vector) {
-        float x = vector.x * this.matrix[0][0] +
+        double x = vector.x * this.matrix[0][0] +
                 vector.y * this.matrix[1][0] +
                 vector.w * this.matrix[2][0];
-        float y = vector.x * this.matrix[0][1] +
+        double y = vector.x * this.matrix[0][1] +
                 vector.y * this.matrix[1][1] +
                 vector.w * this.matrix[2][1];
-        float w = vector.x * this.matrix[0][2] +
+        double w = vector.x * this.matrix[0][2] +
                 vector.y * this.matrix[1][2] +
                 vector.w * this.matrix[2][2];
         return new Vector2f(x, y, w);
     }
 
-    public Vector2f toVector(){
+    public Vector2f toVector() {
         return this.mul(new Vector2f(0, 0, 1));
+    }
+
+    public Point toPoint() {
+        Vector2f v = this.mul(new Vector2f(0, 0, 1));
+        return new Point((int) v.x, (int) v.y);
     }
 }
