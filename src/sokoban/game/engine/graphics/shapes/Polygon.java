@@ -12,8 +12,6 @@ public class Polygon extends Shape {
     protected Vector2f[] originVectors;
     protected Vector2f[] currentVectors;
     protected Matrix3x3f center;
-    protected double rotateAngle;
-
     protected Color color;
 
     protected Polygon() {
