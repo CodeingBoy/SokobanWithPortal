@@ -5,13 +5,8 @@ import sokoban.game.engine.graphics.CoordinateSystemShower;
 import sokoban.game.engine.graphics.Matrix3x3f;
 import sokoban.game.engine.graphics.ScreenMappingTool;
 import sokoban.game.engine.graphics.Vector2f;
-import sokoban.game.engine.input.KeyboardInput;
-import sokoban.game.engine.input.MouseInput;
-import sokoban.game.engine.input.handler.SimpleKeyboardInputHandler;
-import sokoban.game.engine.input.handler.SimpleMouseInputHandler;
 import sokoban.game.engine.scenes.EmptyScene;
 import sokoban.game.engine.scenes.FrameRateScene;
-import sokoban.game.engine.scenes.InputableScene;
 import sokoban.game.engine.scenes.SuperScene;
 
 import javax.swing.*;
@@ -29,11 +24,6 @@ public class GameDialog extends SuperScene implements Runnable {
     private ScreenMappingTool screenMappingTool;
 
     public GameDialog() {
-    }
-
-    @Override
-    public void beforeRendering() {
-        scene.beforeRendering();
     }
 
     public GameDialog(SuperScene scene) throws HeadlessException {
@@ -55,11 +45,7 @@ public class GameDialog extends SuperScene implements Runnable {
     }
 
     public static void main(String[] args) {
-        GameDialog scene = new GameDialog(new FrameRateScene(
-                new InputableScene(new EmptyScene(), new SimpleKeyboardInputHandler(new KeyboardInput()),
-                        new SimpleMouseInputHandler(new MouseInput())),
-                50, 50, Color.white, true));
-        // frameRate.setShouldLog(true);
+        GameDialog scene = new GameDialog(new FrameRateScene(new EmptyScene(), 50, 50, Color.white, true));
 
         LogDialog logDialog = LogDialog.getInstance();
         logDialog.setVisible(true);
@@ -72,6 +58,11 @@ public class GameDialog extends SuperScene implements Runnable {
                 // gameWindow.setVisible(true);
             }
         });
+    }
+
+    @Override
+    public void beforeRendering() {
+        scene.beforeRendering();
     }
 
     @Override

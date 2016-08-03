@@ -6,9 +6,13 @@ import sokoban.game.engine.graphics.ScreenMappingTool;
 import sokoban.game.engine.graphics.Vector2f;
 import sokoban.game.engine.graphics.shapes.Drawable;
 import sokoban.game.engine.graphics.shapes.Square;
+import sokoban.game.engine.input.KeyboardInput;
+import sokoban.game.engine.input.MouseInput;
 import sokoban.game.engine.scenes.EmptyScene;
 import sokoban.game.engine.scenes.FrameRateScene;
 import sokoban.game.engine.scenes.SuperScene;
+import sokoban.scenes.mainmenu.inputhandler.KeyboardHandler;
+import sokoban.scenes.mainmenu.inputhandler.MouseHandler;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -37,6 +41,8 @@ public final class MainMenu extends SuperScene {
 
     public static void main(String[] args) {
         MainMenu mainMenu = new MainMenu(new FrameRateScene(new EmptyScene(), 50, 50));
+        mainMenu.setKeyboardInputHandler(new KeyboardHandler(new KeyboardInput()));
+        mainMenu.setMouseInputHandler(new MouseHandler(new MouseInput()));
         GameWindow window = new GameWindow(new Dimension(800, 600), "游戏窗口", mainMenu);
         window.showWindow();
     }
@@ -44,10 +50,10 @@ public final class MainMenu extends SuperScene {
     @Override
     public void beforeRendering() {
         superScene.beforeRendering();
-        refreshObjects();
+        createObjects();
     }
 
-    private void refreshObjects() {
+    private void createObjects() {
         int width = (int) (Math.min(getHeight(), getWidth()) * 0.8);
         Square bgRect = new Square(new Vector2f(-width / 2, -width / 2), width);
         bgRect.setRotateSpeed(Math.toRadians(90));
@@ -89,6 +95,7 @@ public final class MainMenu extends SuperScene {
 
     @Override
     public void onPrepare() {
+        window.setLocationRelativeTo(null);
     }
 
     @Override
@@ -102,9 +109,11 @@ public final class MainMenu extends SuperScene {
             @Override
             public void componentResized(ComponentEvent e) {
                 screenMappingTool = new ScreenMappingTool(WORLD_WIDTH, WORLD_HEIGHT, canvas);
-                refreshObjects();
+                createObjects();
             }
         });
+        superScene.onInitialize();
+        super.onInitialize();
     }
 
     @Override
