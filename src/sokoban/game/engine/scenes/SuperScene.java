@@ -121,6 +121,11 @@ public abstract class SuperScene extends Scene {
         this.sleepNanoSecond = sleepNanoSecond;
     }
 
+    /**
+     * 渲染函数 渲染线程会调用此函数 请重写该函数进行渲染
+     * @param g 图形对象
+     * @param delta 时间增量
+     */
     public abstract void render(Graphics g, double delta);
 
     public void ourrender(Graphics g, double delta) {
