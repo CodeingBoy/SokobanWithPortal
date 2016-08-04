@@ -18,12 +18,12 @@ public class Polygon extends Shape {
     protected Polygon() {
     }
 
-    public void setWinding(boolean winding) {
-        isWinding = winding;
-    }
-
     public Polygon(Vector2f... originVectors) {
         this.originVectors = originVectors;
+    }
+
+    public void setWinding(boolean winding) {
+        isWinding = winding;
     }
 
     public void setCenter(Matrix3x3f center) {
@@ -34,21 +34,22 @@ public class Polygon extends Shape {
     public boolean isPointInside(Point point) {
         int inside = 0;
 
-        if (currentVectors.length < 2) return false; // 构不成图形
+        if (currentVectors == null || currentVectors.length <= 2) return false; // 构不成图形
         Vector2f start = currentVectors[currentVectors.length - 1];
-        boolean isPointAbove_start = start.x >= point.y; // 欲检测的点是否在起始点之上？
+        boolean isPointAbove_start = start.y >= point.y; // 欲检测的点是否在起始点之上？
 
         for (Vector2f end : currentVectors) {
-            boolean isPointAbove_end = end.x >= point.y; // 欲检测的点是否在终止点之上？
+            boolean isPointAbove_end = end.y >= point.y; // 欲检测的点是否在终止点之上？
             if (isPointAbove_start != isPointAbove_end) { // 欲检测的点不在两点形成的线段的上面或下面
                 double m = (end.y - start.y) / (end.x - start.x); // 计算斜率
                 double x = start.x + (point.y - start.y) / m; // 根据斜率计算交点
-                if (x >= point.x)
+                if (x >= point.x) {
                     if (isWinding) { // 是否将环绕着的部分也计算在内？
                         inside += isPointAbove_start ? 1 : -1; // 如果边从下往上 计数值+1 否则-1
                     } else {
                         inside = inside == 1 ? 0 : 1; // 奇数次时在图形内 偶数次时不在图形内
                     }
+                }
             }
             // 当前点检测完毕 作为下次检测的起始点
             isPointAbove_start = isPointAbove_end;
