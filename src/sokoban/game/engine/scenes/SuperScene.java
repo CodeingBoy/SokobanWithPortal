@@ -12,8 +12,8 @@ public abstract class SuperScene extends Scene {
     private int sleepNanoSecond = 10;
     private long curTime, lastTime;
     private double nsPerSec;
-    private KeyboardInputHandler keyboardInputHandler;
-    private MouseInputHandler mouseInputHandler;
+    protected KeyboardInputHandler keyboardInputHandler;
+    protected MouseInputHandler mouseInputHandler;
 
     public SuperScene() {
 
