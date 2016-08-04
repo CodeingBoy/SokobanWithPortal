@@ -73,7 +73,6 @@ public class GameDialog extends SuperScene implements Runnable {
     @Override
     public void onInitialize() {
         canvas = new Canvas();
-        // canvas.setSize(500, 400);
         canvas.setBackground(Color.black);
 
         screenMappingTool = new ScreenMappingTool(5, 5, canvas);

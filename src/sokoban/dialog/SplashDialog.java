@@ -75,11 +75,16 @@ public class SplashDialog extends JFrame {
 
         LogDialog.getInstance().setVisible(true);
 
-        MainMenu mainMenu = new MainMenu(new FrameRateScene(new EmptyScene(), 50, 50));
-        mainMenu.setKeyboardInputHandler(new KeyboardHandler(new KeyboardInput()));
-        mainMenu.setMouseInputHandler(new MouseHandler(new MouseInput()));
-        GameWindow window = new GameWindow(new Dimension(800, 600), "推箱子", mainMenu);
-        window.showWindow();
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                MainMenu mainMenu = new MainMenu(new FrameRateScene(new EmptyScene(), 50, 50));
+                mainMenu.setKeyboardInputHandler(new KeyboardHandler(new KeyboardInput()));
+                mainMenu.setMouseInputHandler(new MouseHandler(new MouseInput()));
+                GameWindow window = new GameWindow(new Dimension(800, 600), "推箱子", mainMenu);
+                window.showWindow();
+            }
+        });
     }
 
     public void expand(int width, int height, int step, boolean keepCenter) {
