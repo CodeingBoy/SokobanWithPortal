@@ -22,6 +22,10 @@ public class Polygon extends Shape {
         this.originVectors = originVectors;
     }
 
+    public void setOriginVectors(Vector2f... originVectors) {
+        this.originVectors = originVectors;
+    }
+
     public void setWinding(boolean winding) {
         isWinding = winding;
     }

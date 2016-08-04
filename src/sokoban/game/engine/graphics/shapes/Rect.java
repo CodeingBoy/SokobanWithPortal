@@ -20,6 +20,11 @@ public class Rect extends Polygon {
                 new Vector2f(start.x + width, start.y + height), new Vector2f(start.x, start.y + height));
     }
 
+    public void setOriginVectors(Vector2f start, int width, int height) {
+        super.setOriginVectors(start, new Vector2f(start.x + width, start.y),
+                new Vector2f(start.x + width, start.y + height), new Vector2f(start.x, start.y + height));
+    }
+
     // public Rect(Point start, int width, int height) {
     //     super();
     //     super(Arrays.asList(start, new Point(start.x + width, start.y),

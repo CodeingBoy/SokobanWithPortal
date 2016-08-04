@@ -9,4 +9,8 @@ public class Square extends Rect {
     public Square(Vector2f start, int width) {
         super(start, width, width);
     }
+
+    public void setOriginVectors(Vector2f start, int width) {
+        super.setOriginVectors(start, width, width);
+    }
 }
