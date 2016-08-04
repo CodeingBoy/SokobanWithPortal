@@ -1,5 +1,6 @@
-package sokoban.dialog;
+package sokoban.scenes.testscene;
 
+import sokoban.dialog.LogDialog;
 import sokoban.game.engine.GameWindow;
 import sokoban.game.engine.graphics.CoordinateSystemShower;
 import sokoban.game.engine.graphics.Matrix3x3f;
@@ -15,15 +16,15 @@ import java.awt.event.ComponentEvent;
 /**
  * Created by CodeigBoy on 2016-7-10-0010.
  */
-public class GameDialog extends SuperScene implements Runnable {
+public class TestScene extends SuperScene implements Runnable {
     private float angel;
     private float earthRot, moonRot;
     private ScreenMappingTool screenMappingTool;
 
-    public GameDialog() {
+    public TestScene() {
         // setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         // setSize(500, 500);
-        // setTitle("GameDialog");
+        // setTitle("TestScene");
         // setIgnoreRepaint(true); // active rendering, need not passive repaint 主动渲染，无须被动渲染
         // setBackground(Color.gray);
         // getContentPane().setBackground(Color.blue);
@@ -39,12 +40,12 @@ public class GameDialog extends SuperScene implements Runnable {
 
     public static void main(String[] args) {
         // new FrameRateDrawable(50, 50, Color.white, true)
-        GameDialog scene = new GameDialog();
+        TestScene scene = new TestScene();
 
         LogDialog logDialog = LogDialog.getInstance();
         logDialog.setVisible(true);
 
-        GameWindow gameWindow = new GameWindow(new Dimension(500, 400), "GameDialog", scene);
+        GameWindow gameWindow = new GameWindow(new Dimension(500, 400), "TestScene", scene);
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
