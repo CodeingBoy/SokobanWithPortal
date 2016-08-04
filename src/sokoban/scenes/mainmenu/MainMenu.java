@@ -11,8 +11,6 @@ import sokoban.game.engine.graphics.shapes.Square;
 import sokoban.game.engine.input.KeyboardInput;
 import sokoban.game.engine.input.MouseInput;
 import sokoban.game.engine.input.handler.Clickable;
-import sokoban.game.engine.scenes.EmptyScene;
-import sokoban.game.engine.scenes.FrameRateScene;
 import sokoban.game.engine.scenes.SuperScene;
 import sokoban.scenes.mainmenu.inputhandler.KeyboardHandler;
 import sokoban.scenes.mainmenu.inputhandler.MouseHandler;
@@ -32,19 +30,14 @@ public final class MainMenu extends SuperScene {
     private final Image banner = Toolkit.getDefaultToolkit().getImage("banner.png");
     private final Image start = Toolkit.getDefaultToolkit().getImage("start.png");
     private final Image start_hover = Toolkit.getDefaultToolkit().getImage("start_hover.png");
-    private SuperScene superScene;
     private ScreenMappingTool screenMappingTool;
     private Map<String, Drawable> drawables = new HashMap<>();
 
     public MainMenu() {
     }
 
-    public MainMenu(SuperScene superScene) {
-        this.superScene = superScene;
-    }
-
     public static void main(String[] args) {
-        MainMenu mainMenu = new MainMenu(new FrameRateScene(new EmptyScene(), 50, 50));
+        MainMenu mainMenu = new MainMenu();
         mainMenu.setKeyboardInputHandler(new KeyboardHandler(new KeyboardInput()));
         mainMenu.setMouseInputHandler(new MouseHandler(new MouseInput()));
         GameWindow window = new GameWindow(new Dimension(800, 600), "游戏窗口", mainMenu);
@@ -53,7 +46,6 @@ public final class MainMenu extends SuperScene {
 
     @Override
     public void beforeRendering() {
-        superScene.beforeRendering();
         createObjects();
     }
 
@@ -113,7 +105,7 @@ public final class MainMenu extends SuperScene {
                     public void onClick(Point p) {
                         super.onClick(p);
                         System.out.println("clicked");
-                        requestSwitchScene(new GameDialog(new FrameRateScene(new EmptyScene(), 50, 50, Color.white, true)));
+                        requestSwitchScene(new GameDialog());
                     }
 
                     @Override
@@ -128,12 +120,10 @@ public final class MainMenu extends SuperScene {
 
     @Override
     public void afterTiming() {
-        superScene.afterTiming();
     }
 
     @Override
     public void render(Graphics g, double delta) {
-        superScene.render(g, delta);
 
         // for debug
         // CoordinateSystemShower.drawWorldXAxis(g, 0, getHeight(), 50, canvas.getHeight(), screenMappingTool, 0);
@@ -171,7 +161,6 @@ public final class MainMenu extends SuperScene {
                 refreshObjects();
             }
         });
-        superScene.onInitialize();
         super.onInitialize();
     }
 

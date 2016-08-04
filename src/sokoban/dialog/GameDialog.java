@@ -5,8 +5,6 @@ import sokoban.game.engine.graphics.CoordinateSystemShower;
 import sokoban.game.engine.graphics.Matrix3x3f;
 import sokoban.game.engine.graphics.ScreenMappingTool;
 import sokoban.game.engine.graphics.Vector2f;
-import sokoban.game.engine.scenes.EmptyScene;
-import sokoban.game.engine.scenes.FrameRateScene;
 import sokoban.game.engine.scenes.SuperScene;
 
 import javax.swing.*;
@@ -18,17 +16,11 @@ import java.awt.event.ComponentEvent;
  * Created by CodeigBoy on 2016-7-10-0010.
  */
 public class GameDialog extends SuperScene implements Runnable {
-    private SuperScene scene;
     private float angel;
     private float earthRot, moonRot;
     private ScreenMappingTool screenMappingTool;
 
     public GameDialog() {
-    }
-
-    public GameDialog(SuperScene scene) throws HeadlessException {
-        super();
-        this.scene = scene;
         // setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         // setSize(500, 500);
         // setTitle("GameDialog");
@@ -44,8 +36,10 @@ public class GameDialog extends SuperScene implements Runnable {
         // });
     }
 
+
     public static void main(String[] args) {
-        GameDialog scene = new GameDialog(new FrameRateScene(new EmptyScene(), 50, 50, Color.white, true));
+        // new FrameRateDrawable(50, 50, Color.white, true)
+        GameDialog scene = new GameDialog();
 
         LogDialog logDialog = LogDialog.getInstance();
         logDialog.setVisible(true);
@@ -63,7 +57,6 @@ public class GameDialog extends SuperScene implements Runnable {
     @Override
     public void beforeRendering() {
         screenMappingTool = new ScreenMappingTool(5, 5, canvas);
-        scene.beforeRendering();
     }
 
     @Override
@@ -101,11 +94,9 @@ public class GameDialog extends SuperScene implements Runnable {
 
     @Override
     public void afterTiming() {
-        scene.afterTiming();
     }
 
     public void render(Graphics g, double delta) {
-        scene.render(g, delta);
         // CoordinateSystemShower.drawScreenAxis(g, 0, 300, 50, canvas.getHeight(), 0);
         // CoordinateSystemShower.drawWorldYAxis(g, 0, 300, 50, canvas.getWidth(), 0);
         // System.out.println("in render " + canvas.getSize());
@@ -162,6 +153,5 @@ public class GameDialog extends SuperScene implements Runnable {
         // draw the moon
         g.setColor(Color.gray);
         g.fillOval((int) moonVec.x - 5, (int) moonVec.y - 5, 10, 10);
-
     }
 }

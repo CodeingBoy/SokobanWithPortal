@@ -2,6 +2,7 @@ package sokoban.game.engine.scenes;
 
 import sokoban.game.engine.input.handler.KeyboardInputHandler;
 import sokoban.game.engine.input.handler.MouseInputHandler;
+import sokoban.game.utils.FrameRateDrawable;
 
 import java.awt.*;
 
@@ -9,19 +10,30 @@ import java.awt.*;
  * Created by CodeingBoy on 2016-7-29-0029.
  */
 public abstract class SuperScene extends Scene {
+    protected KeyboardInputHandler keyboardInputHandler;
+    protected MouseInputHandler mouseInputHandler;
+    protected FrameRateDrawable frameRateDrawable;
     private int sleepNanoSecond = 10;
     private long curTime, lastTime;
     private double nsPerSec;
-    protected KeyboardInputHandler keyboardInputHandler;
-    protected MouseInputHandler mouseInputHandler;
 
     public SuperScene() {
 
     }
 
+    public SuperScene(KeyboardInputHandler keyboardInputHandler, MouseInputHandler mouseInputHandler, FrameRateDrawable frameRateDrawable) {
+        this.keyboardInputHandler = keyboardInputHandler;
+        this.mouseInputHandler = mouseInputHandler;
+        this.frameRateDrawable = frameRateDrawable;
+    }
+
     public SuperScene(KeyboardInputHandler keyboardInputHandler, MouseInputHandler mouseInputHandler) {
         this.keyboardInputHandler = keyboardInputHandler;
         this.mouseInputHandler = mouseInputHandler;
+    }
+
+    public void setFrameRateDrawable(FrameRateDrawable frameRateDrawable) {
+        this.frameRateDrawable = frameRateDrawable;
     }
 
     public void setKeyboardInputHandler(KeyboardInputHandler keyboardInputHandler) {
@@ -36,6 +48,10 @@ public abstract class SuperScene extends Scene {
     public void onPrepareRendering() {
         curTime = System.nanoTime();
         lastTime = curTime;
+
+        if (frameRateDrawable != null)
+            frameRateDrawable.initialize();
+
         beforeRendering();
     }
 
@@ -86,6 +102,7 @@ public abstract class SuperScene extends Scene {
             do {
                 Graphics g = bufferStrategy.getDrawGraphics();
                 g.clearRect(0, 0, getWidth(), getHeight());
+                ourrender(g, delta);
                 render(g, delta);
 
                 if (g != null) {
@@ -105,4 +122,9 @@ public abstract class SuperScene extends Scene {
     }
 
     public abstract void render(Graphics g, double delta);
+
+    public void ourrender(Graphics g, double delta) {
+        if (frameRateDrawable != null)
+            frameRateDrawable.draw(g, delta);
+    }
 }
