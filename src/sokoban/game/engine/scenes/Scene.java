@@ -36,7 +36,7 @@ public abstract class Scene implements Runnable {
     /**
      * 场景被切换或游戏窗口关闭时会调用此函数 请重写该函数以确保您的资源被正确释放
      *
-     * @see GameWindow#requestSwitchScene(Scene)
+     * @see #requestSwitchScene(Scene)
      * @see GameWindow#GameWindow(Dimension, String, Scene)
      */
     public abstract void onDestroy();
