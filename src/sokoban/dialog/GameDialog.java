@@ -62,6 +62,7 @@ public class GameDialog extends SuperScene implements Runnable {
 
     @Override
     public void beforeRendering() {
+        screenMappingTool = new ScreenMappingTool(5, 5, canvas);
         scene.beforeRendering();
     }
 
