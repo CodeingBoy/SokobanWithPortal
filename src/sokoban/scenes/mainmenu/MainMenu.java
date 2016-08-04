@@ -8,6 +8,7 @@ import sokoban.game.engine.graphics.shapes.Drawable;
 import sokoban.game.engine.graphics.shapes.Square;
 import sokoban.game.engine.input.KeyboardInput;
 import sokoban.game.engine.input.MouseInput;
+import sokoban.game.engine.input.handler.Clickable;
 import sokoban.game.engine.scenes.EmptyScene;
 import sokoban.game.engine.scenes.FrameRateScene;
 import sokoban.game.engine.scenes.SuperScene;
@@ -60,6 +61,41 @@ public final class MainMenu extends SuperScene {
         Point center = screenMappingTool.worldToScreen(new Point(0, 0));
         bgRect.setCenter(Matrix3x3f.translate(center.x, center.y));
         drawables.put("bgRect", bgRect);
+
+        mouseInputHandler.add("bgRect", bgRect, new Clickable() {
+            @Override
+            public void onClick(Point p) {
+
+            }
+
+            @Override
+            public void onHover(Point p) {
+                bgRect.setRotateSpeed(bgRect.getRotateSpeed() + Math.toRadians(1));
+            }
+        });
+    }
+
+    private void refreshObjects() {
+        Square bgRect = (Square) drawables.get("bgRect");
+        if (bgRect != null) {
+            int width = (int) (Math.min(getHeight(), getWidth()) * 0.8);
+            bgRect.setOriginVectors(new Vector2f(-width / 2, -width / 2), width);
+            Point center = screenMappingTool.worldToScreen(new Point(0, 0));
+            bgRect.setCenter(Matrix3x3f.translate(center.x, center.y));
+            drawables.put("bgRect", bgRect);
+
+            mouseInputHandler.add("bgRect", bgRect, new Clickable() {
+                @Override
+                public void onClick(Point p) {
+
+                }
+
+                @Override
+                public void onHover(Point p) {
+                    bgRect.setRotateSpeed(bgRect.getRotateSpeed() - Math.toRadians(1));
+                }
+            });
+        }
     }
 
     @Override
@@ -109,7 +145,7 @@ public final class MainMenu extends SuperScene {
             @Override
             public void componentResized(ComponentEvent e) {
                 screenMappingTool = new ScreenMappingTool(WORLD_WIDTH, WORLD_HEIGHT, canvas);
-                createObjects();
+                refreshObjects();
             }
         });
         superScene.onInitialize();
