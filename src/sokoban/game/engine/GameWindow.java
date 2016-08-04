@@ -29,8 +29,7 @@ public class GameWindow extends JFrame {
             @Override
             public void windowClosing(WindowEvent e) {
                 super.windowClosing(e);
-                scene.destroy();
-                System.exit(0);
+                close();
             }
         });
     }
@@ -82,5 +81,15 @@ public class GameWindow extends JFrame {
             scene = newScene;
             showWindow();
         }
+    }
+
+    public final void close(){
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                scene.destroy();
+                System.exit(0);
+            }
+        });
     }
 }

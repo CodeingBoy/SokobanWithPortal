@@ -30,6 +30,8 @@ public final class MainMenu extends SuperScene {
     private final Image banner = Toolkit.getDefaultToolkit().getImage("banner.png");
     private final Image start = Toolkit.getDefaultToolkit().getImage("start.png");
     private final Image start_hover = Toolkit.getDefaultToolkit().getImage("start_hover.png");
+    private final Image exit = Toolkit.getDefaultToolkit().getImage("exit.png");
+    private final Image exit_hover = Toolkit.getDefaultToolkit().getImage("exit_hover.png");
     private ScreenMappingTool screenMappingTool;
     private Map<String, Drawable> drawables = new HashMap<>();
 
@@ -46,10 +48,11 @@ public final class MainMenu extends SuperScene {
 
     @Override
     public void beforeRendering() {
+        screenMappingTool = new ScreenMappingTool(WORLD_WIDTH, WORLD_HEIGHT, canvas);
         createObjects();
     }
 
-    private void createObjects() {
+    private synchronized void createObjects() {
         int width = (int) (Math.min(getHeight(), getWidth()) * 0.8);
         Square bgRect = new Square(new Vector2f(-width / 2, -width / 2), width);
         bgRect.setRotateSpeed(Math.toRadians(90));
@@ -70,7 +73,7 @@ public final class MainMenu extends SuperScene {
         });
     }
 
-    private void refreshObjects() {
+    private synchronized void refreshObjects() {
         Square bgRect = (Square) drawables.get("bgRect");
 
         int width = (int) (Math.min(getHeight(), getWidth()) * 0.8);
@@ -99,7 +102,7 @@ public final class MainMenu extends SuperScene {
 
 
         Button btnStart =
-                new Button(screenMappingTool.worldToScreen(new Point(0 - start.getWidth(null) / 2 - 50, 0)),
+                new Button(screenMappingTool.worldToScreen(new Point(0 - start.getWidth(null) / 2, 0)),
                         null, start, start_hover, start) {
                     @Override
                     public void onClick(Point p) {
@@ -116,6 +119,23 @@ public final class MainMenu extends SuperScene {
                 };
         drawables.put("btnStart", btnStart);
         mouseInputHandler.add("btnStart", btnStart, btnStart);
+
+        Button btnExit =
+                new Button(screenMappingTool.worldToScreen(new Point(0 - start.getWidth(null) / 2, start.getHeight(null))),
+                        null, exit, exit_hover, exit) {
+                    @Override
+                    public void onClick(Point p) {
+                        super.onClick(p);
+                        window.close();
+                    }
+
+                    @Override
+                    public void onHover(Point p) {
+                        super.onHover(p);
+                    }
+                };
+        drawables.put("btnExit", btnExit);
+        mouseInputHandler.add("btnExit", btnExit, btnExit);
     }
 
     @Override
@@ -136,10 +156,11 @@ public final class MainMenu extends SuperScene {
         renderDrawables(g, delta);
     }
 
-    private void renderDrawables(Graphics g, double delta) {
+    private synchronized void renderDrawables(Graphics g, double delta) {
         for (Drawable d : drawables.values()) {
             d.draw(g, delta);
         }
+
     }
 
     @Override
@@ -151,8 +172,6 @@ public final class MainMenu extends SuperScene {
     public void onInitialize() {
         canvas = new Canvas();
         canvas.setBackground(Color.black);
-
-        screenMappingTool = new ScreenMappingTool(WORLD_WIDTH, WORLD_HEIGHT, canvas);
 
         window.addComponentListener(new ComponentAdapter() {
             @Override
