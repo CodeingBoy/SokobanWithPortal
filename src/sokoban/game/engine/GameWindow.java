@@ -12,6 +12,7 @@ import java.awt.event.WindowEvent;
  */
 public class GameWindow extends JFrame {
     private Scene scene;
+    private Scene newScene;
 
     public GameWindow(Dimension size, String title, Scene scene) throws HeadlessException {
         if (scene != null) {
@@ -71,15 +72,15 @@ public class GameWindow extends JFrame {
         scene.startRendering();
     }
 
-
     public final void switchScene(Scene newScene) {
         if (isVisible()) {
             scene.destroy();
             scene.setWindow(null);
+            remove(scene.getCanvas()); // 移除旧场景的画布 否则无法显示
             newScene.setWindow(this);
             newScene.onPrepare();
-            newScene.onInitialize();
+            scene = newScene;
+            showWindow();
         }
-        scene = newScene;
     }
 }

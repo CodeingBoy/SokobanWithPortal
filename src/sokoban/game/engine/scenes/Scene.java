@@ -7,6 +7,7 @@ package sokoban.game.engine.scenes;
 import sokoban.game.engine.GameWindow;
 import sokoban.utils.Log;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
@@ -35,7 +36,7 @@ public abstract class Scene implements Runnable {
     /**
      * 场景被切换或游戏窗口关闭时会调用此函数 请重写该函数以确保您的资源被正确释放
      *
-     * @see GameWindow#switchScene(Scene)
+     * @see GameWindow#requestSwitchScene(Scene)
      * @see GameWindow#GameWindow(Dimension, String, Scene)
      */
     public abstract void onDestroy();
@@ -82,6 +83,7 @@ public abstract class Scene implements Runnable {
     }
 
     public final void destroy() {
+        onDestroy();
         Log.d("stopping rendering...");
         rendering = false;
         try {
@@ -92,13 +94,6 @@ public abstract class Scene implements Runnable {
         Log.d("render thread stopped!");
 
         Log.d("Exiting...");
-        // TODO: Wait for Log dialog
-        // try {
-        //     LogDialog.getInstance().wait();
-        // } catch (InterruptedException e) {
-        //     e.printStackTrace();
-        // }
-        onDestroy();
     }
 
     /**
@@ -140,4 +135,13 @@ public abstract class Scene implements Runnable {
         return canvas.getHeight();
     }
 
+    public final void requestSwitchScene(Scene newScene) {
+        // 给消息队列投递消息 让 Swing 消息队列处理该事件
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                window.switchScene(newScene);
+            }
+        });
+    }
 }
