@@ -5,6 +5,7 @@ import sokoban.game.engine.input.handler.MouseAction;
 import sokoban.game.engine.input.handler.MouseInputHandler;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 
 /**
  * Created by CodeingBoy on 2016-8-2-0002.
@@ -19,8 +20,11 @@ public class MouseHandler extends MouseInputHandler {
     public void processInput() {
         Point curPoint = input.getPosition();
         for (MouseAction mouseAction : clickables.values()) {
-            if (mouseAction.shape.isPointInside(curPoint))
+            if (mouseAction.shape.isPointInside(curPoint)) {
                 mouseAction.clickable.onHover(curPoint);
+                if (input.isButtonDownOnce(MouseEvent.BUTTON1))
+                    mouseAction.clickable.onClick(curPoint);
+            }
         }
     }
 
