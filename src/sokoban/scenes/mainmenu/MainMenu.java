@@ -1,9 +1,11 @@
 package sokoban.scenes.mainmenu;
 
+import sokoban.dialog.GameDialog;
 import sokoban.game.engine.GameWindow;
 import sokoban.game.engine.graphics.Matrix3x3f;
 import sokoban.game.engine.graphics.ScreenMappingTool;
 import sokoban.game.engine.graphics.Vector2f;
+import sokoban.game.engine.graphics.components.Button;
 import sokoban.game.engine.graphics.shapes.Drawable;
 import sokoban.game.engine.graphics.shapes.Square;
 import sokoban.game.engine.input.KeyboardInput;
@@ -29,6 +31,7 @@ public final class MainMenu extends SuperScene {
     private static final int WORLD_HEIGHT = 100;
     private final Image banner = Toolkit.getDefaultToolkit().getImage("banner.png");
     private final Image start = Toolkit.getDefaultToolkit().getImage("start.png");
+    private final Image start_hover = Toolkit.getDefaultToolkit().getImage("start_hover.png");
     private SuperScene superScene;
     private ScreenMappingTool screenMappingTool;
     private Map<String, Drawable> drawables = new HashMap<>();
@@ -77,25 +80,50 @@ public final class MainMenu extends SuperScene {
 
     private void refreshObjects() {
         Square bgRect = (Square) drawables.get("bgRect");
-        if (bgRect != null) {
-            int width = (int) (Math.min(getHeight(), getWidth()) * 0.8);
-            bgRect.setOriginVectors(new Vector2f(-width / 2, -width / 2), width);
-            Point center = screenMappingTool.worldToScreen(new Point(0, 0));
-            bgRect.setCenter(Matrix3x3f.translate(center.x, center.y));
-            drawables.put("bgRect", bgRect);
 
-            mouseInputHandler.add("bgRect", bgRect, new Clickable() {
-                @Override
-                public void onClick(Point p) {
-
-                }
-
-                @Override
-                public void onHover(Point p) {
-                    bgRect.setRotateSpeed(bgRect.getRotateSpeed() - Math.toRadians(1));
-                }
-            });
+        int width = (int) (Math.min(getHeight(), getWidth()) * 0.8);
+        if (bgRect == null) {
+            bgRect = new Square(new Vector2f(-width / 2, -width / 2), width);
+            bgRect.setRotateSpeed(Math.toRadians(90));
         }
+
+        bgRect.setOriginVectors(new Vector2f(-width / 2, -width / 2), width);
+        Point center = screenMappingTool.worldToScreen(new Point(0, 0));
+        bgRect.setCenter(Matrix3x3f.translate(center.x, center.y));
+        drawables.put("bgRect", bgRect);
+
+        Square finalBgRect = bgRect;
+        mouseInputHandler.add("bgRect", bgRect, new Clickable() {
+            @Override
+            public void onClick(Point p) {
+
+            }
+
+            @Override
+            public void onHover(Point p) {
+                finalBgRect.setRotateSpeed(finalBgRect.getRotateSpeed() + Math.toRadians(0.1));
+            }
+        });
+
+
+        Button btnStart =
+                new Button(screenMappingTool.worldToScreen(new Point(0 - start.getWidth(null) / 2 - 50, 0)),
+                        null, start, start_hover, start) {
+                    @Override
+                    public void onClick(Point p) {
+                        super.onClick(p);
+                        System.out.println("clicked");
+                        requestSwitchScene(new GameDialog(new FrameRateScene(new EmptyScene(), 50, 50, Color.white, true)));
+                    }
+
+                    @Override
+                    public void onHover(Point p) {
+                        super.onHover(p);
+                        // System.out.println("hovering");
+                    }
+                };
+        drawables.put("btnStart", btnStart);
+        mouseInputHandler.add("btnStart", btnStart, btnStart);
     }
 
     @Override
@@ -107,26 +135,21 @@ public final class MainMenu extends SuperScene {
     public void render(Graphics g, double delta) {
         superScene.render(g, delta);
 
+        // for debug
         // CoordinateSystemShower.drawWorldXAxis(g, 0, getHeight(), 50, canvas.getHeight(), screenMappingTool, 0);
         // CoordinateSystemShower.drawWorldYAxis(g, 0, getWidth(), 50, canvas.getWidth(), screenMappingTool, 0);
 
+        // draw banner
         Point p = screenMappingTool.worldToScreen(new Point(0 - banner.getWidth(null) / 2, 0));
         g.drawImage(banner, p.x, 0, null);
 
         renderDrawables(g, delta);
-
-        drawOptions(g);
     }
 
     private void renderDrawables(Graphics g, double delta) {
         for (Drawable d : drawables.values()) {
             d.draw(g, delta);
         }
-    }
-
-    private void drawOptions(Graphics g) {
-        Point p = screenMappingTool.worldToScreen(new Point(0 - start.getWidth(null) / 2 - 50, 0));
-        g.drawImage(start, p.x, (int) (getHeight() * 0.5), null);
     }
 
     @Override
