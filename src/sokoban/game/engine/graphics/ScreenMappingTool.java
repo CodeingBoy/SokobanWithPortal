@@ -50,6 +50,10 @@ public class ScreenMappingTool {
         return w2sMatrix.mul(matrix);
     }
 
+    public Vector2f worldToScreen(Vector2f vector) {
+        return w2sMatrix.mul(vector);
+    }
+
     public Point worldToScreen(Point worldPoint) {
         Vector2f v = w2sMatrix.mul(Matrix3x3f.translate(new Point(worldPoint.x, worldPoint.y))).toVector();
         return new Point((int) v.x, (int) v.y);

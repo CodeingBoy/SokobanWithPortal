@@ -141,6 +141,14 @@ public class Matrix3x3f {
         return new Vector2f(x, y, w);
     }
 
+    public Vector2f[] mul(Vector2f... vectors) {
+        Vector2f[] result = new Vector2f[vectors.length];
+        for (int i = 0; i < vectors.length; i++) {
+            result[i] = mul(vectors[i]);
+        }
+        return result;
+    }
+
     public Vector2f toVector() {
         return this.mul(new Vector2f(0, 0, 1));
     }
