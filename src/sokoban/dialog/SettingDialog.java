@@ -10,11 +10,11 @@ import java.awt.event.ActionListener;
 /**
  * Created by CodeingBoy on 2016-7-7-0007.
  */
-public class SetttingDialog extends JDialog {
+public class SettingDialog extends JDialog {
 
     private final ConfirmPanel confirmPanel;
 
-    public SetttingDialog(JFrame modalDlg) {
+    public SettingDialog(JFrame modalDlg) {
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(modalDlg);
         setModal(true);
@@ -57,7 +57,7 @@ public class SetttingDialog extends JDialog {
     }
 
     public static void main(String[] args) {
-        new SetttingDialog(null).setVisible(true);
+        new SettingDialog(null).setVisible(true);
     }
 
     private void load() {
