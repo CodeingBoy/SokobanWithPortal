@@ -17,6 +17,7 @@ import sokoban.scenes.mainmenu.inputhandler.KeyboardHandler;
 import sokoban.scenes.mainmenu.inputhandler.MouseHandler;
 import sokoban.scenes.testscene.TestScene;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -146,8 +147,13 @@ public final class MainMenu extends SuperScene {
                     @Override
                     public void onClick(Point p) {
                         super.onClick(p);
-                        SettingDialog settingDialog = new SettingDialog(null);
-                        settingDialog.setVisible(true);
+                        SwingUtilities.invokeLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                SettingDialog settingDialog = new SettingDialog(window);
+                                settingDialog.setVisible(true);
+                            }
+                        });
                     }
                 };
         drawables.put("btnSetting", btnSetting);
@@ -195,6 +201,7 @@ public final class MainMenu extends SuperScene {
     @Override
     public void onPrepare() {
         window.setLocationRelativeTo(null);
+        window.setMinimumSize(new Dimension(550, 550));
     }
 
     @Override
@@ -214,7 +221,7 @@ public final class MainMenu extends SuperScene {
 
     @Override
     public void onDestroy() {
-
+        window.setMinimumSize(null);
     }
 
     @Override
