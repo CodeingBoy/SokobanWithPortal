@@ -1,6 +1,7 @@
 package sokoban.game.engine.graphics.shapes;
 
 import sokoban.game.engine.graphics.Matrix3x3f;
+import sokoban.game.engine.graphics.ScreenMappingTool;
 import sokoban.game.engine.graphics.Vector2f;
 
 import java.awt.*;
@@ -11,6 +12,7 @@ import java.awt.*;
 public class Polygon extends Shape {
     protected Vector2f[] originVectors;
     protected Vector2f[] currentVectors;
+    protected Vector2f[] w2sVectors;
     protected Matrix3x3f center;
     protected Color color;
     private boolean isWinding;
@@ -84,7 +86,9 @@ public class Polygon extends Shape {
         mul(Matrix3x3f.rotate(rad));
     }
 
-    private void mul(Matrix3x3f m) {
+    public void mul(Matrix3x3f m) {
+        if (currentVectors == null)
+            update(0);
         for (int i = 0; i < currentVectors.length; i++) {
             currentVectors[i] = m.mul(currentVectors[i]);
         }
@@ -92,10 +96,15 @@ public class Polygon extends Shape {
 
     @Override
     protected void update(double delta) {
+        if (w2sVectors == null) {
+            w2sVectors = originVectors;
+        }
+
         if (currentVectors == null)
             currentVectors = new Vector2f[originVectors.length];
 
-        System.arraycopy(originVectors, 0, currentVectors, 0, originVectors.length);
+
+        System.arraycopy(w2sVectors, 0, currentVectors, 0, w2sVectors.length);
 
         if (rotateDelta != 0) {
             rotateAngle += rotateDelta * delta;
@@ -105,6 +114,11 @@ public class Polygon extends Shape {
         if (center != null) {
             mul(center);
         }
+    }
+
+    @Override
+    public void worldToScreen(ScreenMappingTool screenMappingTool) {
+        w2sVectors = screenMappingTool.getW2sMatrix().mul(originVectors);
     }
 
     @Override

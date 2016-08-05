@@ -1,5 +1,7 @@
 package sokoban.game.engine.graphics.shapes;
 
+import sokoban.game.engine.graphics.ScreenMappingTool;
+
 import java.awt.*;
 
 /**
@@ -76,4 +78,6 @@ public abstract class Shape implements Drawable {
     public final void setRotateSpeed(double rotateDelta) {
         this.rotateDelta = rotateDelta;
     }
+
+    public abstract void worldToScreen(ScreenMappingTool screenMappingTool);
 }

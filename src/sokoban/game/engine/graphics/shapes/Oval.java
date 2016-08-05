@@ -1,5 +1,7 @@
 package sokoban.game.engine.graphics.shapes;
 
+import sokoban.game.engine.graphics.ScreenMappingTool;
+
 import java.awt.*;
 
 /**
@@ -32,6 +34,11 @@ public class Oval extends Shape {
 
     @Override
     protected void update(double delta) {
+
+    }
+
+    @Override
+    public void worldToScreen(ScreenMappingTool screenMappingTool) {
 
     }
 
