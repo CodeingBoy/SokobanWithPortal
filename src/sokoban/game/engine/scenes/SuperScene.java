@@ -102,7 +102,7 @@ public abstract class SuperScene extends Scene {
             do {
                 Graphics g = bufferStrategy.getDrawGraphics();
                 g.clearRect(0, 0, getWidth(), getHeight());
-                ourrender(g, delta);
+                renderFrameRate(g, delta);
                 render(g, delta);
 
                 if (g != null) {
@@ -128,7 +128,7 @@ public abstract class SuperScene extends Scene {
      */
     public abstract void render(Graphics g, double delta);
 
-    public void ourrender(Graphics g, double delta) {
+    public void renderFrameRate(Graphics g, double delta) {
         if (frameRateDrawable != null)
             frameRateDrawable.draw(g, delta);
     }
