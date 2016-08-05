@@ -1,5 +1,6 @@
 package sokoban.scenes.mainmenu;
 
+import sokoban.dialog.SettingDialog;
 import sokoban.game.engine.GameWindow;
 import sokoban.game.engine.graphics.Matrix3x3f;
 import sokoban.game.engine.graphics.ScreenMappingTool;
@@ -14,6 +15,7 @@ import sokoban.game.engine.scenes.SuperScene;
 import sokoban.scenes.gamescene.GameScene;
 import sokoban.scenes.mainmenu.inputhandler.KeyboardHandler;
 import sokoban.scenes.mainmenu.inputhandler.MouseHandler;
+import sokoban.scenes.testscene.TestScene;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -32,6 +34,10 @@ public final class MainMenu extends SuperScene {
     private final Image start_hover = Toolkit.getDefaultToolkit().getImage("start_hover.png");
     private final Image exit = Toolkit.getDefaultToolkit().getImage("exit.png");
     private final Image exit_hover = Toolkit.getDefaultToolkit().getImage("exit_hover.png");
+    private final Image test = Toolkit.getDefaultToolkit().getImage("pic/buttons/test/test.png");
+    private final Image test_hover = Toolkit.getDefaultToolkit().getImage("pic/buttons/test/test_hover.png");
+    private final Image setting = Toolkit.getDefaultToolkit().getImage("pic/buttons/setting/setting.png");
+    private final Image setting_hover = Toolkit.getDefaultToolkit().getImage("pic/buttons/setting/setting_hover.png");
     private ScreenMappingTool screenMappingTool;
     private Map<String, Drawable> drawables = new HashMap<>();
 
@@ -102,7 +108,6 @@ public final class MainMenu extends SuperScene {
             }
         });
 
-
         Button btnStart =
                 new Button(screenMappingTool.worldToScreen(new Point(0 - start.getWidth(null) / 2, 0)),
                         null, start, start_hover, start) {
@@ -121,18 +126,42 @@ public final class MainMenu extends SuperScene {
         drawables.put("btnStart", btnStart);
         mouseInputHandler.add("btnStart", btnStart, btnStart);
 
+        Button btnTest =
+                new Button(screenMappingTool.worldToScreen(new Point(0 - test.getWidth(null) / 2,
+                        start.getHeight(null))),
+                        null, test, test_hover, test) {
+                    @Override
+                    public void onClick(Point p) {
+                        super.onClick(p);
+                        requestSwitchScene(new TestScene());
+                    }
+                };
+        drawables.put("btnTest", btnTest);
+        mouseInputHandler.add("btnTest", btnTest, btnTest);
+
+        Button btnSetting =
+                new Button(screenMappingTool.worldToScreen(new Point(0 - setting.getWidth(null) / 2,
+                        start.getHeight(null) + test.getHeight(null))),
+                        null, setting, setting_hover, setting) {
+                    @Override
+                    public void onClick(Point p) {
+                        super.onClick(p);
+                        SettingDialog settingDialog = new SettingDialog(null);
+                        settingDialog.setVisible(true);
+                    }
+                };
+        drawables.put("btnSetting", btnSetting);
+        mouseInputHandler.add("btnSetting", btnSetting, btnSetting);
+
+
         Button btnExit =
-                new Button(screenMappingTool.worldToScreen(new Point(0 - start.getWidth(null) / 2, start.getHeight(null))),
+                new Button(screenMappingTool.worldToScreen(new Point(0 - exit.getWidth(null) / 2,
+                        start.getHeight(null) + test.getHeight(null) + setting.getHeight(null))),
                         null, exit, exit_hover, exit) {
                     @Override
                     public void onClick(Point p) {
                         super.onClick(p);
                         window.close();
-                    }
-
-                    @Override
-                    public void onHover(Point p) {
-                        super.onHover(p);
                     }
                 };
         drawables.put("btnExit", btnExit);
