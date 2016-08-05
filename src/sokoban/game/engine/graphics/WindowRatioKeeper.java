@@ -11,9 +11,9 @@ public class WindowRatioKeeper extends ComponentAdapter {
     private Canvas canvas;
     private Container contentPane;
     private int width, height;
-    private float frameRatio;
+    private double frameRatio;
 
-    public WindowRatioKeeper(Canvas canvas, Container contentPane, int width, int height, float frameRatio) {
+    public WindowRatioKeeper(Canvas canvas, Container contentPane, int width, int height, double frameRatio) {
         this.canvas = canvas;
         this.contentPane = contentPane;
         this.width = width;
@@ -22,7 +22,7 @@ public class WindowRatioKeeper extends ComponentAdapter {
     }
 
     @Override
-    public void componentResized(ComponentEvent e) {
+    public synchronized void componentResized(ComponentEvent e) {
         // super.componentResized(e);
 
         int curPaneWidth = contentPane.getWidth();
@@ -33,7 +33,8 @@ public class WindowRatioKeeper extends ComponentAdapter {
             curPaneHeight *= frameRatio;
         }
 
-        Point canvasLocation = new Point((contentPane.getWidth() - curPaneWidth) / 2, (contentPane.getHeight() - curPaneHeight) / 2);
+        Point canvasLocation =
+                new Point((contentPane.getWidth() - curPaneWidth) / 2, (contentPane.getHeight() - curPaneHeight) / 2);
 
         // calc canvas's new size
         int newWidth = curPaneWidth;
@@ -48,10 +49,5 @@ public class WindowRatioKeeper extends ComponentAdapter {
 
         canvas.setLocation(canvasLocation);
         canvas.setSize(newWidth, newHeight);
-
-        System.out.println("content width " + contentPane.getWidth() + " height " + contentPane.getHeight());
-        System.out.println("width " + newWidth + " height " + newHeight);
-        System.out.println(canvas.getSize());
-        System.out.println(canvas.getLocation());
     }
 }
