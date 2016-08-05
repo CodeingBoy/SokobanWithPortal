@@ -136,6 +136,7 @@ public abstract class Scene implements Runnable {
     }
 
     public final void requestSwitchScene(Scene newScene) {
+        Log.i("Requesting switching to scene " + newScene.getClass().getSimpleName());
         // 给消息队列投递消息 让 Swing 消息队列处理该事件
         SwingUtilities.invokeLater(new Runnable() {
             @Override
