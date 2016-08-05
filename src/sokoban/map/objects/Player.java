@@ -1,22 +1,13 @@
 package sokoban.map.objects;
 
-import sokoban.game.engine.graphics.shapes.Drawable;
-
-import java.awt.*;
+import sokoban.game.engine.graphics.Vector2f;
 
 /**
  * Created by CodeingBoy on 2016-8-4-0004.
  */
-public class Player implements Drawable {
-    private Point p;
-
-    @Override
-    public void draw(Graphics g, double delta) {
-
+public class Player extends MapObject {
+    public Player(Vector2f start) {
+        super(start,null);
     }
 
-    @Override
-    public void fill(Graphics g, double delta) {
-        draw(g, delta);
-    }
 }

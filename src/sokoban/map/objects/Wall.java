@@ -1,23 +1,21 @@
 package sokoban.map.objects;
 
-import sokoban.game.engine.graphics.shapes.Drawable;
+import sokoban.game.engine.graphics.Vector2f;
 
 import java.awt.*;
 
 /**
  * Created by CodeingBoy on 2016-8-4-0004.
  */
-public class Wall implements Drawable{
+public class Wall extends MapObject {
     private final static Image PIC = Toolkit.getDefaultToolkit().getImage("pic/wall.png");
-    private Point p;
 
-    @Override
-    public void draw(Graphics g, double delta) {
-        g.drawImage(PIC, p.x, p.y, null);
+    public Wall(Vector2f start) {
+        super(start, PIC);
     }
 
-    @Override
-    public void fill(Graphics g, double delta) {
-        draw(g, delta);
+    public Wall(Point start) {
+        this(new Vector2f(start.x, start.y));
     }
+
 }

@@ -1,23 +1,20 @@
 package sokoban.map.objects;
 
-import sokoban.game.engine.graphics.shapes.Drawable;
+import sokoban.game.engine.graphics.Vector2f;
 
 import java.awt.*;
 
 /**
  * Created by CodeingBoy on 2016-8-4-0004.
  */
-public class Box implements Drawable {
+public class Box extends MapObject {
     private final static Image PIC = Toolkit.getDefaultToolkit().getImage("pic/box.png");
-    private Point p;
 
-    @Override
-    public void draw(Graphics g, double delta) {
-        g.drawImage(PIC, p.x, p.y, null);
+    public Box(Vector2f start) {
+        super(start, PIC);
     }
 
-    @Override
-    public void fill(Graphics g, double delta) {
-        draw(g, delta);
+    public Box(Point start) {
+        super(start);
     }
 }
