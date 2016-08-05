@@ -7,13 +7,13 @@ import java.awt.event.ComponentEvent;
 /**
  * Created by CodeingBoy on 2016-7-28-0028.
  */
-public class ResizingHandler extends ComponentAdapter {
+public class WindowRatioKeeper extends ComponentAdapter {
     private Canvas canvas;
     private Container contentPane;
     private int width, height;
     private float frameRatio;
 
-    public ResizingHandler(Canvas canvas, Container contentPane, int width, int height, float frameRatio) {
+    public WindowRatioKeeper(Canvas canvas, Container contentPane, int width, int height, float frameRatio) {
         this.canvas = canvas;
         this.contentPane = contentPane;
         this.width = width;

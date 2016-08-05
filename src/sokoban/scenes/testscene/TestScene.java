@@ -80,7 +80,7 @@ public class TestScene extends SuperScene implements Runnable {
         });
 
         // scene.onInitialize();
-        // addComponentListener(new ResizingHandler(canvas, getContentPane(), 4, 3, 0));
+        // addComponentListener(new WindowRatioKeeper(canvas, getContentPane(), 4, 3, 0));
     }
 
     @Override
