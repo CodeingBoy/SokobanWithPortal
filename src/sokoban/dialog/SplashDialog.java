@@ -68,7 +68,7 @@ public class SplashDialog extends JFrame {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        new SetttingDialog(dlg).setVisible(true);
+        new SettingDialog(dlg).setVisible(true);
 
         dlg.setVisible(false);
 
