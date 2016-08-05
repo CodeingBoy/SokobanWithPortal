@@ -21,6 +21,8 @@ public class GameWindow extends JFrame {
             scene.onPrepare();
         }
 
+        setLayout(null);
+        setBackground(Color.BLACK);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setSize(size);
         setTitle(title);
@@ -64,7 +66,8 @@ public class GameWindow extends JFrame {
         if (scene.getCanvas() == null) {
             throw new IllegalArgumentException("have not canvas");
         }
-        add(scene.getCanvas());
+        getContentPane().add(scene.getCanvas());
+        scene.getCanvas().setBounds(0, 0, getWidth(), getHeight());
 
         setVisible(true);
 

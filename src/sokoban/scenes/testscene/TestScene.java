@@ -2,10 +2,7 @@ package sokoban.scenes.testscene;
 
 import sokoban.dialog.LogDialog;
 import sokoban.game.engine.GameWindow;
-import sokoban.game.engine.graphics.CoordinateSystemShower;
-import sokoban.game.engine.graphics.Matrix3x3f;
-import sokoban.game.engine.graphics.ScreenMappingTool;
-import sokoban.game.engine.graphics.Vector2f;
+import sokoban.game.engine.graphics.*;
 import sokoban.game.engine.scenes.SuperScene;
 
 import javax.swing.*;
@@ -72,15 +69,13 @@ public class TestScene extends SuperScene implements Runnable {
 
         screenMappingTool = new ScreenMappingTool(5, 5, canvas);
 
-        window.addComponentListener(new ComponentAdapter() {
+        window.getContentPane().addComponentListener(new WindowRatioKeeper(canvas, window.getContentPane(), 4, 3, 0));
+        window.getContentPane().addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
                 screenMappingTool = new ScreenMappingTool(5, 5, canvas);
             }
         });
-
-        // scene.onInitialize();
-        // addComponentListener(new WindowRatioKeeper(canvas, getContentPane(), 4, 3, 0));
     }
 
     @Override
@@ -102,8 +97,8 @@ public class TestScene extends SuperScene implements Runnable {
         // CoordinateSystemShower.drawWorldYAxis(g, 0, 300, 50, canvas.getWidth(), 0);
         // System.out.println("in render " + canvas.getSize());
 
-        CoordinateSystemShower.drawWorldXAxis(g, 0, 300, 50, canvas.getHeight(), screenMappingTool, 0);
-        CoordinateSystemShower.drawWorldYAxis(g, 0, 300, 50, canvas.getWidth(), screenMappingTool, 0);
+        CoordinateSystemShower.drawWorldXAxis(g, 0, canvas.getHeight(), 50, canvas.getHeight(), screenMappingTool, 0);
+        CoordinateSystemShower.drawWorldYAxis(g, 0, canvas.getWidth(), 50, canvas.getWidth(), screenMappingTool, 0);
 
         // calc the square pos
         Matrix3x3f squMat = Matrix3x3f.translate(100, 100);
@@ -154,5 +149,10 @@ public class TestScene extends SuperScene implements Runnable {
         // draw the moon
         g.setColor(Color.gray);
         g.fillOval((int) moonVec.x - 5, (int) moonVec.y - 5, 10, 10);
+
+        // for debugging
+        g.setColor(Color.yellow);
+        g.fillRect(0, 0, 10, 10);
+        g.fillRect(getWidth() - 10, getHeight() - 10, 10, 10);
     }
 }
