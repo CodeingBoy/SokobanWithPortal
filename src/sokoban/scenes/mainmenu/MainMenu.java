@@ -1,6 +1,5 @@
 package sokoban.scenes.mainmenu;
 
-import sokoban.scenes.testscene.TestScene;
 import sokoban.game.engine.GameWindow;
 import sokoban.game.engine.graphics.Matrix3x3f;
 import sokoban.game.engine.graphics.ScreenMappingTool;
@@ -12,6 +11,7 @@ import sokoban.game.engine.input.KeyboardInput;
 import sokoban.game.engine.input.MouseInput;
 import sokoban.game.engine.input.handler.Clickable;
 import sokoban.game.engine.scenes.SuperScene;
+import sokoban.scenes.gamescene.GameScene;
 import sokoban.scenes.mainmenu.inputhandler.KeyboardHandler;
 import sokoban.scenes.mainmenu.inputhandler.MouseHandler;
 
@@ -84,6 +84,7 @@ public final class MainMenu extends SuperScene {
         }
 
         bgRect.setOriginVectors(new Vector2f(-width / 2, -width / 2), width);
+        // bgRect.setWorldToScreen(screenMappingTool);
         Point center = screenMappingTool.worldToScreen(new Point(0, 0));
         bgRect.setCenter(Matrix3x3f.translate(center.x, center.y));
         drawables.put("bgRect", bgRect);
@@ -108,8 +109,7 @@ public final class MainMenu extends SuperScene {
                     @Override
                     public void onClick(Point p) {
                         super.onClick(p);
-                        System.out.println("clicked");
-                        requestSwitchScene(new TestScene());
+                        requestSwitchScene(new GameScene());
                     }
 
                     @Override
