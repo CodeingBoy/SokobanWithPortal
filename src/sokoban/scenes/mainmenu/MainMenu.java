@@ -1,6 +1,6 @@
 package sokoban.scenes.mainmenu;
 
-import sokoban.dialog.GameDialog;
+import sokoban.scenes.testscene.TestScene;
 import sokoban.game.engine.GameWindow;
 import sokoban.game.engine.graphics.Matrix3x3f;
 import sokoban.game.engine.graphics.ScreenMappingTool;
@@ -50,6 +50,7 @@ public final class MainMenu extends SuperScene {
     public void beforeRendering() {
         screenMappingTool = new ScreenMappingTool(WORLD_WIDTH, WORLD_HEIGHT, canvas);
         createObjects();
+        refreshObjects();
     }
 
     private synchronized void createObjects() {
@@ -108,7 +109,7 @@ public final class MainMenu extends SuperScene {
                     public void onClick(Point p) {
                         super.onClick(p);
                         System.out.println("clicked");
-                        requestSwitchScene(new GameDialog());
+                        requestSwitchScene(new TestScene());
                     }
 
                     @Override
@@ -160,7 +161,6 @@ public final class MainMenu extends SuperScene {
         for (Drawable d : drawables.values()) {
             d.draw(g, delta);
         }
-
     }
 
     @Override
