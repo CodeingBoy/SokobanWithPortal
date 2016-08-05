@@ -34,7 +34,7 @@ public class GameWindow extends JFrame {
         });
     }
     // public static void main(String[] args) {
-    //     GameDialog dialog = new GameDialog();
+    //     TestScene dialog = new TestScene();
     //     FrameRateCalculator frameRate = new FrameRateCalculator();
     //     frameRate.setShouldLog(true);
     //     dialog.setFrameRate(frameRate);
