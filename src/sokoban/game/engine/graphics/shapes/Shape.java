@@ -79,5 +79,5 @@ public abstract class Shape implements Drawable {
         this.rotateDelta = rotateDelta;
     }
 
-    public abstract void worldToScreen(ScreenMappingTool screenMappingTool);
+    public abstract void setWorldToScreen(ScreenMappingTool screenMappingTool);
 }

@@ -12,6 +12,7 @@ import java.awt.*;
 public class Polygon extends Shape {
     protected Vector2f[] originVectors;
     protected Vector2f[] currentVectors;
+    protected Matrix3x3f w2sMatrix;
     protected Vector2f[] w2sVectors;
     protected Matrix3x3f center;
     protected Color color;
@@ -26,6 +27,7 @@ public class Polygon extends Shape {
 
     public void setOriginVectors(Vector2f... originVectors) {
         this.originVectors = originVectors;
+        refreshW2SVectors();
     }
 
     public void setWinding(boolean winding) {
@@ -97,7 +99,7 @@ public class Polygon extends Shape {
     @Override
     protected void update(double delta) {
         if (w2sVectors == null) {
-            w2sVectors = originVectors;
+            refreshW2SVectors();
         }
 
         if (currentVectors == null)
@@ -117,8 +119,16 @@ public class Polygon extends Shape {
     }
 
     @Override
-    public void worldToScreen(ScreenMappingTool screenMappingTool) {
-        w2sVectors = screenMappingTool.getW2sMatrix().mul(originVectors);
+    public void setWorldToScreen(ScreenMappingTool screenMappingTool) {
+        w2sMatrix = screenMappingTool.getW2sMatrix();
+        refreshW2SVectors();
+    }
+
+    private void refreshW2SVectors() {
+        if (w2sMatrix == null)
+            w2sVectors = originVectors;
+        else
+            w2sVectors = w2sMatrix.mul(originVectors);
     }
 
     @Override

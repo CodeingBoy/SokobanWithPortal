@@ -38,7 +38,7 @@ public class Oval extends Shape {
     }
 
     @Override
-    public void worldToScreen(ScreenMappingTool screenMappingTool) {
+    public void setWorldToScreen(ScreenMappingTool screenMappingTool) {
 
     }
 
