@@ -53,7 +53,7 @@ public class GameMap implements Drawable {
     public void updateMapScreenPos(){
         for (int i = 0; i < mapHeight; i++) {
             for (int j = 0; j < mapWidth; j++) {
-                mapObjs[i][j].worldToScreen(screenMappingTool);
+                mapObjs[i][j].setWorldToScreen(screenMappingTool);
             }
         }
     }

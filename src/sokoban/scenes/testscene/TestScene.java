@@ -122,7 +122,7 @@ public class TestScene extends SuperScene implements Runnable {
         Matrix3x3f sunMat = Matrix3x3f.translate(screenMappingTool.worldToScreen(new Point(0, 0)));
         Vector2f sunVec = sunMat.toVector();
 
-        // System.out.println(screenMappingTool.worldToScreen(new Point(0, 0)));
+        // System.out.println(screenMappingTool.setWorldToScreen(new Point(0, 0)));
 
         // draw the sun
         g.setColor(Color.yellow);
