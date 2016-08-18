@@ -6,7 +6,6 @@ import sokoban.game.engine.graphics.Matrix3x3f;
 import sokoban.game.engine.graphics.ScreenMappingTool;
 import sokoban.game.engine.graphics.Vector2f;
 import sokoban.game.engine.graphics.components.Button;
-import sokoban.game.engine.graphics.shapes.Drawable;
 import sokoban.game.engine.graphics.shapes.Square;
 import sokoban.game.engine.input.KeyboardInput;
 import sokoban.game.engine.input.MouseInput;
@@ -21,8 +20,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by CodeingBoy on 2016-8-2-0002.
@@ -40,7 +37,6 @@ public final class MainMenu extends SuperScene {
     private final Image setting = Toolkit.getDefaultToolkit().getImage("pic/buttons/setting/setting.png");
     private final Image setting_hover = Toolkit.getDefaultToolkit().getImage("pic/buttons/setting/setting_hover.png");
     private ScreenMappingTool screenMappingTool;
-    private Map<String, Drawable> drawables = new HashMap<>();
 
     public MainMenu() {
     }
@@ -182,14 +178,6 @@ public final class MainMenu extends SuperScene {
         // draw banner
         Point p = screenMappingTool.worldToScreen(new Point(0 - banner.getWidth(null) / 2, 0));
         g.drawImage(banner, p.x, 0, null);
-
-        renderDrawables(g, delta);
-    }
-
-    private synchronized void renderDrawables(Graphics g, double delta) {
-        for (Drawable d : drawables.values()) {
-            d.draw(g, delta);
-        }
     }
 
     @Override

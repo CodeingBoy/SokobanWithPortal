@@ -1,6 +1,7 @@
 package sokoban.game.engine.scenes;
 
 import sokoban.game.engine.graphics.WindowRatioKeeper;
+import sokoban.game.engine.graphics.shapes.Drawable;
 import sokoban.game.engine.input.handler.KeyboardInputHandler;
 import sokoban.game.engine.input.handler.MouseInputHandler;
 import sokoban.game.utils.FrameRateDrawable;
@@ -8,6 +9,8 @@ import sokoban.game.utils.FrameRateDrawable;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by CodeingBoy on 2016-7-29-0029.
@@ -17,6 +20,7 @@ public abstract class SuperScene extends Scene {
     protected MouseInputHandler mouseInputHandler;
     protected FrameRateDrawable frameRateDrawable;
     protected WindowRatioKeeper windowRatioKeeper = null;
+    protected Map<String, Drawable> drawables = new HashMap<>();
     private int sleepNanoSecond = 10;
     private long curTime, lastTime;
     private double nsPerSec;
@@ -39,6 +43,7 @@ public abstract class SuperScene extends Scene {
 
     public void setFrameRateDrawable(FrameRateDrawable frameRateDrawable) {
         this.frameRateDrawable = frameRateDrawable;
+
     }
 
     public void setKeyboardInputHandler(KeyboardInputHandler keyboardInputHandler) {
@@ -58,6 +63,17 @@ public abstract class SuperScene extends Scene {
             frameRateDrawable.initialize();
 
         beforeRendering();
+    }
+
+    /**
+     * 对 Drawable 中的对象进行绘制
+     * @param g 图形对象
+     * @param delta 时间增量
+     */
+    private final synchronized void renderDrawables(Graphics g, double delta) {
+        for (Drawable d : drawables.values()) {
+            d.draw(g, delta);
+        }
     }
 
     @Override
@@ -125,6 +141,7 @@ public abstract class SuperScene extends Scene {
                 Graphics g = bufferStrategy.getDrawGraphics();
                 g.clearRect(0, 0, getWidth(), getHeight());
                 renderFrameRate(g, delta);
+                renderDrawables(g, delta);
                 render(g, delta);
 
                 if (g != null) {
