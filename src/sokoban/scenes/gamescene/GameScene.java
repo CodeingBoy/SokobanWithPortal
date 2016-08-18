@@ -2,6 +2,7 @@ package sokoban.scenes.gamescene;
 
 import sokoban.game.engine.GameWindow;
 import sokoban.game.engine.graphics.ScreenMappingTool;
+import sokoban.game.engine.graphics.WindowRatioKeeper;
 import sokoban.game.engine.graphics.shapes.Drawable;
 import sokoban.game.engine.scenes.SuperScene;
 import sokoban.map.GameMap;
@@ -54,6 +55,8 @@ public class GameScene extends SuperScene {
         map.setScreenMappingTool(new ScreenMappingTool(map.getMapWidth(), map.getMapHeight(), canvas));
         map.updateMapScreenPos();
         drawables.put("Map", map);
+
+        window.setSize(window.getSize());
     }
 
     @Override
@@ -61,6 +64,7 @@ public class GameScene extends SuperScene {
         canvas = new Canvas();
         canvas.setBackground(Color.black);
 
+        window.addComponentListener(new WindowRatioKeeper(canvas, window.getContentPane(), map.getMapWidth(), map.getMapHeight(), 0));
         window.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
