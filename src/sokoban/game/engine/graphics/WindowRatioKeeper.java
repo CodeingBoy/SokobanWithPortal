@@ -21,8 +21,15 @@ public class WindowRatioKeeper extends ComponentAdapter {
         this.frameRatio = frameRatio;
     }
 
+    public void setCanvas(Canvas canvas) {
+        this.canvas = canvas;
+    }
+
     @Override
     public synchronized void componentResized(ComponentEvent e) {
+        if (canvas == null)
+            throw new IllegalArgumentException();
+
         // super.componentResized(e);
 
         int curPaneWidth = contentPane.getWidth();

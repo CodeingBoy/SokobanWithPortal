@@ -200,18 +200,15 @@ public final class MainMenu extends SuperScene {
 
     @Override
     public void onInitialize() {
-        canvas = new Canvas();
-        canvas.setBackground(Color.black);
+        super.onInitialize();
 
         window.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                canvas.setBounds(0, 0, e.getComponent().getWidth(), e.getComponent().getHeight());
                 screenMappingTool = new ScreenMappingTool(WORLD_WIDTH, WORLD_HEIGHT, canvas);
                 refreshObjects();
             }
         });
-        super.onInitialize();
     }
 
     @Override

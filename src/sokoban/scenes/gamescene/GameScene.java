@@ -38,6 +38,8 @@ public class GameScene extends SuperScene {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+
+        windowRatioKeeper = new WindowRatioKeeper(null, window.getContentPane(), map.getMapWidth(), map.getMapHeight(), 0);
     }
 
     @Override
@@ -61,10 +63,7 @@ public class GameScene extends SuperScene {
 
     @Override
     public void onInitialize() {
-        canvas = new Canvas();
-        canvas.setBackground(Color.black);
-
-        window.addComponentListener(new WindowRatioKeeper(canvas, window.getContentPane(), map.getMapWidth(), map.getMapHeight(), 0));
+        // window.addComponentListener(new WindowRatioKeeper(canvas, window.getContentPane(), map.getMapWidth(), map.getMapHeight(), 0));
         window.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {

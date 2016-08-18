@@ -1,10 +1,13 @@
 package sokoban.game.engine.scenes;
 
+import sokoban.game.engine.graphics.WindowRatioKeeper;
 import sokoban.game.engine.input.handler.KeyboardInputHandler;
 import sokoban.game.engine.input.handler.MouseInputHandler;
 import sokoban.game.utils.FrameRateDrawable;
 
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 /**
  * Created by CodeingBoy on 2016-7-29-0029.
@@ -13,9 +16,11 @@ public abstract class SuperScene extends Scene {
     protected KeyboardInputHandler keyboardInputHandler;
     protected MouseInputHandler mouseInputHandler;
     protected FrameRateDrawable frameRateDrawable;
+    protected WindowRatioKeeper windowRatioKeeper = null;
     private int sleepNanoSecond = 10;
     private long curTime, lastTime;
     private double nsPerSec;
+    private boolean initialized = false;
 
     public SuperScene() {
 
@@ -57,6 +62,21 @@ public abstract class SuperScene extends Scene {
 
     @Override
     public void onInitialize() {
+        canvas = new Canvas();
+        canvas.setBackground(Color.black);
+
+        if (windowRatioKeeper == null) {
+            window.addComponentListener(new ComponentAdapter() {
+                @Override
+                public void componentResized(ComponentEvent e) {
+                    canvas.setBounds(0, 0, e.getComponent().getWidth(), e.getComponent().getHeight());
+                }
+            });
+        } else {
+            windowRatioKeeper.setCanvas(canvas);
+            window.addComponentListener(windowRatioKeeper);
+        }
+
         if (keyboardInputHandler != null) {
             canvas.addKeyListener(keyboardInputHandler.getInput());
             canvas.addMouseListener(mouseInputHandler.getInput());
@@ -66,6 +86,8 @@ public abstract class SuperScene extends Scene {
             canvas.addMouseMotionListener(mouseInputHandler.getInput());
             canvas.addMouseWheelListener(mouseInputHandler.getInput());
         }
+
+        initialized = true;
     }
 
     public abstract void beforeRendering();
@@ -123,7 +145,8 @@ public abstract class SuperScene extends Scene {
 
     /**
      * 渲染函数 渲染线程会调用此函数 请重写该函数进行渲染
-     * @param g 图形对象
+     *
+     * @param g     图形对象
      * @param delta 时间增量
      */
     public abstract void render(Graphics g, double delta);
