@@ -43,11 +43,11 @@ public abstract class Button extends Rect implements Clickable, Drawable {
     public void draw(Graphics g, double delta) {
         update(delta);
         if (isClicking)
-            g.drawImage(pressImg, (int) originVectors[0].x, (int) originVectors[0].y, null);
+            g.drawImage(pressImg, (int) currentVectors[0].x, (int) currentVectors[0].y, null);
         else if (isHovering)
-            g.drawImage(hoverImg, (int) originVectors[0].x, (int) originVectors[0].y, null);
+            g.drawImage(hoverImg, (int) currentVectors[0].x, (int) currentVectors[0].y, null);
         else
-            g.drawImage(normalImg, (int) originVectors[0].x, (int) originVectors[0].y, null);
+            g.drawImage(normalImg, (int) currentVectors[0].x, (int) currentVectors[0].y, null);
 
         isClicking = false;
         isHovering = false;
