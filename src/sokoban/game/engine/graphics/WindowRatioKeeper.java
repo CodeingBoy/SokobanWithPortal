@@ -13,6 +13,13 @@ public class WindowRatioKeeper extends ComponentAdapter {
     private int width, height;
     private double frameRatio;
 
+    public WindowRatioKeeper(Container contentPane, int width, int height, double frameRatio) {
+        this.contentPane = contentPane;
+        this.width = width;
+        this.height = height;
+        this.frameRatio = frameRatio;
+    }
+
     public WindowRatioKeeper(Canvas canvas, Container contentPane, int width, int height, double frameRatio) {
         this.canvas = canvas;
         this.contentPane = contentPane;
