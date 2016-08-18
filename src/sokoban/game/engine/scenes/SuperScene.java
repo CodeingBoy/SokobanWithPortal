@@ -43,14 +43,35 @@ public abstract class SuperScene extends Scene {
 
     public void setFrameRateDrawable(FrameRateDrawable frameRateDrawable) {
         this.frameRateDrawable = frameRateDrawable;
-
     }
 
     public void setKeyboardInputHandler(KeyboardInputHandler keyboardInputHandler) {
+        if (initialized) { // 已将旧的处理器绑定起来了，需执行额外的清理和绑定工作
+            if (this.keyboardInputHandler != null)
+                canvas.removeKeyListener(this.keyboardInputHandler.getInput());
+
+            if (keyboardInputHandler != null)
+                canvas.addKeyListener(keyboardInputHandler.getInput());
+        }
+
         this.keyboardInputHandler = keyboardInputHandler;
     }
 
     public void setMouseInputHandler(MouseInputHandler mouseInputHandler) {
+        if (initialized) { // 已将旧的处理器绑定起来了，需执行额外的清理和绑定工作
+            if (this.mouseInputHandler != null) {
+                canvas.removeMouseListener(this.mouseInputHandler.getInput());
+                canvas.removeMouseMotionListener(this.mouseInputHandler.getInput());
+                canvas.removeMouseWheelListener(this.mouseInputHandler.getInput());
+            }
+
+            if (mouseInputHandler != null) {
+                canvas.addMouseListener(mouseInputHandler.getInput());
+                canvas.addMouseMotionListener(mouseInputHandler.getInput());
+                canvas.addMouseWheelListener(mouseInputHandler.getInput());
+            }
+        }
+
         this.mouseInputHandler = mouseInputHandler;
     }
 
@@ -67,7 +88,8 @@ public abstract class SuperScene extends Scene {
 
     /**
      * 对 Drawable 中的对象进行绘制
-     * @param g 图形对象
+     *
+     * @param g     图形对象
      * @param delta 时间增量
      */
     private final synchronized void renderDrawables(Graphics g, double delta) {
@@ -95,10 +117,10 @@ public abstract class SuperScene extends Scene {
 
         if (keyboardInputHandler != null) {
             canvas.addKeyListener(keyboardInputHandler.getInput());
-            canvas.addMouseListener(mouseInputHandler.getInput());
         }
 
         if (mouseInputHandler != null) {
+            canvas.addMouseListener(mouseInputHandler.getInput());
             canvas.addMouseMotionListener(mouseInputHandler.getInput());
             canvas.addMouseWheelListener(mouseInputHandler.getInput());
         }
