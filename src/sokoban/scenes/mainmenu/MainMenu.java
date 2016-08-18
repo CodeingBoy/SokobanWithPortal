@@ -117,12 +117,6 @@ public final class MainMenu extends SuperScene {
                         super.onClick(p);
                         requestSwitchScene(new GameScene());
                     }
-
-                    @Override
-                    public void onHover(Point p) {
-                        super.onHover(p);
-                        // System.out.println("hovering");
-                    }
                 };
         drawables.put("btnStart", btnStart);
         mouseInputHandler.add("btnStart", btnStart, btnStart);
@@ -212,6 +206,7 @@ public final class MainMenu extends SuperScene {
         window.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
+                canvas.setBounds(0, 0, e.getComponent().getWidth(), e.getComponent().getHeight());
                 screenMappingTool = new ScreenMappingTool(WORLD_WIDTH, WORLD_HEIGHT, canvas);
                 refreshObjects();
             }
