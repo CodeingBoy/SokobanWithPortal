@@ -6,6 +6,7 @@ import sokoban.game.engine.graphics.WindowRatioKeeper;
 import sokoban.game.engine.scenes.SuperScene;
 import sokoban.map.GameMap;
 import sokoban.map.MapParser;
+import sokoban.map.Player;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -21,6 +22,7 @@ public class GameScene extends SuperScene {
     private static final int WORLD_HEIGHT = 300;
     private ScreenMappingTool screenMappingTool;
     private GameMap map;
+    private Player player;
 
     public static void main(String[] args) {
         GameWindow window = new GameWindow(new Dimension(800, 600), "Test", new GameScene());
@@ -54,22 +56,28 @@ public class GameScene extends SuperScene {
         map.updateMapScreenPos();
         drawables.put("Map", map);
 
-        window.setSize(window.getSize());
+        player = new Player(map.getPlayerStartPoint());
+        player.setWorldToScreen(new ScreenMappingTool(map.getMapWidth(), map.getMapHeight(), canvas));
+        //drawables.put("Player", player);
+
     }
 
     @Override
     public void onInitialize() {
+        super.onInitialize();
         // window.addComponentListener(new WindowRatioKeeper(canvas, window.getContentPane(), map.getMapWidth(), map.getMapHeight(), 0));
+        screenMappingTool = new ScreenMappingTool(map.getMapWidth(), map.getMapHeight(), canvas);
         window.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
                 screenMappingTool = new ScreenMappingTool(map.getMapWidth(), map.getMapHeight(), canvas);
                 map.setScreenMappingTool(new ScreenMappingTool(map.getMapWidth(), map.getMapHeight(), canvas));
                 map.updateMapScreenPos();
+
+                player.setWorldToScreen(new ScreenMappingTool(map.getMapWidth(), map.getMapHeight(), canvas));
                 // refreshObjects();
             }
         });
-        super.onInitialize();
     }
 
     @Override
@@ -82,6 +90,7 @@ public class GameScene extends SuperScene {
         g.setColor(Color.white);
         // CoordinateSystemShower.drawMappedWorldXAxis(g, 0, 10, 1, canvas.getHeight(), screenMappingTool, 0);
         // CoordinateSystemShower.drawMappedWorldYAxis(g, 0, 3, 1, canvas.getWidth(), screenMappingTool, 0);
+        player.draw(g, delta);
     }
 
     private synchronized void createObjects() {

@@ -2,6 +2,7 @@ package sokoban.map;
 
 import sokoban.game.engine.graphics.ScreenMappingTool;
 import sokoban.game.engine.graphics.shapes.Drawable;
+import sokoban.map.objects.Floor;
 import sokoban.map.objects.MapObject;
 
 import java.awt.*;
@@ -14,24 +15,25 @@ public class GameMap implements Drawable {
     private final static int PICWIDTH = 50, PICHEIGHT = 50;
     private MapObject[][] mapObjs;
     private int mapWidth, mapHeight;
-    private String MapName;
-    private Map<String, String> MapProperty;
+    private String mapName;
+    private Map<String, String> mapProperty;
+    private Point playerStartPoint;
     private ScreenMappingTool screenMappingTool;
 
     public GameMap(MapObject[][] mapObjs, int mapWidth, int mapHeight, String mapName, Map<String, String> mapProperty) {
         this.mapObjs = mapObjs;
         this.mapWidth = mapWidth;
         this.mapHeight = mapHeight;
-        MapName = mapName;
-        MapProperty = mapProperty;
+        this.mapName = mapName;
+        this.mapProperty = mapProperty;
+
+        String s = this.mapProperty.get("PlayerStartPoint");
+        playerStartPoint = new Point(Integer.valueOf(s.split(",")[0]), Integer.parseInt(s.split(",")[1]));
     }
 
     public GameMap(MapObject[][] mapObjs, Map<String, String> mapProperty) {
-        this.mapObjs = mapObjs;
-        this.mapWidth = Integer.parseInt(mapProperty.get("MapWidth"));
-        this.mapHeight = Integer.parseInt(mapProperty.get("MapHeight"));
-        MapName = mapProperty.get("MapName");
-        MapProperty = mapProperty;
+        this(mapObjs, Integer.parseInt(mapProperty.get("MapWidth")), Integer.parseInt(mapProperty.get("MapHeight")),
+                mapProperty.get("mapName"), mapProperty);
     }
 
     public int getMapWidth() {
@@ -47,10 +49,10 @@ public class GameMap implements Drawable {
     }
 
     public String getProperty(String name) {
-        return MapProperty.get(name);
+        return mapProperty.get(name);
     }
 
-    public void updateMapScreenPos(){
+    public void updateMapScreenPos() {
         for (int i = 0; i < mapHeight; i++) {
             for (int j = 0; j < mapWidth; j++) {
                 mapObjs[i][j].setWorldToScreen(screenMappingTool);
@@ -65,6 +67,18 @@ public class GameMap implements Drawable {
                 mapObjs[i][j].draw(g, delta);
             }
         }
+    }
+
+    boolean isOKtoMove(int x, int y) {
+        return isGridType(x, y, Floor.class);
+    }
+
+    <T extends MapObject> boolean isGridType(int x, int y, Class<T> type) {
+        return mapObjs[x][y].getClass().isInstance(type);
+    }
+
+    public Point getPlayerStartPoint() {
+        return playerStartPoint;
     }
 
     @Override

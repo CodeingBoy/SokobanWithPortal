@@ -7,7 +7,7 @@ import sokoban.utils.Log;
  */
 public class FrameRateCalculator {
     private String latestFrameRateString = "FPS 0";
-    private String formatString = "FPS %s";
+    private String frameRate_formatString = "FPS %s";
     private int latestFrameRate = 0;
     private long delta = 0;
     private long lasttime;
@@ -33,7 +33,7 @@ public class FrameRateCalculator {
         if (delta >= 1000) {
             delta -= 1000;
             latestFrameRate = frameCount;
-            latestFrameRateString = String.format(formatString, latestFrameRate);
+            latestFrameRateString = String.format(frameRate_formatString, latestFrameRate);
             if (shouldLog)
                 Log.i(getLatestFrameRateString());
 
@@ -46,7 +46,7 @@ public class FrameRateCalculator {
     }
 
     public void setFormatString(String formatString) {
-        this.formatString = formatString;
+        this.frameRate_formatString = formatString;
     }
 
     public void setShouldLog(boolean shouldLog) {

@@ -64,6 +64,8 @@ public class TestScene extends SuperScene implements Runnable {
 
     @Override
     public void onInitialize() {
+        super.onInitialize();
+
         screenMappingTool = new ScreenMappingTool(5, 5, canvas);
 
         // window.getContentPane().addComponentListener(new WindowRatioKeeper(canvas, window.getContentPane(), 4, 3, 0));

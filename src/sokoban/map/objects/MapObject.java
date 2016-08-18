@@ -25,6 +25,10 @@ public abstract class MapObject extends Square implements Drawable {
         super(new Vector2f(start.x, start.y), PICWIDTH);
     }
 
+    public Point getPos() {
+        return p;
+    }
+
     public void setPos(Vector2f start) {
         super.setOriginVectors(start, PICWIDTH);
     }
