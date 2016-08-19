@@ -6,10 +6,7 @@ import sokoban.game.engine.graphics.WindowRatioKeeper;
 import sokoban.game.engine.input.KeyboardInput;
 import sokoban.game.engine.input.handler.KeyboardInputHandler;
 import sokoban.game.engine.scenes.SuperScene;
-import sokoban.map.GameMap;
-import sokoban.map.GameObjectsMappingTool;
-import sokoban.map.MapParser;
-import sokoban.map.Player;
+import sokoban.map.*;
 import sokoban.map.objects.MapObject;
 
 import java.awt.*;
@@ -120,13 +117,13 @@ public class GameScene extends SuperScene {
         @Override
         public void processInput() {
             if (input.isKeyDownOnce(KeyEvent.VK_LEFT)) {
-                player.move(Player.Direction.LEFT);
+                player.move(Direction.LEFT);
             } else if (input.isKeyDownOnce(KeyEvent.VK_RIGHT)) {
-                player.move(Player.Direction.RIGHT);
+                player.move(Direction.RIGHT);
             } else if (input.isKeyDownOnce(KeyEvent.VK_UP)) {
-                player.move(Player.Direction.UP);
+                player.move(Direction.UP);
             } else if (input.isKeyDownOnce(KeyEvent.VK_DOWN)) {
-                player.move(Player.Direction.DOWN);
+                player.move(Direction.DOWN);
             }
         }
     }

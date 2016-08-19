@@ -5,6 +5,7 @@ import sokoban.map.objects.MapObject;
 import sokoban.map.objects.Moveable;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -22,6 +23,7 @@ public class GameMap implements Drawable {
     private Map<String, String> mapProperty;
     private Point playerStartPoint;
     private GameObjectsMappingTool gameObjectsMappingTool;
+    private ArrayList<Box> boxes = new ArrayList<>();
 
     public GameMap(MapObject[][] mapObjs, int mapWidth, int mapHeight, String mapName, Map<String, String> mapProperty) {
         this.mapObjs = mapObjs;
@@ -31,7 +33,15 @@ public class GameMap implements Drawable {
         this.mapProperty = mapProperty;
 
         String s = this.mapProperty.get("PlayerStartPoint");
-        playerStartPoint = new Point(Integer.valueOf(s.split(",")[0]), Integer.parseInt(s.split(",")[1]));
+        playerStartPoint = new Point(Integer.valueOf(s.split(",")[0]) - 1,
+                Integer.parseInt(s.split(",")[1]) - 1); // 减一是因为屏幕坐标系从0,0开始
+
+        Box.setMap(this);
+        s = this.mapProperty.get("BoxesStartPoint");
+        for (String s1 : s.split(";")) {
+            boxes.add(new Box(new Point(Integer.valueOf(s1.split(",")[0]) - 1,
+                    Integer.parseInt(s1.split(",")[1]) - 1)));
+        }
     }
 
     public GameMap(MapObject[][] mapObjs, Map<String, String> mapProperty) {
@@ -75,12 +85,29 @@ public class GameMap implements Drawable {
                 mapObjs[i][j].draw(g, delta);
             }
         }
+        for (Box b : boxes) {
+            b.draw(g, delta);
+        }
     }
 
-    boolean isOKtoMove(int x, int y) {
+    boolean isOKtoMove(int x, int y, Direction direction) {
         if (x >= mapWidth || x < 0 ||
                 y >= mapHeight || y < 0) return false;
+        Box box = getBox(x, y);
+        if (box != null) {
+            if (!box.move(direction))
+                return false;
+        }
         return isGridType(x, y, Moveable.class);
+    }
+
+    private Box getBox(int x, int y) {
+        for (Box b : boxes) {
+            Point pos = b.getPos();
+            if (pos.x == x && pos.y == y)
+                return b;
+        }
+        return null;
     }
 
     <T> boolean isGridType(int x, int y, Class<T> type) {

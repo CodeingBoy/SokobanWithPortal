@@ -9,41 +9,38 @@ import java.awt.*;
  */
 public class Box extends MapObject {
     private final static Image PIC = Toolkit.getDefaultToolkit().getImage("pic/box.png");
-    private GameMap map;
+    private static GameMap map;
 
     public Box(Point pos) {
         super(pos, PIC);
     }
 
-    public void move(Direction direction) {
+    public static void setMap(GameMap map) {
+        Box.map = map;
+    }
+
+    public boolean move(Direction direction) {
         Point p = getPos();
         switch (direction) {
             case LEFT:
-                move(p.x - 1, p.y);
-                break;
+                return move(p.x - 1, p.y, direction);
             case RIGHT:
-                move(p.x + 1, p.y);
-                break;
+                return move(p.x + 1, p.y, direction);
             case UP:
-                move(p.x, p.y + 1);
-                break;
+                return move(p.x, p.y - 1, direction);
             case DOWN:
-                move(p.x, p.y - 1);
-                break;
+                return move(p.x, p.y + 1, direction);
         }
+        return false;
     }
 
-    public void move(int x, int y) {
-        if (map.isOKtoMove(x, y)) {
+    public boolean move(int x, int y, Direction direction) {
+        if (map.isOKtoMove(x, y, direction)) {
             setPos(new Point(x, y));
-            return;
+            return true;
         } else {
-
+            return false;
         }
 
-    }
-
-    public enum Direction {
-        LEFT, RIGHT, UP, DOWN
     }
 }

@@ -22,23 +22,23 @@ public class Player extends MapObject {
         System.out.println(curPos);
         switch (direction) {
             case LEFT:
-                move(p.x - 1, p.y);
+                move(p.x - 1, p.y, direction);
                 break;
             case RIGHT:
-                move(p.x + 1, p.y);
+                move(p.x + 1, p.y, direction);
                 break;
             case UP:
-                move(p.x, p.y - 1);
+                move(p.x, p.y - 1, direction);
                 break;
             case DOWN:
-                move(p.x, p.y + 1);
+                move(p.x, p.y + 1, direction);
                 break;
         }
     }
 
-    public void move(int x, int y) {
+    public void move(int x, int y, Direction direction) {
         Log.i("Player requesting move to " + x + "," + y);
-        if (map.isOKtoMove(x, y)) {
+        if (map.isOKtoMove(x, y, direction)) {
             setPos(new Point(x, y));
             Log.i("Move approved! New pos " + x + "," + y);
             return;
@@ -46,9 +46,5 @@ public class Player extends MapObject {
             Log.i("Move rejected!");
         }
 
-    }
-
-    public enum Direction {
-        LEFT, RIGHT, UP, DOWN
     }
 }
