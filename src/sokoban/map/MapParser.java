@@ -14,6 +14,13 @@ import java.util.Map;
  */
 public class MapParser {
 
+    /**
+     * 解析地图文件
+     *
+     * @param mapFile 欲解析的地图文件对象
+     * @return 地图对象
+     * @throws FileNotFoundException 找不到文件
+     */
     public static GameMap parseMapFile(File mapFile) throws FileNotFoundException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(mapFile)));
 
@@ -38,11 +45,10 @@ public class MapParser {
         int mapWidth = Integer.parseInt(inf.get("MapWidth"));
         int mapHeight = Integer.parseInt(inf.get("MapHeight"));
 
-        int XOffset = 0;
-        int YOffset = 0;
         if (inf.get("Offset") != null) {
-            XOffset = Integer.parseInt(inf.get("Offset").split(",")[0]);
-            YOffset = -Integer.parseInt(inf.get("Offset").split(",")[1]);
+            int XOffset = Integer.parseInt(inf.get("Offset").split(",")[0]);
+            int YOffset = -Integer.parseInt(inf.get("Offset").split(",")[1]);
+            MapObject.setOffset(new Point(XOffset, YOffset));
         }
 
         MapObject[][] mapObjects = new MapObject[mapHeight][mapWidth];
@@ -52,7 +58,8 @@ public class MapParser {
         for (int row = 0; row < mapRow.length; row++) {
             String[] mapCol = mapRow[row].split(",");
             for (int col = 0; col < mapCol.length; col++) {
-                Point pos = new Point(XOffset + col, YOffset + row);
+                // Point pos = new Point(XOffset + col, YOffset + row); // 不需转换到世界坐标 直接传入原始坐标
+                Point pos = new Point(col, row);
                 switch (Integer.parseInt(mapCol[col])) {
                     case 1: // floor
                         mapObjects[row][col] = new Floor(pos);

@@ -1,6 +1,5 @@
 package sokoban.map;
 
-import sokoban.game.engine.graphics.Vector2f;
 import sokoban.map.objects.MapObject;
 
 import java.awt.*;
@@ -12,12 +11,8 @@ public class Box extends MapObject {
     private final static Image PIC = Toolkit.getDefaultToolkit().getImage("pic/box.png");
     private GameMap map;
 
-    public Box(Vector2f start) {
-        super(start, PIC);
-    }
-
-    public Box(Point start) {
-        super(start);
+    public Box(Point pos) {
+        super(pos, PIC);
     }
 
     public void move(Direction direction) {

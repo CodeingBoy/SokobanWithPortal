@@ -105,7 +105,6 @@ public class Polygon extends Shape {
         if (currentVectors == null)
             currentVectors = new Vector2f[originVectors.length];
 
-
         System.arraycopy(w2sVectors, 0, currentVectors, 0, w2sVectors.length);
 
         if (rotateDelta != 0) {

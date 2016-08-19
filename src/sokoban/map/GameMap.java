@@ -1,6 +1,5 @@
 package sokoban.map;
 
-import sokoban.game.engine.graphics.ScreenMappingTool;
 import sokoban.game.engine.graphics.shapes.Drawable;
 import sokoban.map.objects.Floor;
 import sokoban.map.objects.MapObject;
@@ -11,6 +10,10 @@ import java.util.Map;
 /**
  * Created by CodeingBoy on 2016-8-4-0004.
  */
+
+/**
+ * 地图类，请注意：本类中的所有坐标均使用屏幕坐标，仅在绘制时转换为世界坐标（虽然之后又被转回屏幕坐标）
+ */
 public class GameMap implements Drawable {
     private final static int PICWIDTH = 50, PICHEIGHT = 50;
     private MapObject[][] mapObjs;
@@ -18,8 +21,7 @@ public class GameMap implements Drawable {
     private String mapName;
     private Map<String, String> mapProperty;
     private Point playerStartPoint;
-    private ScreenMappingTool screenMappingTool;
-    private int XOffset = 0, YOffset = 0;
+    private GameObjectsMappingTool gameObjectsMappingTool;
 
     public GameMap(MapObject[][] mapObjs, int mapWidth, int mapHeight, String mapName, Map<String, String> mapProperty) {
         this.mapObjs = mapObjs;
@@ -30,11 +32,6 @@ public class GameMap implements Drawable {
 
         String s = this.mapProperty.get("PlayerStartPoint");
         playerStartPoint = new Point(Integer.valueOf(s.split(",")[0]), Integer.parseInt(s.split(",")[1]));
-
-        if (mapProperty.get("Offset") != null) {
-            XOffset = Integer.parseInt(mapProperty.get("Offset").split(",")[0]);
-            YOffset = -Integer.parseInt(mapProperty.get("Offset").split(",")[1]);
-        }
     }
 
     public GameMap(MapObject[][] mapObjs, Map<String, String> mapProperty) {
@@ -50,8 +47,9 @@ public class GameMap implements Drawable {
         return mapHeight;
     }
 
-    public void setScreenMappingTool(ScreenMappingTool screenMappingTool) {
-        this.screenMappingTool = screenMappingTool;
+    public void setMappingTool(GameObjectsMappingTool screenMappingTool) {
+        this.gameObjectsMappingTool = screenMappingTool;
+        MapObject.setGameObjectsMappingTool(gameObjectsMappingTool);
     }
 
     public String getMapName() {
@@ -65,7 +63,7 @@ public class GameMap implements Drawable {
     public void updateMapScreenPos() {
         for (int i = 0; i < mapHeight; i++) {
             for (int j = 0; j < mapWidth; j++) {
-                mapObjs[i][j].setWorldToScreen(screenMappingTool);
+                mapObjs[i][j].updateW2SVectors();
             }
         }
     }
@@ -77,18 +75,6 @@ public class GameMap implements Drawable {
                 mapObjs[i][j].draw(g, delta);
             }
         }
-    }
-
-    public Point convertToWorld(Point point) {
-        return new Point(point.x + XOffset, point.y + YOffset);
-    }
-
-    public Point convertToScreen(Point point) {
-        return new Point(point.x - XOffset, point.y - YOffset);
-    }
-
-    private Point convertToWorld(int x, int y) {
-        return new Point(x + XOffset, y + YOffset);
     }
 
     boolean isOKtoMove(int x, int y) {

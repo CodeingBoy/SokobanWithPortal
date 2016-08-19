@@ -1,40 +1,62 @@
 package sokoban.map.objects;
 
-import sokoban.game.engine.graphics.ScreenMappingTool;
 import sokoban.game.engine.graphics.Vector2f;
 import sokoban.game.engine.graphics.shapes.Drawable;
 import sokoban.game.engine.graphics.shapes.Square;
+import sokoban.map.GameObjectsMappingTool;
 
 import java.awt.*;
 
-/**
- * Created by CodeingBoy on 2016-8-4-0004.
- */
+
 public abstract class MapObject extends Square implements Drawable {
     public final static int PICWIDTH = 1;
-    protected ScreenMappingTool screenMappingTool;
-    //protected Point p;
+    protected static int XOffset, YOffset; // 供转换到世界坐标
+    protected static GameObjectsMappingTool gameObjectsMappingTool;
+    protected Point curPos;
     private Image drawingPic;
 
-    public MapObject(Vector2f start, Image pic) {
-        super(start, PICWIDTH);
+    public MapObject(Point pos, Image pic) {
+        super(new Vector2f(convertToWorld(pos)), PICWIDTH); // 转换到世界坐标
+        curPos = pos;
         this.drawingPic = pic;
     }
 
-    public MapObject(Point start) {
-        super(new Vector2f(start.x, start.y), PICWIDTH);
+    public static void setGameObjectsMappingTool(GameObjectsMappingTool gameObjectsMappingTool) {
+        MapObject.gameObjectsMappingTool = gameObjectsMappingTool;
+    }
+
+    public static void setXOffset(int XOffset) {
+        MapObject.XOffset = XOffset;
+    }
+
+    public static void setYOffset(int YOffset) {
+        MapObject.YOffset = YOffset;
+    }
+
+    public static void setOffset(Point offset) {
+        XOffset = offset.x;
+        YOffset = offset.y;
+    }
+
+    public static Point convertToWorld(Point p) {
+        return new Point(p.x + XOffset, p.y + YOffset);
     }
 
     public Point getPos() {
-        return new Point((int)originVectors[0].x, (int)originVectors[0].y);
+        return curPos;
     }
 
-    public void setPos(Vector2f start) {
-        super.setOriginVectors(start, PICWIDTH);
+    public void setPos(Point newPos) {
+        super.setOriginVectors(new Vector2f(convertToWorld(newPos)), PICWIDTH);
+        curPos = newPos;
+        updateW2SVectors();
     }
 
-    public void setPos(Point start) {
-        super.setOriginVectors(new Vector2f(start.x, start.y), PICWIDTH);
+    public void updateW2SVectors() {
+        if (gameObjectsMappingTool == null)
+            w2sVectors = originVectors;
+        else
+            w2sVectors = gameObjectsMappingTool.getW2sMatrix().mul(originVectors);
     }
 
     @Override
@@ -44,9 +66,11 @@ public abstract class MapObject extends Square implements Drawable {
 
     @Override
     public final void draw(Graphics g, double delta) {
+        if (w2sVectors == null) updateW2SVectors();
+
         update(delta);
 
-        if (drawingPic==null)
+        if (drawingPic == null)
             throw new IllegalArgumentException();
 
         g.drawImage(drawingPic, (int) currentVectors[0].x, (int) currentVectors[0].y,

@@ -7,8 +7,10 @@ import sokoban.game.engine.input.KeyboardInput;
 import sokoban.game.engine.input.handler.KeyboardInputHandler;
 import sokoban.game.engine.scenes.SuperScene;
 import sokoban.map.GameMap;
+import sokoban.map.GameObjectsMappingTool;
 import sokoban.map.MapParser;
 import sokoban.map.Player;
+import sokoban.map.objects.MapObject;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -58,12 +60,12 @@ public class GameScene extends SuperScene {
 
     @Override
     public void beforeRendering() {
-        map.setScreenMappingTool(new ScreenMappingTool(map.getMapWidth(), map.getMapHeight(), canvas));
+        map.setMappingTool(new GameObjectsMappingTool(map.getMapWidth(), map.getMapHeight(), canvas));
         map.updateMapScreenPos();
         drawables.put("Map", map);
 
-        player = new Player(map.convertToWorld(map.getPlayerStartPoint()), map);
-        player.setWorldToScreen(new ScreenMappingTool(map.getMapWidth(), map.getMapHeight(), canvas));
+        player = new Player(map.getPlayerStartPoint(), map);
+        // player.setWorldToScreen(new ScreenMappingTool(map.getMapWidth(), map.getMapHeight(), canvas));
         //drawables.put("Player", player);
 
     }
@@ -71,16 +73,19 @@ public class GameScene extends SuperScene {
     @Override
     public void onInitialize() {
         super.onInitialize();
+
         // window.addComponentListener(new WindowRatioKeeper(canvas, window.getContentPane(), map.getMapWidth(), map.getMapHeight(), 0));
         screenMappingTool = new ScreenMappingTool(map.getMapWidth(), map.getMapHeight(), canvas);
         window.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
                 screenMappingTool = new ScreenMappingTool(map.getMapWidth(), map.getMapHeight(), canvas);
-                map.setScreenMappingTool(new ScreenMappingTool(map.getMapWidth(), map.getMapHeight(), canvas));
+                MapObject.setGameObjectsMappingTool(new GameObjectsMappingTool(map.getMapWidth(), map.getMapHeight(), canvas));
                 map.updateMapScreenPos();
 
-                player.setWorldToScreen(new ScreenMappingTool(map.getMapWidth(), map.getMapHeight(), canvas));
+                if (player != null)
+                    player.updateW2SVectors();
+
                 // refreshObjects();
             }
         });
