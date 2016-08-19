@@ -85,4 +85,40 @@ public class MapParser {
 
     }
 
+    /**
+     * 获取某个目录下面的地图文件列表
+     *
+     * @param dir 欲获得列表的目录
+     * @return 地图文件列表
+     */
+    public static Map<String, File> getMapList(File dir) {
+        if (!dir.isDirectory())
+            throw new IllegalArgumentException();
+
+        Map<String, File> list = new HashMap<>();
+
+        for (File f : dir.listFiles()) {
+            if (f.getName().endsWith(".map")) {
+                BufferedReader bufferedReader = null;
+                try {
+                    bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(f)));
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+                StringBuffer stringBuffer = new StringBuffer();
+                try {
+                    stringBuffer.append(bufferedReader.readLine());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                String[] line = stringBuffer.toString().split(":");
+
+                list.put(line[1],f);
+            }
+        }
+        return list;
+    }
+
 }
