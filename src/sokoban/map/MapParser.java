@@ -1,5 +1,6 @@
 package sokoban.map;
 
+import sokoban.map.objects.CheckPoint;
 import sokoban.map.objects.Floor;
 import sokoban.map.objects.MapObject;
 import sokoban.map.objects.Wall;
@@ -64,9 +65,9 @@ public class MapParser {
                     case 1: // floor
                         mapObjects[row][col] = new Floor(pos);
                         break;
-                    // case 2:
-                    //     mapObjects[row][col] = new Floor();
-                    //     break;
+                    case 2:
+                         mapObjects[row][col] = new CheckPoint(pos);
+                         break;
                     // case 3:
                     //     mapObjects[row][col] = new Floor();
                     //     break;
