@@ -1,6 +1,7 @@
-package sokoban.map;
+package sokoban.map.objects;
 
-import sokoban.map.objects.MapObject;
+import sokoban.map.Direction;
+import sokoban.map.GameMap;
 import sokoban.utils.Log;
 
 import java.awt.*;

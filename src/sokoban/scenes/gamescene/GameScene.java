@@ -8,6 +8,7 @@ import sokoban.game.engine.input.handler.KeyboardInputHandler;
 import sokoban.game.engine.scenes.SuperScene;
 import sokoban.map.*;
 import sokoban.map.objects.MapObject;
+import sokoban.map.objects.Player;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;

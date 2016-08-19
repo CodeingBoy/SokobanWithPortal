@@ -1,6 +1,7 @@
 package sokoban.map;
 
 import sokoban.game.engine.graphics.shapes.Drawable;
+import sokoban.map.objects.Box;
 import sokoban.map.objects.MapObject;
 import sokoban.map.objects.Moveable;
 
@@ -100,7 +101,7 @@ public class GameMap implements Drawable {
         }
     }
 
-    boolean isOKtoMove(int x, int y, Direction direction) {
+    public boolean isOKtoMove(int x, int y, Direction direction) {
         if (x >= mapWidth || x < 0 ||
                 y >= mapHeight || y < 0) return false;
 
