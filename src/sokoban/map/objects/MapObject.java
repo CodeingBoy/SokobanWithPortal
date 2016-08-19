@@ -13,7 +13,7 @@ import java.awt.*;
 public abstract class MapObject extends Square implements Drawable {
     public final static int PICWIDTH = 1;
     protected ScreenMappingTool screenMappingTool;
-    protected Point p;
+    //protected Point p;
     private Image drawingPic;
 
     public MapObject(Vector2f start, Image pic) {
@@ -26,7 +26,7 @@ public abstract class MapObject extends Square implements Drawable {
     }
 
     public Point getPos() {
-        return p;
+        return new Point((int)originVectors[0].x, (int)originVectors[0].y);
     }
 
     public void setPos(Vector2f start) {

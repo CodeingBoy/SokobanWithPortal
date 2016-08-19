@@ -19,6 +19,7 @@ public class GameMap implements Drawable {
     private Map<String, String> mapProperty;
     private Point playerStartPoint;
     private ScreenMappingTool screenMappingTool;
+    private int XOffset = 0, YOffset = 0;
 
     public GameMap(MapObject[][] mapObjs, int mapWidth, int mapHeight, String mapName, Map<String, String> mapProperty) {
         this.mapObjs = mapObjs;
@@ -29,6 +30,11 @@ public class GameMap implements Drawable {
 
         String s = this.mapProperty.get("PlayerStartPoint");
         playerStartPoint = new Point(Integer.valueOf(s.split(",")[0]), Integer.parseInt(s.split(",")[1]));
+
+        if (mapProperty.get("Offset") != null) {
+            XOffset = Integer.parseInt(mapProperty.get("Offset").split(",")[0]);
+            YOffset = -Integer.parseInt(mapProperty.get("Offset").split(",")[1]);
+        }
     }
 
     public GameMap(MapObject[][] mapObjs, Map<String, String> mapProperty) {
@@ -69,12 +75,24 @@ public class GameMap implements Drawable {
         }
     }
 
+    public Point convertToWorld(Point point) {
+        return new Point(point.x + XOffset, point.y + YOffset);
+    }
+
+    public Point convertToScreen(Point point) {
+        return new Point(point.x - XOffset, point.y - YOffset);
+    }
+
+    private Point convertToWorld(int x, int y) {
+        return new Point(x + XOffset, y + YOffset);
+    }
+
     boolean isOKtoMove(int x, int y) {
         return isGridType(x, y, Floor.class);
     }
 
     <T extends MapObject> boolean isGridType(int x, int y, Class<T> type) {
-        return mapObjs[x][y].getClass().isInstance(type);
+        return type.isInstance(mapObjs[y][x]);
     }
 
     public Point getPlayerStartPoint() {

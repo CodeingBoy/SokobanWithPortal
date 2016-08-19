@@ -13,6 +13,5 @@ public class KeyboardHandler extends KeyboardInputHandler {
 
     @Override
     public void processInput() {
-
     }
 }

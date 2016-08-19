@@ -3,6 +3,8 @@ package sokoban.scenes.gamescene;
 import sokoban.game.engine.GameWindow;
 import sokoban.game.engine.graphics.ScreenMappingTool;
 import sokoban.game.engine.graphics.WindowRatioKeeper;
+import sokoban.game.engine.input.KeyboardInput;
+import sokoban.game.engine.input.handler.KeyboardInputHandler;
 import sokoban.game.engine.scenes.SuperScene;
 import sokoban.map.GameMap;
 import sokoban.map.MapParser;
@@ -11,6 +13,7 @@ import sokoban.map.Player;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 
@@ -20,9 +23,9 @@ import java.io.FileNotFoundException;
 public class GameScene extends SuperScene {
     private static final int WORLD_WIDTH = 300;
     private static final int WORLD_HEIGHT = 300;
+    Player player;
     private ScreenMappingTool screenMappingTool;
     private GameMap map;
-    private Player player;
 
     public static void main(String[] args) {
         GameWindow window = new GameWindow(new Dimension(800, 600), "Test", new GameScene());
@@ -38,6 +41,7 @@ public class GameScene extends SuperScene {
         }
 
         windowRatioKeeper = new WindowRatioKeeper(null, window.getContentPane(), map.getMapWidth(), map.getMapHeight(), 0);
+        keyboardInputHandler = new GameKeyboardHandler(new KeyboardInput());
     }
 
     @Override
@@ -56,7 +60,7 @@ public class GameScene extends SuperScene {
         map.updateMapScreenPos();
         drawables.put("Map", map);
 
-        player = new Player(map.getPlayerStartPoint());
+        player = new Player(map.convertToWorld(map.getPlayerStartPoint()), map);
         player.setWorldToScreen(new ScreenMappingTool(map.getMapWidth(), map.getMapHeight(), canvas));
         //drawables.put("Player", player);
 
@@ -100,4 +104,25 @@ public class GameScene extends SuperScene {
     private synchronized void refreshObjects() {
 
     }
+
+    class GameKeyboardHandler extends KeyboardInputHandler {
+        public GameKeyboardHandler(KeyboardInput input) {
+            super(input);
+        }
+
+        @Override
+        public void processInput() {
+            if (input.isKeyDownOnce(KeyEvent.VK_LEFT)) {
+                player.move(Player.Direction.LEFT);
+            } else if (input.isKeyDownOnce(KeyEvent.VK_RIGHT)) {
+                player.move(Player.Direction.RIGHT);
+            } else if (input.isKeyDownOnce(KeyEvent.VK_UP)) {
+                player.move(Player.Direction.UP);
+            } else if (input.isKeyDownOnce(KeyEvent.VK_DOWN)) {
+                player.move(Player.Direction.DOWN);
+            }
+        }
+    }
 }
+
+

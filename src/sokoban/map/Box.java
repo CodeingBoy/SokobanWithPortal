@@ -21,6 +21,7 @@ public class Box extends MapObject {
     }
 
     public void move(Direction direction) {
+        Point p = getPos();
         switch (direction) {
             case LEFT:
                 move(p.x - 1, p.y);
