@@ -40,6 +40,7 @@ public class Player extends MapObject {
         if (map.isOKtoMove(x, y, direction)) {
             setPos(new Point(x, y));
             Log.i("Move approved! New pos " + x + "," + y);
+            map.isCompleted();
             return;
         } else {
             Log.i("Move rejected!");

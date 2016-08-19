@@ -66,8 +66,8 @@ public class MapParser {
                         mapObjects[row][col] = new Floor(pos);
                         break;
                     case 2:
-                         mapObjects[row][col] = new CheckPoint(pos);
-                         break;
+                        mapObjects[row][col] = new CheckPoint(pos);
+                        break;
                     // case 3:
                     //     mapObjects[row][col] = new Floor();
                     //     break;

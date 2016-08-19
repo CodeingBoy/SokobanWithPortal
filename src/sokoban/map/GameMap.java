@@ -24,6 +24,7 @@ public class GameMap implements Drawable {
     private Point playerStartPoint;
     private GameObjectsMappingTool gameObjectsMappingTool;
     private ArrayList<Box> boxes = new ArrayList<>();
+    private ArrayList<Point> checkPoints = new ArrayList<>();
 
     public GameMap(MapObject[][] mapObjs, int mapWidth, int mapHeight, String mapName, Map<String, String> mapProperty) {
         this.mapObjs = mapObjs;
@@ -41,6 +42,12 @@ public class GameMap implements Drawable {
         for (String s1 : s.split(";")) {
             boxes.add(new Box(new Point(Integer.valueOf(s1.split(",")[0]) - 1,
                     Integer.parseInt(s1.split(",")[1]) - 1)));
+        }
+
+        s = this.mapProperty.get("CheckPoints");
+        for (String s1 : s.split(";")) {
+            checkPoints.add(new Point(Integer.valueOf(s1.split(",")[0]) - 1,
+                    Integer.parseInt(s1.split(",")[1]) - 1));
         }
     }
 
@@ -76,6 +83,9 @@ public class GameMap implements Drawable {
                 mapObjs[i][j].updateW2SVectors();
             }
         }
+        for (Box b : boxes) {
+            b.updateW2SVectors();
+        }
     }
 
     @Override
@@ -93,11 +103,13 @@ public class GameMap implements Drawable {
     boolean isOKtoMove(int x, int y, Direction direction) {
         if (x >= mapWidth || x < 0 ||
                 y >= mapHeight || y < 0) return false;
+
         Box box = getBox(x, y);
         if (box != null) {
             if (!box.move(direction))
                 return false;
         }
+
         return isGridType(x, y, Moveable.class);
     }
 
@@ -108,6 +120,17 @@ public class GameMap implements Drawable {
                 return b;
         }
         return null;
+    }
+
+    public boolean isCompleted() {
+        boolean result = true;
+        for (Point p : checkPoints) {
+            if (getBox(p.x, p.y) == null) {
+                result = false;
+                break;
+            }
+        }
+        return result;
     }
 
     <T> boolean isGridType(int x, int y, Class<T> type) {
