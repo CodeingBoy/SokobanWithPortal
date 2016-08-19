@@ -15,12 +15,6 @@ public class GameWindow extends JFrame {
     private Scene newScene;
 
     public GameWindow(Dimension size, String title, Scene scene) throws HeadlessException {
-        if (scene != null) {
-            this.scene = scene;
-            scene.setWindow(this);
-            scene.onPrepare();
-        }
-
         setLayout(null);
         setBackground(Color.BLACK);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -34,6 +28,12 @@ public class GameWindow extends JFrame {
                 close();
             }
         });
+
+        if (scene != null) {
+            this.scene = scene;
+            scene.setWindow(this);
+            scene.onPrepare();
+        }
     }
     // public static void main(String[] args) {
     //     TestScene dialog = new TestScene();

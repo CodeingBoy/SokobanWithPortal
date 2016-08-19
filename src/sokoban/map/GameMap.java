@@ -54,6 +54,10 @@ public class GameMap implements Drawable {
         this.screenMappingTool = screenMappingTool;
     }
 
+    public String getMapName() {
+        return mapName;
+    }
+
     public String getProperty(String name) {
         return mapProperty.get(name);
     }
