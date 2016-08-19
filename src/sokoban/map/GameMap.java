@@ -101,6 +101,14 @@ public class GameMap implements Drawable {
         }
     }
 
+    /**
+     * 是否可以移动到指定坐标
+     *
+     * @param x         x坐标
+     * @param y         y坐标
+     * @param direction 方向
+     * @return 是否可以移动到指定坐标
+     */
     public boolean isOKtoMove(int x, int y, Direction direction) {
         if (x >= mapWidth || x < 0 ||
                 y >= mapHeight || y < 0) return false;
@@ -114,6 +122,13 @@ public class GameMap implements Drawable {
         return isGridType(x, y, Placeable.class);
     }
 
+    /**
+     * 获取指定坐标的箱子
+     *
+     * @param x x坐标
+     * @param y y坐标
+     * @return 指定坐标的箱子，若无，返回null
+     */
     private Box getBox(int x, int y) {
         for (Box b : boxes) {
             Point pos = b.getPos();
@@ -123,6 +138,11 @@ public class GameMap implements Drawable {
         return null;
     }
 
+    /**
+     * 全部checkpoint是否已放置箱子
+     *
+     * @return 若是，返回true
+     */
     public boolean isCompleted() {
         boolean result = true;
         for (Point p : checkPoints) {
@@ -134,10 +154,22 @@ public class GameMap implements Drawable {
         return result;
     }
 
-    <T> boolean isGridType(int x, int y, Class<T> type) {
+    /**
+     * 判断传入坐标是否指定的类型
+     *
+     * @param x    x坐标
+     * @param y    y坐标
+     * @param type 欲判断的类型
+     * @return 若是指定的类型，返回true
+     */
+    boolean isGridType(int x, int y, Class type) {
         return type.isInstance(mapObjs[y][x]);
     }
 
+    /**
+     * 获取玩家起始出发位置，在地图文件中定义
+     * @return 玩家起始出发位置
+     */
     public Point getPlayerStartPoint() {
         return playerStartPoint;
     }

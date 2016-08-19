@@ -57,7 +57,7 @@ public class GameScene extends SuperScene {
         windowRatioKeeper = new WindowRatioKeeper(null, window.getContentPane(), map.getMapWidth(), map.getMapHeight(), 0);
         keyboardInputHandler = new GameKeyboardHandler(new KeyboardInput());
 
-        window.setTitle(map.getMapName() + " - 推箱子");
+        window.setTitle(map.getMapName() + " - 推箱子"); //
     }
 
     @Override

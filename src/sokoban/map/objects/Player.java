@@ -6,18 +6,24 @@ import sokoban.utils.Log;
 
 import java.awt.*;
 
-/**
- * Created by CodeingBoy on 2016-8-4-0004.
- */
 public class Player extends MapObject {
     private final static Image PIC = Toolkit.getDefaultToolkit().getImage("pic/box.png");
     private GameMap map;
 
+    /**
+     * 构造一个玩家对象
+     * @param pos 初始位置
+     * @param map 所在的地图
+     */
     public Player(Point pos, GameMap map) {
         super(pos, PIC);
         this.map = map;
     }
 
+    /**
+     * 按指定的方向移动一格
+     * @param direction 方向
+     */
     public void move(Direction direction) {
         Point p = curPos;
         switch (direction) {
@@ -36,7 +42,13 @@ public class Player extends MapObject {
         }
     }
 
-    public void move(int x, int y, Direction direction) {
+    /**
+     * 移动到指定的坐标
+     * @param x x坐标
+     * @param y y坐标
+     * @param direction 方向
+     */
+    private void move(int x, int y, Direction direction) {
         Log.i("Player requesting move to " + x + "," + y);
         if (map.isOKtoMove(x, y, direction)) {
             setPos(new Point(x, y));
