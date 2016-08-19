@@ -19,7 +19,6 @@ public class Player extends MapObject {
 
     public void move(Direction direction) {
         Point p = curPos;
-        System.out.println(curPos);
         switch (direction) {
             case LEFT:
                 move(p.x - 1, p.y, direction);
