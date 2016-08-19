@@ -1,12 +1,8 @@
 package sokoban.dialog;
 
 import sokoban.game.engine.GameWindow;
-import sokoban.game.engine.input.KeyboardInput;
-import sokoban.game.engine.input.MouseInput;
 import sokoban.game.utils.FrameRateDrawable;
 import sokoban.scenes.mainmenu.MainMenu;
-import sokoban.scenes.mainmenu.inputhandler.KeyboardHandler;
-import sokoban.scenes.mainmenu.inputhandler.MouseHandler;
 import sokoban.utils.Log;
 
 import javax.swing.*;
@@ -78,8 +74,6 @@ public class SplashDialog extends JFrame {
             @Override
             public void run() {
                 MainMenu mainMenu = new MainMenu();
-                mainMenu.setKeyboardInputHandler(new KeyboardHandler(new KeyboardInput()));
-                mainMenu.setMouseInputHandler(new MouseHandler(new MouseInput()));
                 mainMenu.setFrameRateDrawable(new FrameRateDrawable(50, 50));
                 GameWindow window = new GameWindow(new Dimension(800, 600), "推箱子", mainMenu);
                 window.showWindow();

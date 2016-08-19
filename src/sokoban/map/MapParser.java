@@ -15,6 +15,13 @@ import java.util.Map;
  */
 public class MapParser {
 
+    public static void main(String[] args) {
+        Map<String, File> map = getMapList(new File("map"));
+        for (Map.Entry<String, File> e : map.entrySet()) {
+            System.out.println(e.getKey());
+        }
+    }
+
     /**
      * 解析地图文件
      *
@@ -115,7 +122,7 @@ public class MapParser {
 
                 String[] line = stringBuffer.toString().split(":");
 
-                list.put(line[1],f);
+                list.put(line[1], f);
             }
         }
         return list;

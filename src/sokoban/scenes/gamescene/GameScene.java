@@ -6,7 +6,10 @@ import sokoban.game.engine.graphics.WindowRatioKeeper;
 import sokoban.game.engine.input.KeyboardInput;
 import sokoban.game.engine.input.handler.KeyboardInputHandler;
 import sokoban.game.engine.scenes.SuperScene;
-import sokoban.map.*;
+import sokoban.map.Direction;
+import sokoban.map.GameMap;
+import sokoban.map.GameObjectsMappingTool;
+import sokoban.map.MapParser;
 import sokoban.map.objects.MapObject;
 import sokoban.map.objects.Player;
 
@@ -27,6 +30,17 @@ public class GameScene extends SuperScene {
     private ScreenMappingTool screenMappingTool;
     private GameMap map;
 
+    public GameScene(GameMap map) {
+        this.map = map;
+    }
+
+    public GameScene(File mapFile) throws FileNotFoundException {
+        map = MapParser.parseMapFile(mapFile);
+    }
+
+    public GameScene() {
+    }
+
     public static void main(String[] args) {
         GameWindow window = new GameWindow(new Dimension(800, 600), "Test", new GameScene());
         window.showWindow();
@@ -35,7 +49,7 @@ public class GameScene extends SuperScene {
     @Override
     public void onPrepare() {
         try {
-            map = MapParser.parseMapFile(new File("map/map1.map"));
+            map = MapParser.parseMapFile(new File("map/level2.map"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

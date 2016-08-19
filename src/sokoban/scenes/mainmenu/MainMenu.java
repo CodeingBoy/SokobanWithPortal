@@ -186,6 +186,9 @@ public final class MainMenu extends SuperScene {
     public void onPrepare() {
         window.setLocationRelativeTo(null);
         window.setMinimumSize(new Dimension(550, 550));
+
+        setKeyboardInputHandler(new KeyboardHandler(new KeyboardInput()));
+        setMouseInputHandler(new MouseHandler(new MouseInput()));
     }
 
     @Override
