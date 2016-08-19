@@ -6,12 +6,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 /**
  * Created by CodeingBoy on 2016-7-7-0007.
  */
 public class SettingDialog extends JDialog {
-
     private final ConfirmPanel confirmPanel;
 
     public SettingDialog(JFrame modalDlg) {
@@ -69,18 +70,28 @@ public class SettingDialog extends JDialog {
     }
 
     private class SettingGridPanel extends JPanel {
+        private final JCheckBox fullScreen = new JCheckBox("全屏模式运行");
+        private final JComboBox<SimpleDisplayMode> displayModeJComboBox = new JComboBox<SimpleDisplayMode>(SimpleDisplayMode.getDisplayModes());
         private final JSlider bgmVolume = new JSlider();
         private final JSlider volume = new JSlider();
 
         public SettingGridPanel() {
             setLayout(new GridLayout(0, 2, 5, 5));
 
-            add(new JLabel("分辨率：", JLabel.RIGHT));
-            add(new JComboBox<SimpleDisplayMode>(SimpleDisplayMode.getDisplayModes()));
+            add(fullScreen);
+            add(displayModeJComboBox);
             add(new JLabel("背景音乐音量：", JLabel.RIGHT));
             add(bgmVolume);
             add(new JLabel("动作音效音量：", JLabel.RIGHT));
             add(volume);
+
+            fullScreen.addItemListener(new ItemListener() {
+                @Override
+                public void itemStateChanged(ItemEvent e) {
+                    JCheckBox checkBox = (JCheckBox) e.getItem();
+                    displayModeJComboBox.setEnabled(checkBox.isSelected());
+                }
+            });
         }
     }
 
@@ -96,16 +107,14 @@ public class SettingDialog extends JDialog {
     }
 
     private class CheckBoxPanel extends JPanel {
-        private final JCheckBox fullScreen = new JCheckBox("全屏模式运行");
-        private final JCheckBox developerComment = new JCheckBox("开发者注释");
+        private final JCheckBox debuggingMode = new JCheckBox("调试模式");
         private final JCheckBox showLogs = new JCheckBox("显示日志");
 
 
         public CheckBoxPanel() {
             setLayout(new GridLayout(0, 3, 5, 5));
 
-            add(fullScreen);
-            add(developerComment);
+            add(debuggingMode);
             add(showLogs);
         }
     }
