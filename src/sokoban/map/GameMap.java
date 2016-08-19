@@ -1,8 +1,8 @@
 package sokoban.map;
 
 import sokoban.game.engine.graphics.shapes.Drawable;
-import sokoban.map.objects.Floor;
 import sokoban.map.objects.MapObject;
+import sokoban.map.objects.Moveable;
 
 import java.awt.*;
 import java.util.Map;
@@ -80,10 +80,10 @@ public class GameMap implements Drawable {
     boolean isOKtoMove(int x, int y) {
         if (x >= mapWidth || x < 0 ||
                 y >= mapHeight || y < 0) return false;
-        return isGridType(x, y, Floor.class);
+        return isGridType(x, y, Moveable.class);
     }
 
-    <T extends MapObject> boolean isGridType(int x, int y, Class<T> type) {
+    <T> boolean isGridType(int x, int y, Class<T> type) {
         return type.isInstance(mapObjs[y][x]);
     }
 
