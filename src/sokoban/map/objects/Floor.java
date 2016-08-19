@@ -5,7 +5,7 @@ import java.awt.*;
 /**
  * Created by CodeingBoy on 2016-8-4-0004.
  */
-public class Floor extends MapObject implements Moveable {
+public class Floor extends MapObject implements Placeable {
     private final static Image PIC = Toolkit.getDefaultToolkit().getImage("pic/floor.png");
 
     public Floor(Point pos) {

@@ -3,7 +3,7 @@ package sokoban.map;
 import sokoban.game.engine.graphics.shapes.Drawable;
 import sokoban.map.objects.Box;
 import sokoban.map.objects.MapObject;
-import sokoban.map.objects.Moveable;
+import sokoban.map.objects.Placeable;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -111,7 +111,7 @@ public class GameMap implements Drawable {
                 return false;
         }
 
-        return isGridType(x, y, Moveable.class);
+        return isGridType(x, y, Placeable.class);
     }
 
     private Box getBox(int x, int y) {

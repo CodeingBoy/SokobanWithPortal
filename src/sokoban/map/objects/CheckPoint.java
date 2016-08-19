@@ -5,7 +5,7 @@ import java.awt.*;
 /**
  * Created by CodeingBoy on 2016-8-19-0019.
  */
-public class CheckPoint extends MapObject implements Moveable {
+public class CheckPoint extends MapObject implements Placeable {
     private final static Image PIC = Toolkit.getDefaultToolkit().getImage("pic/checkpoint.png");
 
     public CheckPoint(Point pos) {
