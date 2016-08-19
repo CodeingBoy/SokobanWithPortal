@@ -78,6 +78,8 @@ public class GameMap implements Drawable {
     }
 
     boolean isOKtoMove(int x, int y) {
+        if (x >= mapWidth || x < 0 ||
+                y >= mapHeight || y < 0) return false;
         return isGridType(x, y, Floor.class);
     }
 
