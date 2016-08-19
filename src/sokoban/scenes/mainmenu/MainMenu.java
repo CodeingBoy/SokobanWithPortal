@@ -10,16 +10,18 @@ import sokoban.game.engine.graphics.shapes.Square;
 import sokoban.game.engine.input.KeyboardInput;
 import sokoban.game.engine.input.MouseInput;
 import sokoban.game.engine.input.handler.Clickable;
+import sokoban.game.engine.input.handler.KeyboardInputHandler;
+import sokoban.game.engine.input.handler.MouseAction;
+import sokoban.game.engine.input.handler.MouseInputHandler;
 import sokoban.game.engine.scenes.SuperScene;
 import sokoban.scenes.gamescene.GameScene;
-import sokoban.scenes.mainmenu.inputhandler.KeyboardHandler;
-import sokoban.scenes.mainmenu.inputhandler.MouseHandler;
 import sokoban.scenes.testscene.TestScene;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.MouseEvent;
 
 /**
  * Created by CodeingBoy on 2016-8-2-0002.
@@ -207,5 +209,35 @@ public final class MainMenu extends SuperScene {
     @Override
     public void onExitingRendering() {
 
+    }
+}
+
+class MouseHandler extends MouseInputHandler {
+
+    public MouseHandler(MouseInput input) {
+        super(input);
+    }
+
+    @Override
+    public void processInput() {
+        Point curPoint = input.getPosition();
+        for (MouseAction mouseAction : clickables.values()) {
+            if (mouseAction.shape.isPointInside(curPoint)) {
+                mouseAction.clickable.onHover(curPoint);
+                if (input.isButtonDownOnce(MouseEvent.BUTTON1))
+                    mouseAction.clickable.onClick(curPoint);
+            }
+        }
+    }
+
+}
+
+class KeyboardHandler extends KeyboardInputHandler {
+    public KeyboardHandler(KeyboardInput input) {
+        super(input);
+    }
+
+    @Override
+    public void processInput() {
     }
 }
