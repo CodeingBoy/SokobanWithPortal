@@ -9,13 +9,13 @@ import java.util.Properties;
 
 public class Settings {
     private final static String FILENAME = "settings.properties";
-    private final static String KEY_DEBUGMODE = "debug.debugging";
-    private final static String KEY_SHOWFRMMERATE = "debug.showFrameRate";
-    private final static String KEY_SHOWLOG = "debug.showLog";
-    private final static String KEY_FULLSCREEN = "graphics.fullScreen";
-    private final static String KEY_RESOLUTION = "graphics.resolution";
-    private final static String KEY_BGMVOLUME = "sound.bgmVolume";
-    private final static String KEY_SEVOLUME = "sound.seVolume";
+    public final static String KEY_DEBUGMODE = "debug.debugging";
+    public final static String KEY_SHOWFRMMERATE = "debug.showFrameRate";
+    public final static String KEY_SHOWLOG = "debug.showLog";
+    public final static String KEY_FULLSCREEN = "graphics.fullScreen";
+    public final static String KEY_RESOLUTION = "graphics.resolution";
+    public final static String KEY_BGMVOLUME = "sound.bgmVolume";
+    public final static String KEY_SEVOLUME = "sound.seVolume";
 
     private final static Properties PROPERTIES = new Properties();
     private static ArrayList<ActionListener> actionListeners = new ArrayList<>();
