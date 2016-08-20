@@ -1,6 +1,7 @@
 package sokoban.dialog;
 
 import sokoban.game.utils.SimpleDisplayMode;
+import sokoban.utils.Settings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,6 +15,8 @@ import java.awt.event.ItemListener;
  */
 public class SettingDialog extends JDialog {
     private final ConfirmPanel confirmPanel;
+    private final SettingGridPanel settingGridPanel = new SettingGridPanel();
+    private final CheckBoxPanel checkBoxPanel = new CheckBoxPanel();
 
     public SettingDialog(JFrame modalDlg) {
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -50,8 +53,10 @@ public class SettingDialog extends JDialog {
             }
         });
 
-        add(new SettingGridPanel(), BorderLayout.NORTH);
-        add(new CheckBoxPanel());
+        load();
+
+        add(settingGridPanel, BorderLayout.NORTH);
+        add(checkBoxPanel);
         add(confirmPanel, BorderLayout.SOUTH);
 
         pack();
@@ -59,14 +64,17 @@ public class SettingDialog extends JDialog {
 
     public static void main(String[] args) {
         new SettingDialog(null).setVisible(true);
+        Settings.saveSettings();
     }
 
     private void load() {
-
+        settingGridPanel.load();
+        checkBoxPanel.load();
     }
 
     private void save() {
-
+        settingGridPanel.save();
+        checkBoxPanel.save();
     }
 
     private class SettingGridPanel extends JPanel {
@@ -93,6 +101,15 @@ public class SettingDialog extends JDialog {
                 }
             });
         }
+
+        void load() {
+            fullScreen.setSelected(Settings.isFullScreen());
+
+        }
+
+        void save() {
+            Settings.setFullScreen(fullScreen.isSelected());
+        }
     }
 
     private class ConfirmPanel extends JPanel {
@@ -116,6 +133,16 @@ public class SettingDialog extends JDialog {
 
             add(debuggingMode);
             add(showLogs);
+        }
+
+        void load() {
+            debuggingMode.setSelected(Settings.isDebugMode());
+            showLogs.setSelected(Settings.shouldLogWindow());
+        }
+
+        void save() {
+            Settings.setDebugMode(debuggingMode.isSelected());
+            Settings.setShowLog(showLogs.isSelected());
         }
     }
 }
