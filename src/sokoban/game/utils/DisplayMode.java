@@ -34,8 +34,7 @@ public class DisplayMode {
     }
 
     public static void main(String[] args) {
-        for (DisplayMode mode : getDisplayModes()
-                ) {
+        for (DisplayMode mode : getDisplayModes()) {
             System.out.println(mode);
         }
     }
