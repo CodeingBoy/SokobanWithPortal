@@ -79,7 +79,7 @@ public class TestScene extends SuperScene implements Runnable {
 
     @Override
     public void onDestroy() {
-
+        super.onDestroy();
     }
 
     @Override

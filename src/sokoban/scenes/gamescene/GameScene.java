@@ -62,7 +62,7 @@ public class GameScene extends SuperScene {
 
     @Override
     public void onDestroy() {
-
+        super.onDestroy();
     }
 
     @Override

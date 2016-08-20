@@ -5,8 +5,11 @@ import sokoban.game.engine.graphics.shapes.Drawable;
 import sokoban.game.engine.input.handler.KeyboardInputHandler;
 import sokoban.game.engine.input.handler.MouseInputHandler;
 import sokoban.game.utils.FrameRateDrawable;
+import sokoban.utils.Settings;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.HashMap;
@@ -19,6 +22,18 @@ public abstract class SuperScene extends Scene {
     protected KeyboardInputHandler keyboardInputHandler;
     protected MouseInputHandler mouseInputHandler;
     protected FrameRateDrawable frameRateDrawable;
+    private final ActionListener defaultSettingsListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (e.getActionCommand().equals(Settings.KEY_SHOWFRMMERATE)) {
+                if (Settings.shouldShowFrameRate()) {
+                    setFrameRateDrawable(new FrameRateDrawable(50, 50, Color.WHITE));
+                } else {
+                    setFrameRateDrawable(null);
+                }
+            }
+        }
+    };
     protected WindowRatioKeeper windowRatioKeeper = null;
     protected Map<String, Drawable> drawables = new HashMap<>();
     private int sleepNanoSecond = 10;
@@ -27,7 +42,6 @@ public abstract class SuperScene extends Scene {
     private boolean initialized = false;
 
     public SuperScene() {
-
     }
 
     public SuperScene(KeyboardInputHandler keyboardInputHandler, MouseInputHandler mouseInputHandler, FrameRateDrawable frameRateDrawable) {
@@ -42,6 +56,10 @@ public abstract class SuperScene extends Scene {
     }
 
     public void setFrameRateDrawable(FrameRateDrawable frameRateDrawable) {
+        if (initialized && frameRateDrawable != null) {
+            frameRateDrawable.initialize();
+        }
+
         this.frameRateDrawable = frameRateDrawable;
     }
 
@@ -125,7 +143,14 @@ public abstract class SuperScene extends Scene {
             canvas.addMouseWheelListener(mouseInputHandler.getInput());
         }
 
+        Settings.addUpdateListener(defaultSettingsListener);
+
         initialized = true;
+    }
+
+    @Override
+    public void onDestroy() {
+        Settings.removeUpdateListener(defaultSettingsListener);
     }
 
     public abstract void beforeRendering();

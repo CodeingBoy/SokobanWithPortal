@@ -44,10 +44,7 @@ public final class MainMenu extends SuperScene {
     }
 
     public static void main(String[] args) {
-        MainMenu mainMenu = new MainMenu();
-        mainMenu.setKeyboardInputHandler(new KeyboardHandler(new KeyboardInput()));
-        mainMenu.setMouseInputHandler(new MouseHandler(new MouseInput()));
-        GameWindow window = new GameWindow(new Dimension(800, 600), "游戏窗口", mainMenu);
+        GameWindow window = new GameWindow(new Dimension(800, 600), "游戏窗口", new MainMenu());
         window.showWindow();
     }
 
@@ -206,6 +203,7 @@ public final class MainMenu extends SuperScene {
 
     @Override
     public void onDestroy() {
+        super.onDestroy();
         window.setMinimumSize(null);
     }
 
