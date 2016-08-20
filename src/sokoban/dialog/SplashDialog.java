@@ -1,7 +1,6 @@
 package sokoban.dialog;
 
 import sokoban.game.engine.GameWindow;
-import sokoban.game.utils.FrameRateDrawable;
 import sokoban.scenes.mainmenu.MainMenu;
 import sokoban.utils.Log;
 
@@ -67,15 +66,12 @@ public class SplashDialog extends JFrame {
         // new SettingDialog(dlg).setVisible(true);
 
         dlg.setVisible(false);
-
-        LogDialog.getInstance().setVisible(true);
+        dlg.dispose();
 
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                MainMenu mainMenu = new MainMenu();
-                mainMenu.setFrameRateDrawable(new FrameRateDrawable(50, 50));
-                GameWindow window = new GameWindow(new Dimension(800, 600), "推箱子", mainMenu);
+                GameWindow window = new GameWindow(new Dimension(800, 600), "推箱子", new MainMenu());
                 window.showWindow();
             }
         });

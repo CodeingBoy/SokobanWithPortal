@@ -49,6 +49,9 @@ public class SettingDialog extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 save();
+
+                LogDialog.getInstance().setVisible(Settings.shouldLogWindow());
+
                 dispose();
             }
         });
