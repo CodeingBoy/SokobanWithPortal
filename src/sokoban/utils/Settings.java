@@ -65,7 +65,7 @@ public class Settings {
     }
 
     private static Object setProperty(String key, String value) {
-        Object o = setProperty(key, value);
+        Object o = PROPERTIES.setProperty(key, value);
         excuteListener(key);
         return o;
     }
