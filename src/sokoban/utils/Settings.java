@@ -14,6 +14,9 @@ public class Settings {
     private final static String KEY_FULLSCREEN = "graphics.fullScreen";
     private final static String KEY_RESOLUTION = "graphics.resolution";
 
+    static {
+        loadSettings();
+    }
 
     private Settings() {
     }
