@@ -3,6 +3,7 @@ package sokoban.dialog;
 import sokoban.game.engine.GameWindow;
 import sokoban.scenes.mainmenu.MainMenu;
 import sokoban.utils.Log;
+import sokoban.utils.Settings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -49,6 +50,10 @@ public class SplashDialog extends JFrame {
     }
 
     public static void main(String[] args) {
+        if (Settings.shouldLogWindow()) {
+            LogDialog.getInstance().setVisible(true);
+        }
+
         SplashDialog dlg = new SplashDialog();
         dlg.setVisible(true);
         try {
@@ -63,7 +68,6 @@ public class SplashDialog extends JFrame {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        // new SettingDialog(dlg).setVisible(true);
 
         dlg.setVisible(false);
         dlg.dispose();

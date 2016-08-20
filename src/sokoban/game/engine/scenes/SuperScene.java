@@ -42,6 +42,10 @@ public abstract class SuperScene extends Scene {
     };
 
     public SuperScene() {
+        // decide whether show frame rate indicator or not
+        if (Settings.shouldShowFrameRate()) {
+            setFrameRateDrawable(new FrameRateDrawable(50, 50, Color.WHITE));
+        }
     }
 
     public SuperScene(KeyboardInputHandler keyboardInputHandler, MouseInputHandler mouseInputHandler, FrameRateDrawable frameRateDrawable) {
