@@ -5,10 +5,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Properties;
 
 public class Settings {
-    private final static String FILENAME = "settings.properties";
     public final static String KEY_DEBUGMODE = "debug.debugging";
     public final static String KEY_SHOWFRMMERATE = "debug.showFrameRate";
     public final static String KEY_SHOWLOG = "debug.showLog";
@@ -16,7 +16,7 @@ public class Settings {
     public final static String KEY_RESOLUTION = "graphics.resolution";
     public final static String KEY_BGMVOLUME = "sound.bgmVolume";
     public final static String KEY_SEVOLUME = "sound.seVolume";
-
+    private final static String FILENAME = "settings.properties";
     private final static Properties PROPERTIES = new Properties();
     private static ArrayList<ActionListener> actionListeners = new ArrayList<>();
 
@@ -150,5 +150,12 @@ public class Settings {
 
     public static void removeUpdateListener(ActionListener actionListener) {
         actionListeners.remove(actionListener);
+    }
+
+    public static void logSettings() {
+        Log.d("Settings information:");
+        for (Map.Entry e : PROPERTIES.entrySet()) {
+            Log.d(e.getKey() + "=" + e.getValue());
+        }
     }
 }

@@ -54,6 +54,8 @@ public class SplashDialog extends JFrame {
             LogDialog.getInstance().setVisible(true);
         }
 
+        Settings.logSettings();
+
         SplashDialog dlg = new SplashDialog();
         dlg.setVisible(true);
         try {
