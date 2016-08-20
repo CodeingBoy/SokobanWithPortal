@@ -1,6 +1,7 @@
 package sokoban.dialog;
 
 import sokoban.utils.Log;
+import sokoban.utils.Settings;
 
 import javax.swing.*;
 import javax.swing.event.ListDataEvent;
@@ -91,6 +92,7 @@ public class LogDialog extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     getInstance().setVisible(false);
+                    Settings.setShowLog(false);
                 }
             });
 

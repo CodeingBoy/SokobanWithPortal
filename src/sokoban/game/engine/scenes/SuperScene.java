@@ -22,6 +22,12 @@ public abstract class SuperScene extends Scene {
     protected KeyboardInputHandler keyboardInputHandler;
     protected MouseInputHandler mouseInputHandler;
     protected FrameRateDrawable frameRateDrawable;
+    protected WindowRatioKeeper windowRatioKeeper = null;
+    protected Map<String, Drawable> drawables = new HashMap<>();
+    private int sleepNanoSecond = 10;
+    private long curTime, lastTime;
+    private double nsPerSec;
+    private boolean initialized = false;
     private final ActionListener defaultSettingsListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -34,12 +40,6 @@ public abstract class SuperScene extends Scene {
             }
         }
     };
-    protected WindowRatioKeeper windowRatioKeeper = null;
-    protected Map<String, Drawable> drawables = new HashMap<>();
-    private int sleepNanoSecond = 10;
-    private long curTime, lastTime;
-    private double nsPerSec;
-    private boolean initialized = false;
 
     public SuperScene() {
     }
