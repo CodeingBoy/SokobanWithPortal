@@ -13,6 +13,9 @@ public class Settings {
     private final static String KEY_SHOWLOG = "debug.showLog";
     private final static String KEY_FULLSCREEN = "graphics.fullScreen";
     private final static String KEY_RESOLUTION = "graphics.resolution";
+    private final static String KEY_BGMVOLUME = "sound.bgmVolume";
+    private final static String KEY_SEVOLUME = "sound.seVolume";
+
 
     static {
         loadSettings();
@@ -108,5 +111,22 @@ public class Settings {
         PROPERTIES.setProperty(KEY_RESOLUTION, displayMode.getWidth() + "x" + displayMode.getWidth());
     }
 
+    public static int getBGMVolume() {
+        String s = PROPERTIES.getProperty(KEY_BGMVOLUME, "50");
+        return Integer.parseInt(s);
+    }
+
+    public static void setBGMVolume(int BGMVolume) {
+        PROPERTIES.setProperty(KEY_BGMVOLUME, String.valueOf(BGMVolume));
+    }
+
+    public static int getSEVolume() {
+        String s = PROPERTIES.getProperty(KEY_SEVOLUME, "50");
+        return Integer.parseInt(s);
+    }
+
+    public static void setSEVolume(int SEVolume) {
+        PROPERTIES.setProperty(KEY_SEVOLUME, String.valueOf(SEVolume));
+    }
 
 }

@@ -81,7 +81,7 @@ public class SettingDialog extends JDialog {
         private final JCheckBox fullScreen = new JCheckBox("全屏模式运行");
         private final JComboBox<SimpleDisplayMode> displayModeJComboBox = new JComboBox<SimpleDisplayMode>(SimpleDisplayMode.getDisplayModes());
         private final JSlider bgmVolume = new JSlider();
-        private final JSlider volume = new JSlider();
+        private final JSlider seVolume = new JSlider();
 
         public SettingGridPanel() {
             setLayout(new GridLayout(0, 2, 5, 5));
@@ -91,7 +91,7 @@ public class SettingDialog extends JDialog {
             add(new JLabel("背景音乐音量：", JLabel.RIGHT));
             add(bgmVolume);
             add(new JLabel("动作音效音量：", JLabel.RIGHT));
-            add(volume);
+            add(seVolume);
 
             fullScreen.addItemListener(new ItemListener() {
                 @Override
@@ -104,11 +104,14 @@ public class SettingDialog extends JDialog {
 
         void load() {
             fullScreen.setSelected(Settings.isFullScreen());
-
+            bgmVolume.setValue(Settings.getBGMVolume());
+            seVolume.setValue(Settings.getSEVolume());
         }
 
         void save() {
             Settings.setFullScreen(fullScreen.isSelected());
+            Settings.setBGMVolume(bgmVolume.getValue());
+            Settings.setSEVolume(seVolume.getValue());
         }
     }
 
@@ -126,23 +129,26 @@ public class SettingDialog extends JDialog {
     private class CheckBoxPanel extends JPanel {
         private final JCheckBox debuggingMode = new JCheckBox("调试模式");
         private final JCheckBox showLogs = new JCheckBox("显示日志");
-
+        private final JCheckBox showFrameRate = new JCheckBox("显示帧率指示器");
 
         public CheckBoxPanel() {
             setLayout(new GridLayout(0, 3, 5, 5));
 
             add(debuggingMode);
             add(showLogs);
+            add(showFrameRate);
         }
 
         void load() {
             debuggingMode.setSelected(Settings.isDebugMode());
             showLogs.setSelected(Settings.shouldLogWindow());
+            showFrameRate.setSelected(Settings.shouldShowFrameRate());
         }
 
         void save() {
             Settings.setDebugMode(debuggingMode.isSelected());
             Settings.setShowLog(showLogs.isSelected());
+            Settings.setShowFrameRate(showFrameRate.isSelected());
         }
     }
 }
