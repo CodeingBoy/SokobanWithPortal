@@ -187,9 +187,13 @@ public abstract class SuperScene extends Scene {
             do {
                 Graphics g = bufferStrategy.getDrawGraphics();
                 g.clearRect(0, 0, getWidth(), getHeight());
-                renderFrameRate(g, delta);
+
+                // normal render
                 renderDrawables(g, delta);
                 render(g, delta);
+
+                // render other things
+                renderFrameRate(g, delta);
 
                 if (g != null) {
                     g.dispose();
