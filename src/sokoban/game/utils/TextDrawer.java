@@ -6,6 +6,7 @@ import java.awt.*;
  * 文本绘制器，由于Java 2D 绘制文本时的坐标为基于基线的坐标，本类帮助你在正确的位置上绘制文本。
  */
 public class TextDrawer {
+    public final static Color COLOR_DEBUGINF = new Color(255, 255, 255, 150);
 
     private TextDrawer() {
 
@@ -42,8 +43,8 @@ public class TextDrawer {
      * @param strings 欲绘制的文本（可多行）
      */
     public static void drawString(Graphics g, int x, int y, Font font, Color color, String... strings) {
-        if (font != null) g.setColor(color);
-        if (color != null) g.setFont(font);
+        if (font != null) g.setFont(font);
+        if (color != null) g.setColor(color);
 
         drawString(g, x, y, strings);
     }
@@ -80,8 +81,8 @@ public class TextDrawer {
      * @param strings 欲绘制的文本（可多行）
      */
     public static void drawCenteredString(Graphics g, int x, int y, Font font, Color color, String... strings) {
-        if (font != null) g.setColor(color);
-        if (color != null) g.setFont(font);
+        if (font != null) g.setFont(font);
+        if (color != null) g.setColor(color);
 
         drawCenteredString(g, x, y, strings);
     }
