@@ -18,17 +18,33 @@ public class Log {
         return DATE_FORMAT.format(new Date());
     }
 
+    @Deprecated
     public static void i(String content) {
         logContainer.addElement(getTimeString() + " info " + content);
     }
 
+    public static void i(Class clazz, String content) {
+        logContainer.addElement(getTimeString() + " info " + clazz.getName() + " " + content);
+    }
+
+    @Deprecated
     public static void d(String content) {
         logContainer.addElement(getTimeString() + " debug " + content);
     }
 
+    public static void d(Class clazz, String content) {
+        logContainer.addElement(getTimeString() + " debug " + clazz.getName() + " " + content);
+    }
+
+    @Deprecated
     public static void e(String content) {
         logContainer.addElement(getTimeString() + " error " + content);
     }
+
+    public static void e(Class clazz, String content) {
+        logContainer.addElement(getTimeString() + " error " + clazz.getName() + " " + content);
+    }
+
 
     public static DefaultListModel getLogContainer() {
         return logContainer;
