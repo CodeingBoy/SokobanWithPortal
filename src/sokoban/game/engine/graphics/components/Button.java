@@ -4,6 +4,7 @@ import sokoban.game.engine.graphics.Vector2f;
 import sokoban.game.engine.graphics.shapes.Drawable;
 import sokoban.game.engine.graphics.shapes.Rect;
 import sokoban.game.engine.input.handler.Clickable;
+import sokoban.game.utils.TextDrawer;
 import sokoban.utils.Settings;
 
 import java.awt.*;
@@ -80,8 +81,9 @@ public abstract class Button extends Rect implements Clickable, Drawable {
 
     @Override
     protected void drawDebugInf(Graphics g) {
-        g.setColor(new Color(255, 255, 255, 150));
-        g.drawString(originVectors[0].x + "," + originVectors[0].y, (int) currentVectors[0].x, (int) currentVectors[0].y + 30);
-        g.drawString((int) currentVectors[0].x + "," + (int) currentVectors[0].y, (int) currentVectors[0].x, (int) currentVectors[0].y + 50);
+        TextDrawer.drawString(g, (int) currentVectors[0].x, (int) currentVectors[0].y, null, TextDrawer.COLOR_DEBUGINF, new String[]{
+                originVectors[0].x + "," + originVectors[0].y,
+                (int) currentVectors[0].x + "," + (int) currentVectors[0].y,
+        });
     }
 }

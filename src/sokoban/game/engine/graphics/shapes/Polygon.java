@@ -3,6 +3,7 @@ package sokoban.game.engine.graphics.shapes;
 import sokoban.game.engine.graphics.Matrix3x3f;
 import sokoban.game.engine.graphics.ScreenMappingTool;
 import sokoban.game.engine.graphics.Vector2f;
+import sokoban.game.utils.TextDrawer;
 import sokoban.utils.Settings;
 
 import java.awt.*;
@@ -163,9 +164,10 @@ public class Polygon extends Shape {
 
     @Override
     protected void drawDebugInf(Graphics g) {
-        g.setColor(new Color(255, 255, 255, 150));
-        g.drawString(originVectors[0].x + "," + originVectors[0].y, (int) currentVectors[0].x, (int) currentVectors[0].y + 30);
-        g.drawString((int) currentVectors[0].x + "," + (int) currentVectors[0].y, (int) currentVectors[0].x, (int) currentVectors[0].y + 50);
-        g.drawString(String.valueOf("angle: " + rotateAngle), (int) currentVectors[0].x, (int) currentVectors[0].y + 70);
+        TextDrawer.drawString(g, (int) currentVectors[0].x, (int) currentVectors[0].y, null, TextDrawer.COLOR_DEBUGINF, new String[]{
+                originVectors[0].x + "," + originVectors[0].y,
+                (int) currentVectors[0].x + "," + (int) currentVectors[0].y,
+                String.valueOf("angle: " + rotateAngle)
+        });
     }
 }

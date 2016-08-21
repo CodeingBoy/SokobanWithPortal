@@ -3,6 +3,7 @@ package sokoban.map.objects;
 import sokoban.game.engine.graphics.Vector2f;
 import sokoban.game.engine.graphics.shapes.Drawable;
 import sokoban.game.engine.graphics.shapes.Square;
+import sokoban.game.utils.TextDrawer;
 import sokoban.map.GameObjectsMappingTool;
 import sokoban.utils.Settings;
 
@@ -79,10 +80,16 @@ public abstract class MapObject extends Square implements Drawable {
 
         if (Settings.isDebugMode()) {
             // 注意！！！显示的坐标是从0开始的
-            g.setColor(new Color(255, 255, 255, 125));
-            g.drawString(curPos.x + "," + curPos.y, (int) currentVectors[0].x, (int) currentVectors[0].y + 10);
-            g.drawString(originVectors[0].x + "," + originVectors[0].y, (int) currentVectors[0].x, (int) currentVectors[0].y + 30);
-            g.drawString((int) currentVectors[0].x + "," + (int) currentVectors[0].y, (int) currentVectors[0].x, (int) currentVectors[0].y + 50);
+            drawDebugInf(g);
         }
+    }
+
+    @Override
+    protected void drawDebugInf(Graphics g) {
+        TextDrawer.drawString(g, (int) currentVectors[0].x, (int) currentVectors[0].y, null, TextDrawer.COLOR_DEBUGINF, new String[]{
+                curPos.x + "," + curPos.y,
+                originVectors[0].x + "," + originVectors[0].y,
+                (int) currentVectors[0].x + "," + (int) currentVectors[0].y
+        });
     }
 }
