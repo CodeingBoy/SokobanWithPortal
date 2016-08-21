@@ -26,7 +26,7 @@ public abstract class MouseInputHandler implements InputHandler {
         return input;
     }
 
-    public void add(String name,Shape shape, Clickable clickable) {
+    public void add(String name, Shape shape, Clickable clickable) {
         clickables.put(name, new MouseAction(shape, clickable));
     }
 
