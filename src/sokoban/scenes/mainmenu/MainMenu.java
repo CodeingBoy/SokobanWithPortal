@@ -10,9 +10,8 @@ import sokoban.game.engine.graphics.shapes.Square;
 import sokoban.game.engine.input.KeyboardInput;
 import sokoban.game.engine.input.MouseInput;
 import sokoban.game.engine.input.handler.Clickable;
-import sokoban.game.engine.input.handler.KeyboardInputHandler;
-import sokoban.game.engine.input.handler.MouseAction;
-import sokoban.game.engine.input.handler.MouseInputHandler;
+import sokoban.game.engine.input.handler.SuperKeyboardInputHandler;
+import sokoban.game.engine.input.handler.SuperMouseInputHandler;
 import sokoban.game.engine.scenes.SuperScene;
 import sokoban.scenes.gamescene.GameScene;
 import sokoban.scenes.testscene.TestScene;
@@ -21,7 +20,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.MouseEvent;
 
 /**
  * Created by CodeingBoy on 2016-8-2-0002.
@@ -63,7 +61,7 @@ public final class MainMenu extends SuperScene {
         bgRect.setCenter(Matrix3x3f.translate(center.x, center.y));
         drawables.put("bgRect", bgRect);
 
-        mouseInputHandler.add("bgRect", bgRect, new Clickable() {
+        ((SuperMouseInputHandler) mouseInputHandler).add("bgRect", bgRect, new Clickable() {
             @Override
             public void onClick(Point p) {
 
@@ -92,7 +90,7 @@ public final class MainMenu extends SuperScene {
         drawables.put("bgRect", bgRect);
 
         Square finalBgRect = bgRect;
-        mouseInputHandler.add("bgRect", bgRect, new Clickable() {
+        ((SuperMouseInputHandler) mouseInputHandler).add("bgRect", bgRect, new Clickable() {
             @Override
             public void onClick(Point p) {
 
@@ -114,7 +112,7 @@ public final class MainMenu extends SuperScene {
                     }
                 };
         drawables.put("btnStart", btnStart);
-        mouseInputHandler.add("btnStart", btnStart, btnStart);
+        ((SuperMouseInputHandler) mouseInputHandler).add("btnStart", btnStart, btnStart);
 
         Button btnTest =
                 new Button(screenMappingTool.worldToScreen(new Point(0 - test.getWidth(null) / 2,
@@ -127,7 +125,7 @@ public final class MainMenu extends SuperScene {
                     }
                 };
         drawables.put("btnTest", btnTest);
-        mouseInputHandler.add("btnTest", btnTest, btnTest);
+        ((SuperMouseInputHandler) mouseInputHandler).add("btnTest", btnTest, btnTest);
 
         Button btnSetting =
                 new Button(screenMappingTool.worldToScreen(new Point(0 - setting.getWidth(null) / 2,
@@ -146,7 +144,7 @@ public final class MainMenu extends SuperScene {
                     }
                 };
         drawables.put("btnSetting", btnSetting);
-        mouseInputHandler.add("btnSetting", btnSetting, btnSetting);
+        ((SuperMouseInputHandler) mouseInputHandler).add("btnSetting", btnSetting, btnSetting);
 
 
         Button btnExit =
@@ -160,7 +158,7 @@ public final class MainMenu extends SuperScene {
                     }
                 };
         drawables.put("btnExit", btnExit);
-        mouseInputHandler.add("btnExit", btnExit, btnExit);
+        ((SuperMouseInputHandler) mouseInputHandler).add("btnExit", btnExit, btnExit);
     }
 
     @Override
@@ -184,8 +182,8 @@ public final class MainMenu extends SuperScene {
         window.setLocationRelativeTo(null);
         window.setMinimumSize(new Dimension(550, 550));
 
-        setKeyboardInputHandler(new KeyboardHandler(new KeyboardInput()));
-        setMouseInputHandler(new MouseHandler(new MouseInput()));
+        setKeyboardInputHandler(new SuperKeyboardInputHandler(new KeyboardInput()));
+        setMouseInputHandler(new SuperMouseInputHandler(new MouseInput()));
     }
 
     @Override
@@ -210,35 +208,5 @@ public final class MainMenu extends SuperScene {
     @Override
     public void onExitingRendering() {
 
-    }
-}
-
-class MouseHandler extends MouseInputHandler {
-
-    public MouseHandler(MouseInput input) {
-        super(input);
-    }
-
-    @Override
-    public void processInput() {
-        Point curPoint = input.getPosition();
-        for (MouseAction mouseAction : clickables.values()) {
-            if (mouseAction.shape.isPointInside(curPoint)) {
-                mouseAction.clickable.onHover(curPoint);
-                if (input.isButtonDownOnce(MouseEvent.BUTTON1))
-                    mouseAction.clickable.onClick(curPoint);
-            }
-        }
-    }
-
-}
-
-class KeyboardHandler extends KeyboardInputHandler {
-    public KeyboardHandler(KeyboardInput input) {
-        super(input);
-    }
-
-    @Override
-    public void processInput() {
     }
 }
