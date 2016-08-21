@@ -66,7 +66,7 @@ public abstract class MapObject extends Square implements Drawable {
     }
 
     @Override
-    public final void draw(Graphics g, double delta) {
+    public void draw(Graphics g, double delta) {
         if (w2sVectors == null) updateW2SVectors();
 
         update(delta);

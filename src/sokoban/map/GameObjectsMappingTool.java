@@ -50,6 +50,10 @@ public class GameObjectsMappingTool {
         return w2sMatrix.mul(matrix);
     }
 
+    public Matrix3x3f getUnmappedMatrix(Matrix3x3f matrix) {
+        return s2wMatrix.mul(matrix);
+    }
+
     public Matrix3x3f getW2sMatrix() {
         return w2sMatrix;
     }

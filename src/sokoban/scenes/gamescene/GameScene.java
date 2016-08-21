@@ -4,7 +4,9 @@ import sokoban.game.engine.GameWindow;
 import sokoban.game.engine.graphics.ScreenMappingTool;
 import sokoban.game.engine.graphics.WindowRatioKeeper;
 import sokoban.game.engine.input.KeyboardInput;
+import sokoban.game.engine.input.MouseInput;
 import sokoban.game.engine.input.handler.KeyboardInputHandler;
+import sokoban.game.engine.input.handler.SuperMouseInputHandler;
 import sokoban.game.engine.scenes.SuperScene;
 import sokoban.map.Direction;
 import sokoban.map.GameMap;
@@ -56,6 +58,8 @@ public class GameScene extends SuperScene {
 
         windowRatioKeeper = new WindowRatioKeeper(null, window.getContentPane(), map.getMapWidth(), map.getMapHeight(), 0);
         keyboardInputHandler = new GameKeyboardHandler(new KeyboardInput());
+        mouseInputHandler = new SuperMouseInputHandler(new MouseInput());
+        ((SuperMouseInputHandler) mouseInputHandler).add("map", map);
 
         window.setTitle(map.getMapName() + " - 推箱子"); // set title
     }

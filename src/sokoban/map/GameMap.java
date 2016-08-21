@@ -1,6 +1,7 @@
 package sokoban.map;
 
 import sokoban.game.engine.graphics.shapes.Drawable;
+import sokoban.game.engine.input.handler.Clickable;
 import sokoban.map.objects.Box;
 import sokoban.map.objects.MapObject;
 import sokoban.map.objects.Placeable;
@@ -16,7 +17,7 @@ import java.util.Map;
 /**
  * 地图类，请注意：本类中的所有坐标均使用屏幕坐标，仅在绘制时转换为世界坐标（虽然之后又被转回屏幕坐标）
  */
-public class GameMap implements Drawable {
+public class GameMap implements Drawable, Clickable {
     private final static int PICWIDTH = 50, PICHEIGHT = 50;
     private MapObject[][] mapObjs;
     private int mapWidth, mapHeight;
@@ -168,6 +169,7 @@ public class GameMap implements Drawable {
 
     /**
      * 获取玩家起始出发位置，在地图文件中定义
+     *
      * @return 玩家起始出发位置
      */
     public Point getPlayerStartPoint() {
@@ -177,5 +179,27 @@ public class GameMap implements Drawable {
     @Override
     public void fill(Graphics g, double delta) {
         draw(g, delta);
+    }
+
+    @Override
+    public boolean isPointInside(Point point) {
+        return true;
+    }
+
+    @Override
+    public void onClick(Point p) {
+
+    }
+
+    @Override
+    public void onHover(Point p) {
+        for (MapObject[] row : mapObjs) {
+            for (MapObject o : row) {
+                if (o instanceof Placeable && o.isPointInside(p)) {
+                    ((Clickable) o).onHover(p);
+                    return;
+                }
+            }
+        }
     }
 }
