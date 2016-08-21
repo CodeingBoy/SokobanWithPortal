@@ -5,6 +5,7 @@ import sokoban.game.engine.graphics.shapes.Drawable;
 import sokoban.game.engine.input.handler.KeyboardInputHandler;
 import sokoban.game.engine.input.handler.MouseInputHandler;
 import sokoban.game.utils.FrameRateDrawable;
+import sokoban.utils.Log;
 import sokoban.utils.Settings;
 
 import java.awt.*;
@@ -15,10 +16,8 @@ import java.awt.event.ComponentEvent;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by CodeingBoy on 2016-7-29-0029.
- */
 public abstract class SuperScene extends Scene {
+    private final Class LOGCLASS = SuperScene.class;
     protected KeyboardInputHandler keyboardInputHandler;
     protected MouseInputHandler mouseInputHandler;
     protected FrameRateDrawable frameRateDrawable;
@@ -31,10 +30,13 @@ public abstract class SuperScene extends Scene {
     private final ActionListener defaultSettingsListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
+            Log.d(LOGCLASS, "settings updated");
             if (e.getActionCommand().equals(Settings.KEY_SHOWFRMMERATE)) {
                 if (Settings.shouldShowFrameRate()) {
+                    Log.d(LOGCLASS, "SHOW frame rate indicator due to settings");
                     setFrameRateDrawable(new FrameRateDrawable(50, 50, Color.WHITE));
                 } else {
+                    Log.d(LOGCLASS, "HIDE frame rate indicator due to settings");
                     setFrameRateDrawable(null);
                 }
             }
@@ -44,6 +46,7 @@ public abstract class SuperScene extends Scene {
     public SuperScene() {
         // decide whether show frame rate indicator or not
         if (Settings.shouldShowFrameRate()) {
+            Log.d(LOGCLASS, "SHOW frame rate indicator due to settings");
             setFrameRateDrawable(new FrameRateDrawable(50, 50, Color.WHITE));
         }
     }
@@ -69,11 +72,15 @@ public abstract class SuperScene extends Scene {
 
     public void setKeyboardInputHandler(KeyboardInputHandler keyboardInputHandler) {
         if (initialized) { // 已将旧的处理器绑定起来了，需执行额外的清理和绑定工作
-            if (this.keyboardInputHandler != null)
+            if (this.keyboardInputHandler != null) {
+                Log.d(LOGCLASS, "removing old keyboardInputHandler");
                 canvas.removeKeyListener(this.keyboardInputHandler.getInput());
+            }
 
-            if (keyboardInputHandler != null)
+            if (keyboardInputHandler != null) {
+                Log.d(LOGCLASS, "adding new keyboardInputHandler");
                 canvas.addKeyListener(keyboardInputHandler.getInput());
+            }
         }
 
         this.keyboardInputHandler = keyboardInputHandler;
@@ -82,12 +89,14 @@ public abstract class SuperScene extends Scene {
     public void setMouseInputHandler(MouseInputHandler mouseInputHandler) {
         if (initialized) { // 已将旧的处理器绑定起来了，需执行额外的清理和绑定工作
             if (this.mouseInputHandler != null) {
+                Log.d(LOGCLASS, "removing old mouseInputHandler");
                 canvas.removeMouseListener(this.mouseInputHandler.getInput());
                 canvas.removeMouseMotionListener(this.mouseInputHandler.getInput());
                 canvas.removeMouseWheelListener(this.mouseInputHandler.getInput());
             }
 
             if (mouseInputHandler != null) {
+                Log.d(LOGCLASS, "adding new mouseInputHandler");
                 canvas.addMouseListener(mouseInputHandler.getInput());
                 canvas.addMouseMotionListener(mouseInputHandler.getInput());
                 canvas.addMouseWheelListener(mouseInputHandler.getInput());
@@ -99,6 +108,7 @@ public abstract class SuperScene extends Scene {
 
     @Override
     public void onPrepareRendering() {
+        Log.d(LOGCLASS, "preparing rendering...");
         curTime = System.nanoTime();
         lastTime = curTime;
 
@@ -122,9 +132,11 @@ public abstract class SuperScene extends Scene {
 
     @Override
     public void onInitialize() {
+        Log.d(LOGCLASS, "creating new canvas");
         canvas = new Canvas();
         canvas.setBackground(Color.black);
 
+        Log.d(LOGCLASS, "ratio keeper:" + (windowRatioKeeper == null ? "null" : windowRatioKeeper.toString()));
         if (windowRatioKeeper == null) {
             window.addComponentListener(new ComponentAdapter() {
                 @Override
@@ -154,6 +166,7 @@ public abstract class SuperScene extends Scene {
 
     @Override
     public void onDestroy() {
+        Log.d(LOGCLASS, "destroying scene");
         Settings.removeUpdateListener(defaultSettingsListener);
     }
 

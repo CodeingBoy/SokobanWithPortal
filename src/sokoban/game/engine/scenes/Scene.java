@@ -12,11 +12,12 @@ import java.awt.*;
 import java.awt.image.BufferStrategy;
 
 public abstract class Scene implements Runnable {
+    private final Class LOGCLASS = Scene.class;
     protected Canvas canvas;
     protected BufferStrategy bufferStrategy;
+    protected GameWindow window;
     private Thread renderThread;
     private boolean rendering = false;
-    protected GameWindow window;
 
     /**
      * GameWindow 初始化或切换场景时会调用此函数 可以重写该函数以更改游戏窗口的部分属性
@@ -65,6 +66,7 @@ public abstract class Scene implements Runnable {
      * @see #onInitialize
      */
     public final void Initialize() throws IllegalArgumentException {
+        Log.d(LOGCLASS, "invoking onInitialize()");
         onInitialize();
 
         // add(canvas); // will be added by showWindow() in class GameWindow
@@ -75,25 +77,27 @@ public abstract class Scene implements Runnable {
     }
 
     public final void startRendering() {
+        Log.d(LOGCLASS, "creating double buffer");
         canvas.createBufferStrategy(2);
         bufferStrategy = canvas.getBufferStrategy();
 
+        Log.d(LOGCLASS, "creating render thread");
         renderThread = new Thread(this);
         renderThread.start();
+        Log.d(LOGCLASS, "render thread started");
     }
 
     public final void destroy() {
         onDestroy();
-        Log.d("stopping rendering...");
+        Log.d(LOGCLASS, "stopping rendering...");
         rendering = false;
         try {
             renderThread.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        Log.d("render thread stopped!");
-
-        Log.d("Exiting...");
+        Log.d(LOGCLASS, "render thread stopped!");
+        Log.d(LOGCLASS, "scene destroy complete");
     }
 
     /**
@@ -136,7 +140,7 @@ public abstract class Scene implements Runnable {
     }
 
     public final void requestSwitchScene(Scene newScene) {
-        Log.i("Requesting switching to scene " + newScene.getClass().getSimpleName());
+        Log.i(LOGCLASS, "Requesting switching to scene " + newScene.getClass().getSimpleName());
         // 给消息队列投递消息 让 Swing 消息队列处理该事件
         SwingUtilities.invokeLater(new Runnable() {
             @Override
