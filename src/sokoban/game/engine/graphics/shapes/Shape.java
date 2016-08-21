@@ -80,4 +80,6 @@ public abstract class Shape implements Drawable {
     }
 
     public abstract void setWorldToScreen(ScreenMappingTool screenMappingTool);
+
+    protected abstract void drawDebugInf(Graphics g);
 }

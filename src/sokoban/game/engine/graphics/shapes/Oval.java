@@ -43,6 +43,11 @@ public class Oval extends Shape {
     }
 
     @Override
+    protected void drawDebugInf(Graphics g) {
+
+    }
+
+    @Override
     public void draw(Graphics g, double delta) {
         g.drawOval(center.x, center.y, width, height);
     }
