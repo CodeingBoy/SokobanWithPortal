@@ -4,6 +4,7 @@ import sokoban.game.engine.graphics.Vector2f;
 import sokoban.game.engine.graphics.shapes.Drawable;
 import sokoban.game.engine.graphics.shapes.Square;
 import sokoban.map.GameObjectsMappingTool;
+import sokoban.utils.Settings;
 
 import java.awt.*;
 
@@ -12,7 +13,6 @@ public abstract class MapObject extends Square implements Drawable {
     public final static int PICWIDTH = 1;
     protected static int XOffset, YOffset; // 供转换到世界坐标
     protected static GameObjectsMappingTool gameObjectsMappingTool;
-    private static boolean debugging = true;
     protected Point curPos;
     private Image drawingPic;
 
@@ -20,10 +20,6 @@ public abstract class MapObject extends Square implements Drawable {
         super(new Vector2f(convertToWorld(pos)), PICWIDTH); // 转换到世界坐标
         curPos = pos;
         this.drawingPic = pic;
-    }
-
-    public static boolean isDebugging() {
-        return debugging;
     }
 
     public static void setGameObjectsMappingTool(GameObjectsMappingTool gameObjectsMappingTool) {
@@ -81,7 +77,7 @@ public abstract class MapObject extends Square implements Drawable {
         g.drawImage(drawingPic, (int) currentVectors[0].x, (int) currentVectors[0].y,
                 (int) (currentVectors[2].x - currentVectors[0].x), (int) (currentVectors[2].y - currentVectors[0].y), null);
 
-        if (debugging) {
+        if (Settings.isDebugMode()) {
             // 注意！！！显示的坐标是从0开始的
             g.setColor(new Color(255, 255, 255, 200));
             g.drawString(curPos.x + "," + curPos.y, (int) currentVectors[0].x, (int) currentVectors[0].y + 10);
