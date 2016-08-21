@@ -61,7 +61,12 @@ public final class MainMenu extends SuperScene {
         bgRect.setCenter(Matrix3x3f.translate(center.x, center.y));
         drawables.put("bgRect", bgRect);
 
-        ((SuperMouseInputHandler) mouseInputHandler).add("bgRect", bgRect, new Clickable() {
+        ((SuperMouseInputHandler) mouseInputHandler).add("bgRect", new Clickable() {
+            @Override
+            public boolean isPointInside(Point point) {
+                return bgRect.isPointInside(point);
+            }
+
             @Override
             public void onClick(Point p) {
 
@@ -90,7 +95,12 @@ public final class MainMenu extends SuperScene {
         drawables.put("bgRect", bgRect);
 
         Square finalBgRect = bgRect;
-        ((SuperMouseInputHandler) mouseInputHandler).add("bgRect", bgRect, new Clickable() {
+        ((SuperMouseInputHandler) mouseInputHandler).add("bgRect", new Clickable() {
+            @Override
+            public boolean isPointInside(Point point) {
+                return finalBgRect.isPointInside(point);
+            }
+
             @Override
             public void onClick(Point p) {
 
@@ -102,6 +112,7 @@ public final class MainMenu extends SuperScene {
             }
         });
 
+
         Button btnStart =
                 new Button(screenMappingTool.worldToScreen(new Point(0 - start.getWidth(null) / 2, 0)),
                         null, start, start_hover, start) {
@@ -111,8 +122,8 @@ public final class MainMenu extends SuperScene {
                         requestSwitchScene(new GameScene());
                     }
                 };
-        drawables.put("btnStart", btnStart);
         ((SuperMouseInputHandler) mouseInputHandler).add("btnStart", btnStart, btnStart);
+        drawables.put("btnStart", btnStart);
 
         Button btnTest =
                 new Button(screenMappingTool.worldToScreen(new Point(0 - test.getWidth(null) / 2,
