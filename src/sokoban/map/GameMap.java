@@ -1,5 +1,7 @@
 package sokoban.map;
 
+import sokoban.game.engine.graphics.Matrix3x3f;
+import sokoban.game.engine.graphics.Vector2f;
 import sokoban.game.engine.graphics.shapes.Drawable;
 import sokoban.game.engine.input.handler.Clickable;
 import sokoban.map.objects.Box;
@@ -188,7 +190,8 @@ public class GameMap implements Drawable, Clickable {
 
     @Override
     public void onClick(Point p) {
-
+        System.out.println(p);
+        System.out.println(gameObjectsMappingTool.getUnmappedMatrix(Matrix3x3f.translate(new Vector2f(p))).toPoint());
     }
 
     @Override

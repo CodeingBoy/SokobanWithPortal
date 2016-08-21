@@ -81,6 +81,8 @@ public abstract class MapObject extends Square implements Drawable {
             // 注意！！！显示的坐标是从0开始的
             g.setColor(new Color(255, 255, 255, 200));
             g.drawString(curPos.x + "," + curPos.y, (int) currentVectors[0].x, (int) currentVectors[0].y + 10);
+            g.drawString(originVectors[0].x + "," + originVectors[0].y, (int) currentVectors[0].x, (int) currentVectors[0].y + 30);
+            g.drawString(currentVectors[0].x + "," + currentVectors[0].y, (int) currentVectors[0].x, (int) currentVectors[0].y + 50);
         }
     }
 }

@@ -43,7 +43,7 @@ public class GameObjectsMappingTool {
         float translate_y = canvasHeight / 2;
         // calc matrix
         w2sMatrix = Matrix3x3f.scale(scale_x, scale_y).mul(Matrix3x3f.translate(translate_x, translate_y));
-        s2wMatrix = Matrix3x3f.translate(-translate_x, -translate_y).mul(Matrix3x3f.scale(scale_x, -scale_y));
+        s2wMatrix = Matrix3x3f.translate(-translate_x, -translate_y).mul(Matrix3x3f.scale(scale_x, scale_y));
     }
 
     public Matrix3x3f getMappedMatrix(Matrix3x3f matrix) {
