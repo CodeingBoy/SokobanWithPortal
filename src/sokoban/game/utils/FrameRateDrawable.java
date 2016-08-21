@@ -35,6 +35,8 @@ public class FrameRateDrawable extends FrameRateCalculator implements Drawable {
         super.calculate();
         g.setColor(color);
         g.drawString(super.getLatestFrameRateString(), x, y);
+        g.drawString(String.valueOf(super.getFrameRenderTime() + "ms"), x, y + 10);
+        g.drawString(String.valueOf("Avg:" + super.getFrameAverageRenderTime() + "ms"), x, y + 30);
     }
 
     @Override

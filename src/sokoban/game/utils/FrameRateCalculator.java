@@ -12,6 +12,7 @@ public class FrameRateCalculator {
     private long delta = 0;
     private long lasttime;
     private int frameCount = 0;
+    private long frameRenderTime, frameAverageRenderTime;
     private boolean shouldLog = false;
     private boolean isInitalized = false;
 
@@ -26,11 +27,13 @@ public class FrameRateCalculator {
 
     public void calculate() {
         long currentTime = System.currentTimeMillis();
-        delta += currentTime - lasttime;
+        frameRenderTime = currentTime - lasttime;
+        delta += frameRenderTime;
         lasttime = currentTime;
         frameCount++;
 
         if (delta >= 1000) {
+            frameAverageRenderTime = delta / frameCount;
             delta -= 1000;
             latestFrameRate = frameCount;
             latestFrameRateString = String.format(frameRate_formatString, latestFrameRate);
@@ -55,5 +58,13 @@ public class FrameRateCalculator {
 
     public boolean isInitalized() {
         return isInitalized;
+    }
+
+    public long getFrameRenderTime() {
+        return frameRenderTime;
+    }
+
+    public long getFrameAverageRenderTime() {
+        return frameAverageRenderTime;
     }
 }
