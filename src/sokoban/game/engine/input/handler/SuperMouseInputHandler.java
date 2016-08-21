@@ -9,28 +9,33 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SuperMouseInputHandler extends MouseInputHandler {
-    protected Map<String, MouseAction> clickables = new HashMap<>();
+    protected Map<String, Clickable> clickables = new HashMap<>();
 
     public SuperMouseInputHandler(MouseInput input) {
         super(input);
     }
 
+    @Deprecated
     public void add(String name, Shape shape, Clickable clickable) {
-        clickables.put(name, new MouseAction(shape, clickable));
+        clickables.put(name, clickable);
     }
 
-    public void remove(String name) {
-        clickables.remove(name);
+    public void add(String name, Clickable clickable) {
+        clickables.put(name, clickable);
+    }
+
+    public void remove(Shape shape) {
+        clickables.remove(shape);
     }
 
     @Override
     public void processInput() {
         Point curPoint = input.getPosition();
-        for (MouseAction mouseAction : clickables.values()) {
-            if (mouseAction.shape.isPointInside(curPoint)) {
-                mouseAction.clickable.onHover(curPoint);
+        for (Clickable clickable : clickables.values()) {
+            if (clickable.isPointInside(curPoint)) {
+                clickable.onHover(curPoint);
                 if (input.isButtonDownOnce(MouseEvent.BUTTON1))
-                    mouseAction.clickable.onClick(curPoint);
+                    clickable.onClick(curPoint);
             }
         }
     }
