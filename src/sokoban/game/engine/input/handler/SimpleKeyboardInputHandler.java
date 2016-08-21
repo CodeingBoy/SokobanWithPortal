@@ -8,14 +8,14 @@ import java.awt.event.KeyEvent;
 /**
  * Created by CodeingBoy on 2016-7-11-0011.
  */
-public class SimpleKeyboardInputHandler extends KeyboardInputHandler {
+public class SimpleKeyboardInputHandler extends SuperKeyboardInputHandler {
 
     public SimpleKeyboardInputHandler(KeyboardInput input) {
         super(input);
     }
 
     public void processInput() {
-        if (input.isKeyDownOnce(KeyEvent.VK_SPACE))
+        if (getInput().isKeyDownOnce(KeyEvent.VK_SPACE))
             Log.i("Space down");
     }
 
