@@ -4,7 +4,7 @@ import sokoban.game.engine.graphics.WindowRatioKeeper;
 import sokoban.game.engine.graphics.shapes.Drawable;
 import sokoban.game.engine.input.handler.KeyboardInputHandler;
 import sokoban.game.engine.input.handler.MouseInputHandler;
-import sokoban.game.engine.popup.Popup;
+import sokoban.game.engine.popups.Popup;
 import sokoban.game.utils.FrameRateDrawable;
 import sokoban.utils.Log;
 import sokoban.utils.Settings;
@@ -211,7 +211,7 @@ public abstract class SuperScene extends Scene {
                 renderDrawables(g, delta);
                 render(g, delta);
 
-                // render popup if is not null
+                // render popups if is not null
                 if (popup != null) popup.draw(g, delta);
 
                 // render other things

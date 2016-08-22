@@ -1,4 +1,4 @@
-package sokoban.game.engine.popup;
+package sokoban.game.engine.popups;
 
 import sokoban.game.engine.graphics.shapes.Drawable;
 import sokoban.game.engine.scenes.Scene;
