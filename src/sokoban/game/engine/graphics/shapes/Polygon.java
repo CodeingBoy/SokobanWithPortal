@@ -18,7 +18,6 @@ public class Polygon extends Shape {
     protected Matrix3x3f w2sMatrix;
     protected Vector2f[] w2sVectors;
     protected Matrix3x3f center;
-    protected Color color;
     private boolean isWinding;
     private double curScaleVal = 1;
 
