@@ -8,6 +8,7 @@ import java.awt.*;
  * Created by CodeingBoy on 2016-7-28-0028.
  */
 public class FrameRateDrawable extends FrameRateCalculator implements Drawable {
+    private final static Font font = new Font("宋体", Font.PLAIN, 12);
     int x, y;
     Color color;
 
@@ -34,7 +35,7 @@ public class FrameRateDrawable extends FrameRateCalculator implements Drawable {
     public void draw(Graphics g, double delta) {
         super.calculate();
 
-        TextDrawer.drawString(g, x, y, new String[]{
+        TextDrawer.drawString(g, x, y, font, color, new String[]{
                 super.getLatestFrameRateString(),
                 super.getFrameRenderTime() + "ms",
                 String.valueOf("Avg:" + super.getFrameAverageRenderTime() + "ms")
