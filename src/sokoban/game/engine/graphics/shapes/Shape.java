@@ -14,7 +14,7 @@ public abstract class Shape implements Drawable {
     protected double rotateAngle;
     protected Color color;
     protected boolean scaling, moving, rotating;
-    protected int scale_width, scale_height, scale_step;
+    protected double scale_value, scale_step;
     protected int move_x, move_y, move_xStep, move_yStep, move_xDelta, move_yDelta;
     protected double rotate_angle, rotate_step;
     protected ActionListener scaleListener, moveListener, rotate_listener;
@@ -90,9 +90,8 @@ public abstract class Shape implements Drawable {
 
     protected abstract void drawDebugInf(Graphics g);
 
-    public void scaleTo(int width, int height, int step, @Nullable ActionListener listener) {
-        scale_width = width;
-        scale_height = height;
+    public final void scaleTo(double scale, double step, @Nullable ActionListener listener) {
+        scale_value = scale;
         scale_step = step;
         if (listener != null)
             scaleListener = listener;
@@ -100,7 +99,7 @@ public abstract class Shape implements Drawable {
         scaling = true;
     }
 
-    public void moveTo(int x, int y, int xStep, int yStep, @Nullable ActionListener listener) {
+    public final void moveTo(int x, int y, int xStep, int yStep, @Nullable ActionListener listener) {
         move_x = x;
         move_y = y;
         move_xStep = xStep;
@@ -117,5 +116,5 @@ public abstract class Shape implements Drawable {
 
     public abstract void move(double dx, double dy);
 
-    public abstract void scale(double scale);
+    public abstract void scale(double scaleDeltaX, double scaleDeltaY);
 }

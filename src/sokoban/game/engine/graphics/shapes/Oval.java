@@ -53,7 +53,7 @@ public class Oval extends Shape {
     }
 
     @Override
-    public void scale(double scale) {
+    public void scale(double scaleDeltaX, double scaleDeltaY) {
 
     }
 

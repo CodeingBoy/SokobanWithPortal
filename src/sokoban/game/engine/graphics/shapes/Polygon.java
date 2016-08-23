@@ -20,6 +20,7 @@ public class Polygon extends Shape {
     protected Matrix3x3f center;
     protected Color color;
     private boolean isWinding;
+    private double curScaleVal = 1;
 
     protected Polygon() {
     }
@@ -85,6 +86,13 @@ public class Polygon extends Shape {
 
     public void scale(double x, double y) {
         mul(Matrix3x3f.scale(x, y));
+
+        // currentVectors[2] = Matrix3x3f.scale(x, y).mul(currentVectors[2]);
+
+
+        // for (int i = 1; i < currentVectors.length; i++) {
+        //     currentVectors[i] = Matrix3x3f.scale(x, y).mul(currentVectors[i]);
+        // }
     }
 
     public void rotate(double rad) {
@@ -119,10 +127,6 @@ public class Polygon extends Shape {
             mul(center);
         }
 
-        // if (scaling) {
-        //     if ()
-        // }
-
         if (moving) {
             Point p = getPos();
             double newX = 0, newY = 0;
@@ -142,6 +146,17 @@ public class Polygon extends Shape {
 
             move(newX, newY);
         }
+
+        if (scaling) {
+            if (curScaleVal <= scale_value) {
+                curScaleVal += scale_step * delta;
+            } else
+                scaling = false;
+        }
+
+        if (curScaleVal != 1)
+            scale(curScaleVal, curScaleVal);
+
     }
 
     @Override
@@ -203,12 +218,13 @@ public class Polygon extends Shape {
         }
     }
 
-    @Override
-    public void scale(double scale) {
-
-    }
-
     public Point getPos() {
         return new Point((int) originVectors[0].x, (int) originVectors[0].y);
     }
+
+    // public void scale(double scaleDeltaX, double scaleDeltaY) {
+    //     for (int i = 0; i < originVectors.length; i++) {
+    //         originVectors[i] = Matrix3x3f.scale(scaleDeltaX, scaleDeltaY).mul(originVectors[i]);
+    //     }
+    // }
 }

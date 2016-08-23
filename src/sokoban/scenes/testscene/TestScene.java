@@ -62,8 +62,9 @@ public class TestScene extends SuperScene implements Runnable {
     @Override
     public void onPrepare() {
         windowRatioKeeper = new WindowRatioKeeper(null, window.getContentPane(), 4, 3, 0);
-        square = new Square(new Vector2f(100, 100), 50);
-        square.moveTo(300, 200, 5, 5, null);
+        square = new Square(new Vector2f(100, 100), 100);
+        // square.moveTo(300, 200, 5, 5, null);
+        square.scaleTo(2, 0.1, null);
         // square.setCenter(Matrix3x3f.translate(100, 100));
     }
 
