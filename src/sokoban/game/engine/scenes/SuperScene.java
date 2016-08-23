@@ -24,7 +24,9 @@ public abstract class SuperScene extends Scene {
     protected FrameRateDrawable frameRateDrawable;
     protected WindowRatioKeeper windowRatioKeeper = null;
     protected Map<String, Drawable> drawables = new HashMap<>();
-    protected Popup popup;
+    private Popup popup;
+    private KeyboardInputHandler tempKeyboardInputHandler;
+    private MouseInputHandler tempMouseInputHandler;
     private int sleepNanoSecond = 10;
     private long curTime, lastTime;
     private double nsPerSec;
@@ -244,5 +246,23 @@ public abstract class SuperScene extends Scene {
     public void renderFrameRate(Graphics g, double delta) {
         if (frameRateDrawable != null)
             frameRateDrawable.draw(g, delta);
+    }
+
+    public void attachPopup(Popup popup) {
+        tempKeyboardInputHandler = keyboardInputHandler;
+        tempMouseInputHandler = mouseInputHandler;
+        setKeyboardInputHandler(popup.getKeyboardInputHandler());
+        setMouseInputHandler(popup.getMouseInputHandler());
+
+        this.popup = popup;
+    }
+
+    public void detachPopup() {
+        setKeyboardInputHandler(tempKeyboardInputHandler);
+        setMouseInputHandler(tempMouseInputHandler);
+        tempKeyboardInputHandler = null;
+        tempMouseInputHandler = null;
+
+        popup = null;
     }
 }

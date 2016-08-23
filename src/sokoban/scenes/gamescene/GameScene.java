@@ -7,6 +7,7 @@ import sokoban.game.engine.input.KeyboardInput;
 import sokoban.game.engine.input.MouseInput;
 import sokoban.game.engine.input.handler.KeyboardInputHandler;
 import sokoban.game.engine.input.handler.SuperMouseInputHandler;
+import sokoban.game.engine.popups.MessageBoxPopup;
 import sokoban.game.engine.scenes.SuperScene;
 import sokoban.map.Direction;
 import sokoban.map.GameMap;
@@ -143,6 +144,11 @@ public class GameScene extends SuperScene {
                 player.move(Direction.UP);
             } else if (input.isKeyDownOnce(KeyEvent.VK_DOWN)) {
                 player.move(Direction.DOWN);
+            } else if (input.isKeyDownOnce(KeyEvent.VK_ESCAPE)) {
+                attachPopup(new MessageBoxPopup(GameScene.this, new Color(0, 0, 0, 100), "确定退出",
+                        new String[]{
+                                "是否退出游戏？", "您的游戏进度将丢失"
+                        }));
             }
         }
     }

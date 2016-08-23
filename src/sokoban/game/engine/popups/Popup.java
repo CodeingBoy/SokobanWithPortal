@@ -1,13 +1,32 @@
 package sokoban.game.engine.popups;
 
 import sokoban.game.engine.graphics.shapes.Drawable;
-import sokoban.game.engine.scenes.Scene;
+import sokoban.game.engine.input.handler.KeyboardInputHandler;
+import sokoban.game.engine.input.handler.MouseInputHandler;
+import sokoban.game.engine.scenes.SuperScene;
 
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 public abstract class Popup implements Drawable {
-    private Scene scene;
-    private Color backgroundColor;
+    protected SuperScene scene;
+    protected Color backgroundColor;
+    protected KeyboardInputHandler keyboardInputHandler;
+    protected MouseInputHandler mouseInputHandler;
+
+
+    public Popup(SuperScene scene, Color backgroundColor) {
+        this.scene = scene;
+        this.backgroundColor = backgroundColor;
+
+        scene.getWindow().addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                onResized();
+            }
+        });
+    }
 
     @Override
     public void draw(Graphics g, double delta) {
@@ -29,4 +48,34 @@ public abstract class Popup implements Drawable {
      * @param delta 时间增量
      */
     public abstract void render(Graphics g, double delta);
+
+    public KeyboardInputHandler getKeyboardInputHandler() {
+        return keyboardInputHandler;
+    }
+
+    public void setKeyboardInputHandler(KeyboardInputHandler keyboardInputHandler) {
+        this.keyboardInputHandler = keyboardInputHandler;
+    }
+
+    public MouseInputHandler getMouseInputHandler() {
+        return mouseInputHandler;
+    }
+
+    public void setMouseInputHandler(MouseInputHandler mouseInputHandler) {
+        this.mouseInputHandler = mouseInputHandler;
+    }
+
+    public void dispose() {
+        scene.detachPopup();
+    }
+
+    public abstract void onResized();
+
+    protected final int getWidth() {
+        return scene.getCanvas().getWidth();
+    }
+
+    protected final int getHeight() {
+        return scene.getCanvas().getHeight();
+    }
 }

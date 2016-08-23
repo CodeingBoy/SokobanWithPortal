@@ -72,10 +72,6 @@ public abstract class Scene implements Runnable {
         // add(canvas); // will be added by showWindow() in class GameWindow
     }
 
-    public void setWindow(GameWindow window) {
-        this.window = window;
-    }
-
     public final void startRendering() {
         Log.d(LOGCLASS, "creating double buffer");
         canvas.createBufferStrategy(2);
@@ -148,5 +144,13 @@ public abstract class Scene implements Runnable {
                 window.switchScene(newScene);
             }
         });
+    }
+
+    public GameWindow getWindow() {
+        return window;
+    }
+
+    public void setWindow(GameWindow window) {
+        this.window = window;
     }
 }
