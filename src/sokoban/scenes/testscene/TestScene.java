@@ -3,6 +3,7 @@ package sokoban.scenes.testscene;
 import sokoban.dialog.LogDialog;
 import sokoban.game.engine.GameWindow;
 import sokoban.game.engine.graphics.*;
+import sokoban.game.engine.graphics.shapes.Square;
 import sokoban.game.engine.scenes.SuperScene;
 
 import javax.swing.*;
@@ -17,6 +18,7 @@ public class TestScene extends SuperScene implements Runnable {
     private float angel;
     private float earthRot, moonRot;
     private ScreenMappingTool screenMappingTool;
+    private Square square;
 
     public TestScene() {
         // setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -60,6 +62,9 @@ public class TestScene extends SuperScene implements Runnable {
     @Override
     public void onPrepare() {
         windowRatioKeeper = new WindowRatioKeeper(null, window.getContentPane(), 4, 3, 0);
+        square = new Square(new Vector2f(100, 100), 50);
+        square.moveTo(300, 200, 5, 5, null);
+        // square.setCenter(Matrix3x3f.translate(100, 100));
     }
 
     @Override
@@ -153,5 +158,7 @@ public class TestScene extends SuperScene implements Runnable {
         g.setColor(Color.yellow);
         g.fillRect(0, 0, 10, 10);
         g.fillRect(getWidth() - 10, getHeight() - 10, 10, 10);
+
+        square.draw(g, delta);
     }
 }

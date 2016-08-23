@@ -48,6 +48,16 @@ public class Oval extends Shape {
     }
 
     @Override
+    public void move(double x, double y) {
+
+    }
+
+    @Override
+    public void scale(double scale) {
+
+    }
+
+    @Override
     public void draw(Graphics g, double delta) {
         g.drawOval(center.x, center.y, width, height);
     }

@@ -7,6 +7,7 @@ import sokoban.game.utils.TextDrawer;
 import sokoban.utils.Settings;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
 
 /**
  * Created by CodeingBoy on 2016-8-2-0002.
@@ -117,6 +118,30 @@ public class Polygon extends Shape {
         if (center != null) {
             mul(center);
         }
+
+        // if (scaling) {
+        //     if ()
+        // }
+
+        if (moving) {
+            Point p = getPos();
+            double newX = 0, newY = 0;
+
+            if (p.x >= move_x && p.y >= move_y) {
+                moving = false;
+                if (moveListener != null)
+                    moveListener.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null));
+            }
+
+            if (p.x < move_x) {
+                newX = move_xStep * delta;
+            }
+            if (p.y < move_y) {
+                newY = move_yStep * delta;
+            }
+
+            move(newX, newY);
+        }
     }
 
     @Override
@@ -169,5 +194,21 @@ public class Polygon extends Shape {
                 (int) currentVectors[0].x + "," + (int) currentVectors[0].y,
                 String.valueOf("angle: " + rotateAngle)
         });
+    }
+
+    @Override
+    public void move(double dx, double dy) {
+        for (int i = 0; i < originVectors.length; i++) {
+            originVectors[i] = Matrix3x3f.translate(dx, dy).mul(originVectors[i]);
+        }
+    }
+
+    @Override
+    public void scale(double scale) {
+
+    }
+
+    public Point getPos() {
+        return new Point((int) originVectors[0].x, (int) originVectors[0].y);
     }
 }

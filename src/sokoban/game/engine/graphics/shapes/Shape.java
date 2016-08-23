@@ -1,8 +1,10 @@
 package sokoban.game.engine.graphics.shapes;
 
+import com.sun.istack.internal.Nullable;
 import sokoban.game.engine.graphics.ScreenMappingTool;
 
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 /**
  * Created by CodeingBoy on 2016-8-2-0002.
@@ -11,6 +13,11 @@ public abstract class Shape implements Drawable {
     protected double rotateDelta;
     protected double rotateAngle;
     protected Color color;
+    protected boolean scaling, moving, rotating;
+    protected int scale_width, scale_height, scale_step;
+    protected int move_x, move_y, move_xStep, move_yStep, move_xDelta, move_yDelta;
+    protected double rotate_angle, rotate_step;
+    protected ActionListener scaleListener, moveListener, rotate_listener;
 
     public void setColor(Color color) {
         this.color = color;
@@ -82,4 +89,33 @@ public abstract class Shape implements Drawable {
     public abstract void setWorldToScreen(ScreenMappingTool screenMappingTool);
 
     protected abstract void drawDebugInf(Graphics g);
+
+    public void scaleTo(int width, int height, int step, @Nullable ActionListener listener) {
+        scale_width = width;
+        scale_height = height;
+        scale_step = step;
+        if (listener != null)
+            scaleListener = listener;
+
+        scaling = true;
+    }
+
+    public void moveTo(int x, int y, int xStep, int yStep, @Nullable ActionListener listener) {
+        move_x = x;
+        move_y = y;
+        move_xStep = xStep;
+        move_yStep = yStep;
+        if (listener != null)
+            moveListener = listener;
+
+        moving = true;
+    }
+
+    public void rotateTo(double angle, double step, @Nullable ActionListener listener) {
+
+    }
+
+    public abstract void move(double dx, double dy);
+
+    public abstract void scale(double scale);
 }
