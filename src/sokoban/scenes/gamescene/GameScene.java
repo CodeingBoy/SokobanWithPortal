@@ -7,6 +7,7 @@ import sokoban.game.engine.input.KeyboardInput;
 import sokoban.game.engine.input.MouseInput;
 import sokoban.game.engine.input.handler.KeyboardInputHandler;
 import sokoban.game.engine.input.handler.SuperMouseInputHandler;
+import sokoban.game.engine.popups.MessageBoxPopup;
 import sokoban.game.engine.scenes.SuperScene;
 import sokoban.map.Direction;
 import sokoban.map.GameMap;
@@ -15,13 +16,13 @@ import sokoban.map.MapParser;
 import sokoban.map.objects.MapObject;
 import sokoban.map.objects.Player;
 import sokoban.popups.PausePopup;
+import sokoban.scenes.mainmenu.MainMenu;
 
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.EnumSet;
 
 /**
  * Created by CodeingBoy on 2016-8-4-0004.
@@ -32,6 +33,7 @@ public class GameScene extends SuperScene {
     Player player;
     private ScreenMappingTool screenMappingTool;
     private GameMap map;
+    private boolean completedHinted = false;
 
     public GameScene(GameMap map) {
         this.map = map;
@@ -56,6 +58,33 @@ public class GameScene extends SuperScene {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+
+        map.setCompleteListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (completedHinted) return;
+                MessageBoxPopup popup = new MessageBoxPopup(GameScene.this, new Color(0, 0, 0, 100), "闯关成功！",
+                        EnumSet.of(MessageBoxPopup.Style.MBP_YESNO),
+                        new String[]{
+                                "恭喜，闯关成功！", "是否回到主界面？"
+                        });
+                popup.setYesListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        requestSwitchScene(new MainMenu());
+                    }
+                });
+                popup.setNoListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        detachPopup();
+                    }
+                });
+
+                attachPopup(popup);
+                completedHinted = true;
+            }
+        });
 
         windowRatioKeeper = new WindowRatioKeeper(null, window.getContentPane(), map.getMapWidth(), map.getMapHeight(), 0);
         setKeyboardInputHandler(new GameKeyboardHandler(new KeyboardInput()));

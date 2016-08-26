@@ -9,6 +9,7 @@ import sokoban.map.objects.MapObject;
 import sokoban.map.objects.Placeable;
 
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -29,6 +30,7 @@ public class GameMap implements Drawable, Clickable {
     private GameObjectsMappingTool gameObjectsMappingTool;
     private ArrayList<Box> boxes = new ArrayList<>();
     private ArrayList<Point> checkPoints = new ArrayList<>();
+    private ActionListener completeListener;
 
     public GameMap(MapObject[][] mapObjs, int mapWidth, int mapHeight, String mapName, Map<String, String> mapProperty) {
         this.mapObjs = mapObjs;
@@ -58,6 +60,10 @@ public class GameMap implements Drawable, Clickable {
     public GameMap(MapObject[][] mapObjs, Map<String, String> mapProperty) {
         this(mapObjs, Integer.parseInt(mapProperty.get("MapWidth")), Integer.parseInt(mapProperty.get("MapHeight")),
                 mapProperty.get("mapName"), mapProperty);
+    }
+
+    public void setCompleteListener(ActionListener completeListener) {
+        this.completeListener = completeListener;
     }
 
     public int getMapWidth() {
@@ -203,6 +209,13 @@ public class GameMap implements Drawable, Clickable {
                     return;
                 }
             }
+        }
+    }
+
+    public void onPlayerMoved(Point newPos) {
+        if (isCompleted()) {
+            if (completeListener != null)
+                completeListener.actionPerformed(null);
         }
     }
 }
