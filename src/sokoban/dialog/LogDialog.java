@@ -24,7 +24,7 @@ public class LogDialog extends JFrame {
         setLocationRelativeTo(null);
         setTitle("日志");
         setLayout(new BorderLayout());
-        setSize(400, 200);
+        setSize(800, 600);
 
         try {
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
