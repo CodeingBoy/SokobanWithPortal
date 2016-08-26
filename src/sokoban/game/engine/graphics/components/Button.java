@@ -33,9 +33,17 @@ public abstract class Button extends Rect implements Clickable, Drawable {
         this.pressImg = pressImg;
     }
 
+    @Deprecated
     public Button(Point start, String text, Image normalImg, Image hoverImg, Image pressImg) {
         super(new Vector2f(start.x, start.y), normalImg.getWidth(null), normalImg.getHeight(null));
         this.text = text;
+        this.normalImg = normalImg;
+        this.hoverImg = hoverImg;
+        this.pressImg = pressImg;
+    }
+
+    public Button(Point start, Image normalImg, Image hoverImg, Image pressImg) {
+        super(new Vector2f(start.x, start.y), normalImg.getWidth(null), normalImg.getHeight(null));
         this.normalImg = normalImg;
         this.hoverImg = hoverImg;
         this.pressImg = pressImg;

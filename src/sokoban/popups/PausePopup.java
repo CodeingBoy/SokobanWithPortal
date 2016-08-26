@@ -5,11 +5,15 @@ import sokoban.game.engine.graphics.ScreenMappingTool;
 import sokoban.game.engine.graphics.components.Button;
 import sokoban.game.engine.input.MouseInput;
 import sokoban.game.engine.input.handler.SuperMouseInputHandler;
+import sokoban.game.engine.popups.MessageBoxPopup;
 import sokoban.game.engine.popups.Popup;
 import sokoban.game.engine.scenes.SuperScene;
 import sokoban.scenes.mainmenu.MainMenu;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.EnumSet;
 
 /**
  * 游戏中暂停画面的Popup
@@ -52,7 +56,7 @@ public class PausePopup extends Popup {
         int yStart = (int) (getWidth() * 0.2);
 
         btnBack = new Button(new Point((getWidth() - IMG_BACK.getWidth(null)) / 2, yStart),
-                null, IMG_BACK, IMG_BACK_HOVER, IMG_BACK_HOVER) {
+                IMG_BACK, IMG_BACK_HOVER, IMG_BACK_HOVER) {
             @Override
             public void onClick(Point p) {
                 super.onClick(p);
@@ -71,7 +75,7 @@ public class PausePopup extends Popup {
         yStart = (int) (getWidth() * 0.4);
 
         btnSetting = new Button(new Point((getWidth() - IMG_BACK.getWidth(null)) / 2, yStart),
-                null, IMG_SETTINGS, IMG_SETTINGS_HOVER, IMG_SETTINGS_HOVER) {
+                IMG_SETTINGS, IMG_SETTINGS_HOVER, IMG_SETTINGS_HOVER) {
             @Override
             public void onClick(Point p) {
                 super.onClick(p);
@@ -85,11 +89,30 @@ public class PausePopup extends Popup {
         yStart = (int) (getWidth() * 0.6);
 
         btnMainmenu = new Button(new Point((getWidth() - IMG_BACK.getWidth(null)) / 2, yStart),
-                null, IMG_MAINMENU, IMG_MAINMENU_HOVER, IMG_MAINMENU_HOVER) {
+                IMG_MAINMENU, IMG_MAINMENU_HOVER, IMG_MAINMENU_HOVER) {
             @Override
             public void onClick(Point p) {
                 super.onClick(p);
-                scene.requestSwitchScene(new MainMenu());
+
+                MessageBoxPopup popup = new MessageBoxPopup(scene, new Color(0, 0, 0, 200), "确定退出",
+                        EnumSet.of(MessageBoxPopup.Style.MBP_YESNO),
+                        new String[]{
+                                "确认要返回主画面吗？", "您的游戏进度将丢失"
+                        });
+                popup.setYesListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        scene.requestSwitchScene(new MainMenu());
+                    }
+                });
+                popup.setNoListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        detachPopup();
+                    }
+                });
+
+                attachPopup(popup);
             }
         };
 
@@ -99,11 +122,29 @@ public class PausePopup extends Popup {
         yStart = (int) (getWidth() * 0.8);
 
         btnExit = new Button(new Point((getWidth() - IMG_BACK.getWidth(null)) / 2, yStart),
-                null, IMG_EXIT, IMG_EXIT_HOVER, IMG_EXIT_HOVER) {
+                IMG_EXIT, IMG_EXIT_HOVER, IMG_EXIT_HOVER) {
             @Override
             public void onClick(Point p) {
                 super.onClick(p);
-                System.exit(1);
+
+                MessageBoxPopup popup = new MessageBoxPopup(scene, new Color(0, 0, 0, 200), "确定退出",
+                        EnumSet.of(MessageBoxPopup.Style.MBP_YESNO),
+                        new String[]{
+                                "是否退出游戏？", "您的游戏进度将丢失"
+                        });
+                popup.setYesListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        System.exit(1);
+                    }
+                });
+                popup.setNoListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        detachPopup();
+                    }
+                });
+                attachPopup(popup);
             }
         };
 

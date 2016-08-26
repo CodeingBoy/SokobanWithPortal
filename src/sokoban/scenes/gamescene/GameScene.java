@@ -145,23 +145,6 @@ public class GameScene extends SuperScene {
             } else if (input.isKeyDownOnce(KeyEvent.VK_DOWN)) {
                 player.move(Direction.DOWN);
             } else if (input.isKeyDownOnce(KeyEvent.VK_ESCAPE)) {
-                // MessageBoxPopup popup = new MessageBoxPopup(GameScene.this, new Color(0, 0, 0, 100), "确定退出",
-                //         EnumSet.of(Style.MBP_YESNO),
-                //         new String[]{
-                //                 "是否退出游戏？", "您的游戏进度将丢失"
-                //         });
-                // popup.setYesListener(new ActionListener() {
-                //     @Override
-                //     public void actionPerformed(ActionEvent e) {
-                //         System.exit(0);
-                //     }
-                // });
-                // popup.setNoListener(new ActionListener() {
-                //     @Override
-                //     public void actionPerformed(ActionEvent e) {
-                //         detachPopup();
-                //     }
-                // });
                 PausePopup popup = new PausePopup(GameScene.this);
                 attachPopup(popup);
             }

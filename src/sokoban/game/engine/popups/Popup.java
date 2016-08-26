@@ -14,9 +14,10 @@ import java.util.Map;
 public abstract class Popup implements Drawable {
     protected SuperScene scene;
     protected Color backgroundColor;
-    protected KeyboardInputHandler keyboardInputHandler;
-    protected MouseInputHandler mouseInputHandler;
     protected Map<String, Drawable> drawables = new HashMap<>();
+    private KeyboardInputHandler keyboardInputHandler, tempKeyboardInputHandler;
+    private MouseInputHandler mouseInputHandler, tempMouseInputHandler;
+    private Popup popup;
 
     /**
      * 创建一个 Popup
@@ -43,6 +44,8 @@ public abstract class Popup implements Drawable {
 
         render(g, delta);
         renderDrawables(g, delta);
+
+        if (popup != null) popup.draw(g, delta);
     }
 
     @Override
@@ -63,6 +66,8 @@ public abstract class Popup implements Drawable {
     }
 
     public void setKeyboardInputHandler(KeyboardInputHandler keyboardInputHandler) {
+        scene.setKeyboardInputHandler(keyboardInputHandler);
+
         this.keyboardInputHandler = keyboardInputHandler;
     }
 
@@ -71,6 +76,8 @@ public abstract class Popup implements Drawable {
     }
 
     public void setMouseInputHandler(MouseInputHandler mouseInputHandler) {
+        scene.setMouseInputHandler(mouseInputHandler);
+
         this.mouseInputHandler = mouseInputHandler;
     }
 
@@ -98,5 +105,27 @@ public abstract class Popup implements Drawable {
         for (Drawable d : drawables.values()) {
             d.draw(g, delta);
         }
+    }
+
+    public void attachPopup(Popup popup) {
+        if (this.popup != null) detachPopup();
+
+        tempKeyboardInputHandler = keyboardInputHandler;
+        tempMouseInputHandler = mouseInputHandler;
+        setKeyboardInputHandler(popup.getKeyboardInputHandler());
+        setMouseInputHandler(popup.getMouseInputHandler());
+
+        popup.refreshObjects();
+
+        this.popup = popup;
+    }
+
+    public void detachPopup() {
+        setKeyboardInputHandler(tempKeyboardInputHandler);
+        setMouseInputHandler(tempMouseInputHandler);
+        tempKeyboardInputHandler = null;
+        tempMouseInputHandler = null;
+
+        popup = null;
     }
 }
