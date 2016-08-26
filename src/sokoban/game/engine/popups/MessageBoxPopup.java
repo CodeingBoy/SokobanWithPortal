@@ -88,10 +88,20 @@ public class MessageBoxPopup extends Popup {
             drawables.put("btnOK", btnOK);
             superMouseInputHandler.add("btnOK", btnOK);
         } else if (styles.contains(Style.MBP_YESNO)) {
-            btnYes = new YesButton(null);
-            btnNo = new NoButton(null);
+            if (drawables.get("btnYes") != null) {
+                superMouseInputHandler.remove((YesButton) drawables.get("btnYes"));
+            }
+
+            if (drawables.get("btnNo") != null) {
+                superMouseInputHandler.remove((NoButton) drawables.get("btnNo"));
+            }
+
+            btnYes = new YesButton(screenMappingTool.worldToScreen(new Point(-200, 120)));
+            btnNo = new NoButton(screenMappingTool.worldToScreen(new Point(0, 120)));
             drawables.put("btnYes", btnYes);
             drawables.put("btnNo", btnNo);
+            superMouseInputHandler.add("btnYes", btnYes);
+            superMouseInputHandler.add("btnNo", btnNo);
         }
 
         // popupFrame.setCenter(Matrix3x3f.translate(screenMappingTool.worldToScreen(new Point(0, 0))));
