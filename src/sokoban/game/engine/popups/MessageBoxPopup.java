@@ -46,8 +46,6 @@ public class MessageBoxPopup extends Popup {
 
         setKeyboardInputHandler(new MsgPopupKeyboardHandler(new KeyboardInput()));
         setMouseInputHandler(superMouseInputHandler);
-
-        onResized();
     }
 
     @Override
@@ -64,7 +62,7 @@ public class MessageBoxPopup extends Popup {
     }
 
     @Override
-    public void onResized() {
+    public void refreshObjects() {
         screenMappingTool = new ScreenMappingTool(1, 1, scene.getCanvas());
 
         int ratioWidth = (int) (getWidth() * FRAMEPADDINGRATIO);

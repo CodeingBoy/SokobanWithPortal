@@ -249,10 +249,14 @@ public abstract class SuperScene extends Scene {
     }
 
     public void attachPopup(Popup popup) {
+        if (this.popup != null) detachPopup();
+
         tempKeyboardInputHandler = keyboardInputHandler;
         tempMouseInputHandler = mouseInputHandler;
         setKeyboardInputHandler(popup.getKeyboardInputHandler());
         setMouseInputHandler(popup.getMouseInputHandler());
+
+        popup.refreshObjects();
 
         this.popup = popup;
     }

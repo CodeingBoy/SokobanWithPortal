@@ -157,6 +157,12 @@ public class GameScene extends SuperScene {
                         System.exit(0);
                     }
                 });
+                popup.setNoListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        detachPopup();
+                    }
+                });
                 attachPopup(popup);
             }
         }

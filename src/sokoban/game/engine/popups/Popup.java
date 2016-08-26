@@ -26,7 +26,7 @@ public abstract class Popup implements Drawable {
         scene.getWindow().addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                onResized();
+                refreshObjects();
             }
         });
     }
@@ -69,11 +69,11 @@ public abstract class Popup implements Drawable {
         this.mouseInputHandler = mouseInputHandler;
     }
 
-    public void dispose() {
+    protected void dispose() {
         scene.detachPopup();
     }
 
-    public abstract void onResized();
+    public abstract void refreshObjects();
 
     protected final int getWidth() {
         return scene.getCanvas().getWidth();
