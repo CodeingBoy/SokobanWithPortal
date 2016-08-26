@@ -66,7 +66,7 @@ public abstract class Popup implements Drawable {
     }
 
     public void setKeyboardInputHandler(KeyboardInputHandler keyboardInputHandler) {
-        scene.setKeyboardInputHandler(keyboardInputHandler);
+        if (popup != null) scene.setKeyboardInputHandler(keyboardInputHandler);
 
         this.keyboardInputHandler = keyboardInputHandler;
     }
@@ -76,7 +76,7 @@ public abstract class Popup implements Drawable {
     }
 
     public void setMouseInputHandler(MouseInputHandler mouseInputHandler) {
-        scene.setMouseInputHandler(mouseInputHandler);
+        if (popup != null) scene.setMouseInputHandler(mouseInputHandler);
 
         this.mouseInputHandler = mouseInputHandler;
     }
@@ -110,14 +110,14 @@ public abstract class Popup implements Drawable {
     public void attachPopup(Popup popup) {
         if (this.popup != null) detachPopup();
 
+        this.popup = popup;
+
         tempKeyboardInputHandler = keyboardInputHandler;
         tempMouseInputHandler = mouseInputHandler;
         setKeyboardInputHandler(popup.getKeyboardInputHandler());
         setMouseInputHandler(popup.getMouseInputHandler());
 
         popup.refreshObjects();
-
-        this.popup = popup;
     }
 
     public void detachPopup() {
