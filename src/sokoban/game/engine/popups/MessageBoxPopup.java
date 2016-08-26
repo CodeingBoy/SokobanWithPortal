@@ -29,7 +29,11 @@ public class MessageBoxPopup extends Popup {
     private SuperMouseInputHandler superMouseInputHandler = new SuperMouseInputHandler(new MouseInput());
     private Set<Style> styles;
     private Button btnOK, btnYes, btnNo;
-    private ActionListener btnYesListener, btnNoListener, btnOKListener;
+    private ActionListener btnYesListener;
+    private ActionListener btnNoListener;
+    private ActionListener btnOKListener;
+    private ActionListener dismissListener;
+    private boolean canDismiss = true;
 
     /**
      * 构建一个消息确认弹框 Popup
@@ -68,6 +72,24 @@ public class MessageBoxPopup extends Popup {
 
         setKeyboardInputHandler(new MsgPopupKeyboardHandler(new KeyboardInput()));
         setMouseInputHandler(superMouseInputHandler);
+    }
+
+    /**
+     * 设置按下 Esc 时，调用的动作监听器
+     *
+     * @param dismissListener 欲被调用的监听器
+     */
+    public void setDismissListener(ActionListener dismissListener) {
+        this.dismissListener = dismissListener;
+    }
+
+    /**
+     * 设置是否可以用 Esc 关闭 Popup<br/>
+     *
+     * @param canDismiss 是否可以用 Esc 关闭 Popup
+     */
+    public void setCanDismiss(boolean canDismiss) {
+        this.canDismiss = canDismiss;
     }
 
     @Override
@@ -176,7 +198,8 @@ public class MessageBoxPopup extends Popup {
 
         @Override
         public void processInput() {
-            if (input.isKeyDownOnce(KeyEvent.VK_ESCAPE)) {
+            if (input.isKeyDownOnce(KeyEvent.VK_ESCAPE) && canDismiss) {
+                if (dismissListener != null) dismissListener.actionPerformed(null);
                 dispose();
             }
         }
