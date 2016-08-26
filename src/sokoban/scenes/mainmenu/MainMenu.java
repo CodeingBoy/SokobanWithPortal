@@ -61,7 +61,7 @@ public final class MainMenu extends SuperScene {
         bgRect.setCenter(Matrix3x3f.translate(center.x, center.y));
         drawables.put("bgRect", bgRect);
 
-        ((SuperMouseInputHandler) mouseInputHandler).add("bgRect", new Clickable() {
+        ((SuperMouseInputHandler) getMouseInputHandler()).add("bgRect", new Clickable() {
             @Override
             public boolean isPointInside(Point point) {
                 return bgRect.isPointInside(point);
@@ -95,7 +95,7 @@ public final class MainMenu extends SuperScene {
         drawables.put("bgRect", bgRect);
 
         Square finalBgRect = bgRect;
-        ((SuperMouseInputHandler) mouseInputHandler).add("bgRect", new Clickable() {
+        ((SuperMouseInputHandler) getMouseInputHandler()).add("bgRect", new Clickable() {
             @Override
             public boolean isPointInside(Point point) {
                 return finalBgRect.isPointInside(point);
@@ -120,9 +120,10 @@ public final class MainMenu extends SuperScene {
                     public void onClick(Point p) {
                         super.onClick(p);
                         requestSwitchScene(new GameScene());
+                        // attachPopup(new MapSelectingPopup(MainMenu.this));
                     }
                 };
-        ((SuperMouseInputHandler) mouseInputHandler).add("btnStart", btnStart, btnStart);
+        ((SuperMouseInputHandler) getMouseInputHandler()).add("btnStart", btnStart, btnStart);
         drawables.put("btnStart", btnStart);
 
         Button btnTest =
@@ -136,7 +137,7 @@ public final class MainMenu extends SuperScene {
                     }
                 };
         drawables.put("btnTest", btnTest);
-        ((SuperMouseInputHandler) mouseInputHandler).add("btnTest", btnTest, btnTest);
+        ((SuperMouseInputHandler) getMouseInputHandler()).add("btnTest", btnTest, btnTest);
 
         Button btnSetting =
                 new Button(screenMappingTool.worldToScreen(new Point(0 - setting.getWidth(null) / 2,
@@ -155,7 +156,7 @@ public final class MainMenu extends SuperScene {
                     }
                 };
         drawables.put("btnSetting", btnSetting);
-        ((SuperMouseInputHandler) mouseInputHandler).add("btnSetting", btnSetting, btnSetting);
+        ((SuperMouseInputHandler) getMouseInputHandler()).add("btnSetting", btnSetting, btnSetting);
 
 
         Button btnExit =
@@ -169,7 +170,7 @@ public final class MainMenu extends SuperScene {
                     }
                 };
         drawables.put("btnExit", btnExit);
-        ((SuperMouseInputHandler) mouseInputHandler).add("btnExit", btnExit, btnExit);
+        ((SuperMouseInputHandler) getMouseInputHandler()).add("btnExit", btnExit, btnExit);
     }
 
     @Override

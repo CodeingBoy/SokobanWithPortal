@@ -7,7 +7,6 @@ import sokoban.game.engine.input.KeyboardInput;
 import sokoban.game.engine.input.MouseInput;
 import sokoban.game.engine.input.handler.KeyboardInputHandler;
 import sokoban.game.engine.input.handler.SuperMouseInputHandler;
-import sokoban.game.engine.popups.MessageBoxPopup;
 import sokoban.game.engine.scenes.SuperScene;
 import sokoban.map.Direction;
 import sokoban.map.GameMap;
@@ -15,14 +14,14 @@ import sokoban.map.GameObjectsMappingTool;
 import sokoban.map.MapParser;
 import sokoban.map.objects.MapObject;
 import sokoban.map.objects.Player;
+import sokoban.popups.PausePopup;
 
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.EnumSet;
-
-import static sokoban.game.engine.popups.MessageBoxPopup.Style;
 
 /**
  * Created by CodeingBoy on 2016-8-4-0004.
@@ -59,9 +58,9 @@ public class GameScene extends SuperScene {
         }
 
         windowRatioKeeper = new WindowRatioKeeper(null, window.getContentPane(), map.getMapWidth(), map.getMapHeight(), 0);
-        keyboardInputHandler = new GameKeyboardHandler(new KeyboardInput());
-        mouseInputHandler = new SuperMouseInputHandler(new MouseInput());
-        ((SuperMouseInputHandler) mouseInputHandler).add("map", map);
+        setKeyboardInputHandler(new GameKeyboardHandler(new KeyboardInput()));
+        setMouseInputHandler(new SuperMouseInputHandler(new MouseInput()));
+        ((SuperMouseInputHandler) getMouseInputHandler()).add("map", map);
 
         window.setTitle(map.getMapName() + " - 推箱子"); // set title
     }
@@ -146,23 +145,24 @@ public class GameScene extends SuperScene {
             } else if (input.isKeyDownOnce(KeyEvent.VK_DOWN)) {
                 player.move(Direction.DOWN);
             } else if (input.isKeyDownOnce(KeyEvent.VK_ESCAPE)) {
-                MessageBoxPopup popup = new MessageBoxPopup(GameScene.this, new Color(0, 0, 0, 100), "确定退出",
-                        EnumSet.of(Style.MBP_YESNO),
-                        new String[]{
-                                "是否退出游戏？", "您的游戏进度将丢失"
-                        });
-                popup.setYesListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        System.exit(0);
-                    }
-                });
-                popup.setNoListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        detachPopup();
-                    }
-                });
+                // MessageBoxPopup popup = new MessageBoxPopup(GameScene.this, new Color(0, 0, 0, 100), "确定退出",
+                //         EnumSet.of(Style.MBP_YESNO),
+                //         new String[]{
+                //                 "是否退出游戏？", "您的游戏进度将丢失"
+                //         });
+                // popup.setYesListener(new ActionListener() {
+                //     @Override
+                //     public void actionPerformed(ActionEvent e) {
+                //         System.exit(0);
+                //     }
+                // });
+                // popup.setNoListener(new ActionListener() {
+                //     @Override
+                //     public void actionPerformed(ActionEvent e) {
+                //         detachPopup();
+                //     }
+                // });
+                PausePopup popup = new PausePopup(GameScene.this);
                 attachPopup(popup);
             }
         }

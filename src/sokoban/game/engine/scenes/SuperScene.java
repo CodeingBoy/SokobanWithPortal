@@ -19,11 +19,11 @@ import java.util.Map;
 
 public abstract class SuperScene extends Scene {
     private final Class LOGCLASS = SuperScene.class;
-    protected KeyboardInputHandler keyboardInputHandler;
-    protected MouseInputHandler mouseInputHandler;
     protected FrameRateDrawable frameRateDrawable;
     protected WindowRatioKeeper windowRatioKeeper = null;
     protected Map<String, Drawable> drawables = new HashMap<>();
+    private KeyboardInputHandler keyboardInputHandler;
+    private MouseInputHandler mouseInputHandler;
     private Popup popup;
     private KeyboardInputHandler tempKeyboardInputHandler;
     private MouseInputHandler tempMouseInputHandler;
@@ -66,12 +66,11 @@ public abstract class SuperScene extends Scene {
         this.mouseInputHandler = mouseInputHandler;
     }
 
-    public void setFrameRateDrawable(FrameRateDrawable frameRateDrawable) {
-        if (initialized && frameRateDrawable != null) {
-            frameRateDrawable.initialize();
-        }
-
-        this.frameRateDrawable = frameRateDrawable;
+    public KeyboardInputHandler getKeyboardInputHandler() {
+        if (popup == null)
+            return keyboardInputHandler;
+        else
+            return tempKeyboardInputHandler;
     }
 
     public void setKeyboardInputHandler(KeyboardInputHandler keyboardInputHandler) {
@@ -88,6 +87,13 @@ public abstract class SuperScene extends Scene {
         }
 
         this.keyboardInputHandler = keyboardInputHandler;
+    }
+
+    public MouseInputHandler getMouseInputHandler() {
+        if (popup == null)
+            return mouseInputHandler;
+        else
+            return tempMouseInputHandler;
     }
 
     public void setMouseInputHandler(MouseInputHandler mouseInputHandler) {
@@ -108,6 +114,14 @@ public abstract class SuperScene extends Scene {
         }
 
         this.mouseInputHandler = mouseInputHandler;
+    }
+
+    public void setFrameRateDrawable(FrameRateDrawable frameRateDrawable) {
+        if (initialized && frameRateDrawable != null) {
+            frameRateDrawable.initialize();
+        }
+
+        this.frameRateDrawable = frameRateDrawable;
     }
 
     @Override

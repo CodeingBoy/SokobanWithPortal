@@ -18,7 +18,12 @@ public abstract class Popup implements Drawable {
     protected MouseInputHandler mouseInputHandler;
     protected Map<String, Drawable> drawables = new HashMap<>();
 
-
+    /**
+     * 创建一个 Popup
+     *
+     * @param scene           父场景
+     * @param backgroundColor 背景颜色
+     */
     public Popup(SuperScene scene, Color backgroundColor) {
         this.scene = scene;
         this.backgroundColor = backgroundColor;
