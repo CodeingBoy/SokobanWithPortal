@@ -14,10 +14,6 @@ import java.util.ArrayList;
 import java.util.Map;
 
 /**
- * Created by CodeingBoy on 2016-8-4-0004.
- */
-
-/**
  * 地图类，请注意：本类中的所有坐标均使用屏幕坐标，仅在绘制时转换为世界坐标（虽然之后又被转回屏幕坐标）
  */
 public class GameMap implements Drawable, Clickable {
@@ -32,6 +28,15 @@ public class GameMap implements Drawable, Clickable {
     private ArrayList<Point> checkPoints = new ArrayList<>();
     private ActionListener completeListener;
 
+    /**
+     * 构建一张游戏地图
+     *
+     * @param mapObjs     地图对象二维数组引用
+     * @param mapWidth    地图宽度
+     * @param mapHeight   地图高度
+     * @param mapName     地图名
+     * @param mapProperty 地图属性
+     */
     public GameMap(MapObject[][] mapObjs, int mapWidth, int mapHeight, String mapName, Map<String, String> mapProperty) {
         this.mapObjs = mapObjs;
         this.mapWidth = mapWidth;
@@ -57,6 +62,11 @@ public class GameMap implements Drawable, Clickable {
         }
     }
 
+    /**
+     * 构建一张游戏地图
+     * @param mapObjs 地图对象二维数组引用
+     * @param mapProperty 地图属性
+     */
     public GameMap(MapObject[][] mapObjs, Map<String, String> mapProperty) {
         this(mapObjs, Integer.parseInt(mapProperty.get("MapWidth")), Integer.parseInt(mapProperty.get("MapHeight")),
                 mapProperty.get("mapName"), mapProperty);
@@ -66,10 +76,20 @@ public class GameMap implements Drawable, Clickable {
         this.completeListener = completeListener;
     }
 
+    /**
+     * 获取地图的高度
+     *
+     * @return 地图高度（单位：格）
+     */
     public int getMapWidth() {
         return mapWidth;
     }
 
+    /**
+     * 获取地图的宽度
+     *
+     * @return 地图宽度（单位：格）
+     */
     public int getMapHeight() {
         return mapHeight;
     }
@@ -79,10 +99,20 @@ public class GameMap implements Drawable, Clickable {
         MapObject.setGameObjectsMappingTool(gameObjectsMappingTool);
     }
 
+    /**
+     * 获取地图的名字
+     *
+     * @return 地图名
+     */
     public String getMapName() {
         return mapName;
     }
 
+    /**
+     * 获取地图文件中定义的属性
+     * @param name 属性名
+     * @return 属性对应的值 若无该属性，返回null
+     */
     public String getProperty(String name) {
         return mapProperty.get(name);
     }
@@ -212,6 +242,11 @@ public class GameMap implements Drawable, Clickable {
         }
     }
 
+    /**
+     * 当玩家产生移动动作后，此函数会被调用
+     *
+     * @param newPos 玩家移动后的位置
+     */
     public void onPlayerMoved(Point newPos) {
         if (isCompleted()) {
             if (completeListener != null)

@@ -262,6 +262,12 @@ public abstract class SuperScene extends Scene {
             frameRateDrawable.draw(g, delta);
     }
 
+    /**
+     * 附着 Popup<br/>
+     * 附着前请先设置好传入 Popup 的键盘、鼠标处理器，附着后无法变更。
+     *
+     * @param popup 欲附着的 Popup
+     */
     public void attachPopup(Popup popup) {
         if (this.popup != null) detachPopup();
 
@@ -275,6 +281,9 @@ public abstract class SuperScene extends Scene {
         this.popup = popup;
     }
 
+    /**
+     * 解附着 Popup
+     */
     public void detachPopup() {
         setKeyboardInputHandler(tempKeyboardInputHandler);
         setMouseInputHandler(tempMouseInputHandler);

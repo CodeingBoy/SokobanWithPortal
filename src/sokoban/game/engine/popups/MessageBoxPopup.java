@@ -17,7 +17,7 @@ import java.awt.event.KeyEvent;
 import java.util.Set;
 
 /**
- * Created by CodeingBoy on 2016-8-22-0022.
+ * 消息确认弹框 Popup，常用于提示用户信息
  */
 public class MessageBoxPopup extends Popup {
     private final static int FRAMEWIDTH = 4, FRAMEHEIGHT = 3;
@@ -32,13 +32,35 @@ public class MessageBoxPopup extends Popup {
     private ActionListener btnYesListener, btnNoListener, btnOKListener;
 
     /**
-     * @param scene
-     * @param backgroundColor
-     * @param title
-     * @param styles          欲设置多个风格属性，请使用 EnumSet.of 方法传入多个风格属性
-     * @param message
+     * 构建一个消息确认弹框 Popup
+     *
+     * @param scene           父场景
+     * @param backgroundColor 背景颜色
+     * @param title           标题
+     * @param styles          风格属性设置。欲设置多个风格属性，请使用 EnumSet.of 方法传入多个风格属性
+     * @param message         消息
      */
+    @Deprecated
     public MessageBoxPopup(SuperScene scene, Color backgroundColor, String title, Set<Style> styles, String... message) {
+        super(scene, backgroundColor);
+        this.title = title;
+        this.message = message;
+        this.styles = styles;
+
+        setKeyboardInputHandler(new MsgPopupKeyboardHandler(new KeyboardInput()));
+        setMouseInputHandler(superMouseInputHandler);
+    }
+
+    /**
+     * 构建一个消息确认弹框 Popup
+     *
+     * @param scene           父场景
+     * @param backgroundColor 背景颜色
+     * @param styles          风格属性设置。欲设置多个风格属性，请使用 EnumSet.of 方法传入多个风格属性
+     * @param title           标题
+     * @param message         消息
+     */
+    public MessageBoxPopup(SuperScene scene, Color backgroundColor, Set<Style> styles, String title, String... message) {
         super(scene, backgroundColor);
         this.title = title;
         this.message = message;
@@ -113,14 +135,29 @@ public class MessageBoxPopup extends Popup {
 
     }
 
+    /**
+     * 设置点击“是”按钮时，调用的动作监听器
+     *
+     * @param actionListener 欲被调用的监听器
+     */
     public void setYesListener(ActionListener actionListener) {
         btnYesListener = actionListener;
     }
 
+    /**
+     * 设置点击“否”按钮时，调用的动作监听器
+     *
+     * @param actionListener 欲被调用的监听器
+     */
     public void setNoListener(ActionListener actionListener) {
         btnNoListener = actionListener;
     }
 
+    /**
+     * 设置点击“好的”按钮时，调用的动作监听器
+     *
+     * @param actionListener 欲被调用的监听器
+     */
     public void setOKListener(ActionListener actionListener) {
         btnOKListener = actionListener;
     }
@@ -129,6 +166,9 @@ public class MessageBoxPopup extends Popup {
         MBP_OK, MBP_YESNO, MBP_ICONERROR, MBP_ICONCHECK, MBP_ICONCROSS, MBP_ICONQUESTION, MBP_ICONINFORMATION
     }
 
+    /**
+     * 消息弹框 Popup 专用键盘处理器
+     */
     class MsgPopupKeyboardHandler extends KeyboardInputHandler {
         public MsgPopupKeyboardHandler(KeyboardInput input) {
             super(input);
@@ -143,13 +183,16 @@ public class MessageBoxPopup extends Popup {
     }
 }
 
+/**
+ * “好的”按钮定义
+ */
 class OKButton extends Button {
     private final static Image OK = Toolkit.getDefaultToolkit().getImage("pic/buttons/popups/OK.png");
     private final static Image OK_HOVER = Toolkit.getDefaultToolkit().getImage("pic/buttons/popups/OK_hover.png");
     private ActionListener listener = null;
 
     public OKButton(Point start) {
-        super(start, null, OK, OK_HOVER, OK);
+        super(start, OK, OK_HOVER, OK);
     }
 
     public void setListener(ActionListener listener) {
@@ -163,6 +206,9 @@ class OKButton extends Button {
     }
 }
 
+/**
+ * “是”按钮定义
+ */
 class YesButton extends Button {
     private final static Image YES = Toolkit.getDefaultToolkit().getImage("pic/buttons/popups/Yes.png");
     private final static Image YES_HOVER = Toolkit.getDefaultToolkit().getImage("pic/buttons/popups/Yes_hover.png");
@@ -170,7 +216,7 @@ class YesButton extends Button {
 
 
     public YesButton(Point start) {
-        super(start, null, YES, YES_HOVER, YES);
+        super(start, YES, YES_HOVER, YES);
     }
 
     public void setListener(ActionListener listener) {
@@ -184,13 +230,16 @@ class YesButton extends Button {
     }
 }
 
+/**
+ * “否”按钮定义
+ */
 class NoButton extends Button {
     private final static Image NO = Toolkit.getDefaultToolkit().getImage("pic/buttons/popups/No.png");
     private final static Image NO_HOVER = Toolkit.getDefaultToolkit().getImage("pic/buttons/popups/No_hover.png");
     private ActionListener listener = null;
 
     public NoButton(Point start) {
-        super(start, null, NO, NO_HOVER, NO);
+        super(start, NO, NO_HOVER, NO);
     }
 
     public void setListener(ActionListener listener) {

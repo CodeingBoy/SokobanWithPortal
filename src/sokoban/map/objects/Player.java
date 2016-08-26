@@ -6,6 +6,9 @@ import sokoban.utils.Log;
 
 import java.awt.*;
 
+/**
+ * 玩家类，代表人在游戏中操控的部分。
+ */
 public class Player extends MapObject {
     private final static Class LOGCLASS = Player.class;
     private final static Image PIC = Toolkit.getDefaultToolkit().getImage("pic/box.png");
@@ -49,7 +52,7 @@ public class Player extends MapObject {
     }
 
     /**
-     * * 移动到指定的坐标
+     * 移动到指定的坐标
      *
      * @param x         x坐标
      * @param y         y坐标

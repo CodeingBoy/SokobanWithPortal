@@ -16,7 +16,7 @@ import java.awt.event.ActionListener;
 import java.util.EnumSet;
 
 /**
- * 游戏中暂停画面的Popup
+ * 游戏中暂停画面的 Popup
  */
 public class PausePopup extends Popup {
     private final static Image IMG_BACK = Toolkit.getDefaultToolkit().getImage("pic/buttons/pause/back.png");
@@ -27,7 +27,6 @@ public class PausePopup extends Popup {
     private final static Image IMG_MAINMENU_HOVER = Toolkit.getDefaultToolkit().getImage("pic/buttons/pause/mainmenu_hover.png");
     private final static Image IMG_EXIT = Toolkit.getDefaultToolkit().getImage("pic/buttons/pause/exit.png");
     private final static Image IMG_EXIT_HOVER = Toolkit.getDefaultToolkit().getImage("pic/buttons/pause/exit_hover.png");
-
 
     private SuperMouseInputHandler superMouseInputHandler = new SuperMouseInputHandler(new MouseInput());
     private Button btnBack, btnSetting, btnMainmenu, btnExit;

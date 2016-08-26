@@ -11,6 +11,9 @@ import java.awt.event.ComponentEvent;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Popup：一种可在 Scene 上覆盖显示的特殊 Drawable
+ */
 public abstract class Popup implements Drawable {
     protected SuperScene scene;
     protected Color backgroundColor;
@@ -54,7 +57,7 @@ public abstract class Popup implements Drawable {
     }
 
     /**
-     * 渲染函数，请重写该函数以便渲染弹出窗口画面
+     * 渲染函数，请重写该函数以便渲染 Popup 画面
      *
      * @param g     图形对象
      * @param delta 时间增量
@@ -81,16 +84,33 @@ public abstract class Popup implements Drawable {
         this.mouseInputHandler = mouseInputHandler;
     }
 
+    /**
+     * 销毁自身
+     */
     protected void dispose() {
         scene.detachPopup();
     }
 
+    /**
+     * 刷新对象函数，该函数在附着 Popup 及窗口大小变更时被调用。<br/>
+     * 请重写该函数以使窗口对象正确显示。
+     */
     public abstract void refreshObjects();
 
+    /**
+     * 获取窗口宽度
+     *
+     * @return 窗口宽度
+     */
     protected final int getWidth() {
         return scene.getCanvas().getWidth();
     }
 
+    /**
+     * 获取窗口高度
+     *
+     * @return 窗口高度
+     */
     protected final int getHeight() {
         return scene.getCanvas().getHeight();
     }
@@ -107,6 +127,12 @@ public abstract class Popup implements Drawable {
         }
     }
 
+    /**
+     * 附着 Popup<br/>
+     * 附着前请先设置好传入 Popup 的键盘、鼠标处理器，附着后无法变更。
+     *
+     * @param popup 欲附着的 Popup
+     */
     public void attachPopup(Popup popup) {
         if (this.popup != null) detachPopup();
 
@@ -120,6 +146,9 @@ public abstract class Popup implements Drawable {
         popup.refreshObjects();
     }
 
+    /**
+     * 解附着 Popup
+     */
     public void detachPopup() {
         setKeyboardInputHandler(tempKeyboardInputHandler);
         setMouseInputHandler(tempMouseInputHandler);
