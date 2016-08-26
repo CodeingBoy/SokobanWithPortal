@@ -17,9 +17,7 @@ import sokoban.map.objects.MapObject;
 import sokoban.map.objects.Player;
 
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.EnumSet;
@@ -148,11 +146,18 @@ public class GameScene extends SuperScene {
             } else if (input.isKeyDownOnce(KeyEvent.VK_DOWN)) {
                 player.move(Direction.DOWN);
             } else if (input.isKeyDownOnce(KeyEvent.VK_ESCAPE)) {
-                attachPopup(new MessageBoxPopup(GameScene.this, new Color(0, 0, 0, 100), "确定退出",
+                MessageBoxPopup popup = new MessageBoxPopup(GameScene.this, new Color(0, 0, 0, 100), "确定退出",
                         EnumSet.of(Style.MBP_YESNO),
                         new String[]{
                                 "是否退出游戏？", "您的游戏进度将丢失"
-                        }));
+                        });
+                popup.setYesListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        System.exit(0);
+                    }
+                });
+                attachPopup(popup);
             }
         }
     }

@@ -29,6 +29,7 @@ public class MessageBoxPopup extends Popup {
     private SuperMouseInputHandler superMouseInputHandler = new SuperMouseInputHandler(new MouseInput());
     private Set<Style> styles;
     private Button btnOK, btnYes, btnNo;
+    private ActionListener btnYesListener, btnNoListener, btnOKListener;
 
     /**
      * @param scene
@@ -85,6 +86,8 @@ public class MessageBoxPopup extends Popup {
             }
 
             btnOK = new OKButton(screenMappingTool.worldToScreen(new Point(-100, 120)));
+            ((OKButton) btnOK).setListener(btnOKListener);
+
             drawables.put("btnOK", btnOK);
             superMouseInputHandler.add("btnOK", btnOK);
         } else if (styles.contains(Style.MBP_YESNO)) {
@@ -97,7 +100,11 @@ public class MessageBoxPopup extends Popup {
             }
 
             btnYes = new YesButton(screenMappingTool.worldToScreen(new Point(-200, 120)));
+            ((YesButton) btnYes).setListener(btnYesListener);
+
             btnNo = new NoButton(screenMappingTool.worldToScreen(new Point(0, 120)));
+            ((NoButton) btnNo).setListener(btnNoListener);
+
             drawables.put("btnYes", btnYes);
             drawables.put("btnNo", btnNo);
             superMouseInputHandler.add("btnYes", btnYes);
@@ -108,8 +115,16 @@ public class MessageBoxPopup extends Popup {
 
     }
 
-    public void addListener(ActionListener actionListener) {
+    public void setYesListener(ActionListener actionListener) {
+        btnYesListener = actionListener;
+    }
 
+    public void setNoListener(ActionListener actionListener) {
+        btnNoListener = actionListener;
+    }
+
+    public void setOKListener(ActionListener actionListener) {
+        btnOKListener = actionListener;
     }
 
     public enum Style {
@@ -133,44 +148,60 @@ public class MessageBoxPopup extends Popup {
 class OKButton extends Button {
     private final static Image OK = Toolkit.getDefaultToolkit().getImage("pic/buttons/popups/OK.png");
     private final static Image OK_HOVER = Toolkit.getDefaultToolkit().getImage("pic/buttons/popups/OK_hover.png");
+    private ActionListener listener = null;
 
     public OKButton(Point start) {
         super(start, null, OK, OK_HOVER, OK);
     }
 
+    public void setListener(ActionListener listener) {
+        this.listener = listener;
+    }
+
     @Override
     public void onClick(Point p) {
         super.onClick(p);
-
+        if (listener != null) listener.actionPerformed(null);
     }
 }
 
 class YesButton extends Button {
     private final static Image YES = Toolkit.getDefaultToolkit().getImage("pic/buttons/popups/Yes.png");
     private final static Image YES_HOVER = Toolkit.getDefaultToolkit().getImage("pic/buttons/popups/Yes_hover.png");
+    private ActionListener listener = null;
+
 
     public YesButton(Point start) {
         super(start, null, YES, YES_HOVER, YES);
     }
 
+    public void setListener(ActionListener listener) {
+        this.listener = listener;
+    }
+
     @Override
     public void onClick(Point p) {
         super.onClick(p);
-
+        if (listener != null) listener.actionPerformed(null);
     }
 }
 
 class NoButton extends Button {
     private final static Image NO = Toolkit.getDefaultToolkit().getImage("pic/buttons/popups/No.png");
     private final static Image NO_HOVER = Toolkit.getDefaultToolkit().getImage("pic/buttons/popups/No_hover.png");
+    private ActionListener listener = null;
 
     public NoButton(Point start) {
         super(start, null, NO, NO_HOVER, NO);
     }
 
+    public void setListener(ActionListener listener) {
+        this.listener = listener;
+    }
+
     @Override
     public void onClick(Point p) {
         super.onClick(p);
-
+        if (listener != null) listener.actionPerformed(null);
     }
 }
