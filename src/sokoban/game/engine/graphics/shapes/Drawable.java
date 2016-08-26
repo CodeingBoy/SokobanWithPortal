@@ -3,7 +3,7 @@ package sokoban.game.engine.graphics.shapes;
 import java.awt.*;
 
 /**
- * Created by CodeingBoy on 2016-8-2-0002.
+ * “可被绘制”接口
  */
 public interface Drawable {
     /**
