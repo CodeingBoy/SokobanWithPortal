@@ -22,6 +22,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.EnumSet;
 
 /**
  * Created by CodeingBoy on 2016-8-4-0004.
@@ -145,7 +146,7 @@ public class GameScene extends SuperScene {
             } else if (input.isKeyDownOnce(KeyEvent.VK_DOWN)) {
                 player.move(Direction.DOWN);
             } else if (input.isKeyDownOnce(KeyEvent.VK_ESCAPE)) {
-                attachPopup(new MessageBoxPopup(GameScene.this, new Color(0, 0, 0, 100), "确定退出",
+                attachPopup(new MessageBoxPopup(GameScene.this, new Color(0, 0, 0, 100), "确定退出", EnumSet.of(MessageBoxPopup.Style.MBP_OK),
                         new String[]{
                                 "是否退出游戏？", "您的游戏进度将丢失"
                         }));

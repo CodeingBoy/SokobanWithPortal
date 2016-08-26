@@ -8,12 +8,15 @@ import sokoban.game.engine.scenes.SuperScene;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class Popup implements Drawable {
     protected SuperScene scene;
     protected Color backgroundColor;
     protected KeyboardInputHandler keyboardInputHandler;
     protected MouseInputHandler mouseInputHandler;
+    protected Map<String, Drawable> drawables = new HashMap<>();
 
 
     public Popup(SuperScene scene, Color backgroundColor) {
@@ -34,6 +37,7 @@ public abstract class Popup implements Drawable {
         g.fillRect(0, 0, scene.getWidth(), scene.getHeight());
 
         render(g, delta);
+        renderDrawables(g, delta);
     }
 
     @Override
@@ -77,5 +81,17 @@ public abstract class Popup implements Drawable {
 
     protected final int getHeight() {
         return scene.getCanvas().getHeight();
+    }
+
+    /**
+     * 对 Drawable 中的对象进行绘制
+     *
+     * @param g     图形对象
+     * @param delta 时间增量
+     */
+    private final synchronized void renderDrawables(Graphics g, double delta) {
+        for (Drawable d : drawables.values()) {
+            d.draw(g, delta);
+        }
     }
 }

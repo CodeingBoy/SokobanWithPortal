@@ -24,8 +24,8 @@ public class SuperMouseInputHandler extends MouseInputHandler {
         clickables.put(name, clickable);
     }
 
-    public void remove(Shape shape) {
-        clickables.remove(shape);
+    public void remove(Clickable clickable) {
+        clickables.remove(clickable);
     }
 
     @Override
