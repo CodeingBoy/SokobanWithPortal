@@ -10,24 +10,23 @@ import sokoban.utils.Settings;
 import java.awt.*;
 
 /**
- * Created by CodeingBoy on 2016-8-3-0003.
+ * 按钮类，定义了基于图片的按钮
  */
 public abstract class Button extends Rect implements Clickable, Drawable {
-    private String text;
     private Image normalImg, hoverImg, pressImg;
     private boolean isClicking = false, isHovering = false;
 
+    @Deprecated
     public Button(Vector2f start, int width, int height, String text, Image normalImg, Image hoverImg, Image pressImg) {
         super(start, width, height);
-        this.text = text;
         this.normalImg = normalImg;
         this.hoverImg = hoverImg;
         this.pressImg = pressImg;
     }
 
+    @Deprecated
     public Button(Vector2f start, String text, Image normalImg, Image hoverImg, Image pressImg) {
         super(start, normalImg.getWidth(null), normalImg.getHeight(null));
-        this.text = text;
         this.normalImg = normalImg;
         this.hoverImg = hoverImg;
         this.pressImg = pressImg;
@@ -36,7 +35,6 @@ public abstract class Button extends Rect implements Clickable, Drawable {
     @Deprecated
     public Button(Point start, String text, Image normalImg, Image hoverImg, Image pressImg) {
         super(new Vector2f(start.x, start.y), normalImg.getWidth(null), normalImg.getHeight(null));
-        this.text = text;
         this.normalImg = normalImg;
         this.hoverImg = hoverImg;
         this.pressImg = pressImg;
@@ -49,14 +47,21 @@ public abstract class Button extends Rect implements Clickable, Drawable {
         this.pressImg = pressImg;
     }
 
+    protected Button(Point start, int width, int height, Image normalImg, Image hoverImg, Image pressImg) {
+        super(new Vector2f(start.x, start.y), width, height);
+        this.normalImg = normalImg;
+        this.hoverImg = hoverImg;
+        this.pressImg = pressImg;
+    }
+
     @Override
     public void draw(Graphics g, double delta) {
         update(delta);
-        if (isClicking)
+        if (isClicking && pressImg != null)
             g.drawImage(pressImg, (int) currentVectors[0].x, (int) currentVectors[0].y, null);
-        else if (isHovering)
+        else if (isHovering && hoverImg != null)
             g.drawImage(hoverImg, (int) currentVectors[0].x, (int) currentVectors[0].y, null);
-        else
+        else if (normalImg != null)
             g.drawImage(normalImg, (int) currentVectors[0].x, (int) currentVectors[0].y, null);
 
         isClicking = false;
