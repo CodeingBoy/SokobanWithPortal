@@ -12,6 +12,17 @@ import java.awt.*;
 public class Rect extends Polygon {
     private double width, height;
 
+    public Rect(Vector2f start, int width, int height) {
+        super(start, new Vector2f(start.x + width, start.y),
+                new Vector2f(start.x + width, start.y + height), new Vector2f(start.x, start.y + height));
+        this.width = width;
+        this.height = height;
+    }
+
+    public double getWidth() {
+        return width;
+    }
+
     // public Rect(Vector2f v1, Vector2f v2, Vector2f v3, Vector2f v4) {
     //     super(v1, v2, v3, v4);
     // }
@@ -20,11 +31,8 @@ public class Rect extends Polygon {
     //     super(Arrays.asList(p1, p2, p3, p4));
     // }
 
-    public Rect(Vector2f start, int width, int height) {
-        super(start, new Vector2f(start.x + width, start.y),
-                new Vector2f(start.x + width, start.y + height), new Vector2f(start.x, start.y + height));
-        this.width = width;
-        this.height = height;
+    public double getHeight() {
+        return height;
     }
 
     public void setOriginVectors(Vector2f start, int width, int height) {

@@ -14,6 +14,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.Map;
 
 /**
@@ -31,7 +32,7 @@ public class MapSelectingPopup extends Popup {
      * @param scene 父场景
      */
     public MapSelectingPopup(SuperScene scene) {
-        super(scene, new Color(255, 255, 255, 150));
+        super(scene, new Color(0, 0, 0, 200));
         maplist = MapParser.getMapList(new File("map"));
 
         setMouseInputHandler(new SuperMouseInputHandler(new MouseInput()));
@@ -51,30 +52,27 @@ public class MapSelectingPopup extends Popup {
     }
 
     @Override
-    public void refreshObjects() {
+    public synchronized void refreshObjects() {
         screenMappingTool = new ScreenMappingTool(1, 1, scene.getCanvas());
 
-        btnBack = new TextButton(new Point((int) (getWidth() * 0.5), (int) (getHeight() * 0.7)), 500, 70, null, null, null,
-                new Point(250, 35), new Font("微软雅黑", Font.PLAIN, 35), Color.white, Color.cyan, Color.BLACK, "返回") {
+        btnBack = new TextButton(new Point((int) (getWidth() * 0.8), (int) (getHeight() * 0.7)), 100, 70, null, null, null,
+                new Point(0, 0), new Font("微软雅黑", Font.PLAIN, 35), Color.white, Color.cyan, Color.BLACK,
+                EnumSet.of(TextButton.Style.CENTER_TEXT), "返回") {
             @Override
             public void onClick(Point p) {
                 super.onClick(p);
                 dispose();
-            }
-
-            @Override
-            public void onHover(Point p) {
-                super.onHover(p);
             }
         };
         ((SuperMouseInputHandler) getMouseInputHandler()).add("btnBack", btnBack);
 
         mapBtns = new ArrayList<>();
 
-        int y = (int) (getHeight() * 0.2);
+        int y = (int) (getHeight() * 0.25);
         for (Map.Entry<String, File> entry : maplist.entrySet()) {
-            TextButton btn = new TextButton(new Point(getWidth() / 2 - 150, y), 100, 70, null, null, null,
-                    new Point(50, 35), new Font("微软雅黑", Font.PLAIN, 30), Color.white, Color.BLACK, Color.BLACK, entry.getKey()) {
+            TextButton btn = new TextButton(true, new Point(getWidth() / 2, y), 200, 40, null, null, null,
+                    new Point(0, 0), new Font("微软雅黑", Font.PLAIN, 30), Color.WHITE, Color.green, Color.WHITE,
+                    EnumSet.of(TextButton.Style.CENTER_TEXT), entry.getKey()) {
                 @Override
                 public void onClick(Point p) {
                     super.onClick(p);
@@ -88,7 +86,7 @@ public class MapSelectingPopup extends Popup {
             mapBtns.add(btn);
             ((SuperMouseInputHandler) getMouseInputHandler()).add(entry.getKey(), btn);
 
-            y += 70;
+            y += 50;
         }
     }
 }
