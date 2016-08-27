@@ -109,6 +109,8 @@ public class GameScene extends SuperScene {
         window.getContentPane().setBackground(Color.GRAY);
         windowRatioKeeper.componentResized(null);
 
+        canvas.requestFocus(); // set focus to canvas so user can input
+
         // set map mapping
         map.setMappingTool(new GameObjectsMappingTool(map.getMapWidth(), map.getMapHeight(), canvas));
         map.updateMapScreenPos();
