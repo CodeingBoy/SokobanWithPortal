@@ -63,11 +63,10 @@ public class GameScene extends SuperScene {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (completedHinted) return;
-                MessageBoxPopup popup = new MessageBoxPopup(GameScene.this, new Color(0, 0, 0, 100), "闯关成功！",
-                        EnumSet.of(MessageBoxPopup.Style.MBP_YESNO),
-                        new String[]{
-                                "恭喜，闯关成功！", "是否回到主界面？"
-                        });
+                MessageBoxPopup popup = new MessageBoxPopup(GameScene.this, new Color(0, 0, 0, 100), EnumSet.of(MessageBoxPopup.Style.MBP_YESNO),
+                        "闯关成功！", new String[]{
+                        "恭喜，闯关成功！", "是否回到主界面？"
+                });
                 popup.setYesListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -106,9 +105,14 @@ public class GameScene extends SuperScene {
 
     @Override
     public void beforeRendering() {
+        // resize canvas
+        window.getContentPane().setBackground(Color.GRAY);
+        windowRatioKeeper.componentResized(null);
+
+        // set map mapping
         map.setMappingTool(new GameObjectsMappingTool(map.getMapWidth(), map.getMapHeight(), canvas));
         map.updateMapScreenPos();
-        drawables.put("Map", map);
+        drawables.put("Map", map); // put map into drawables
 
         player = new Player(map.getPlayerStartPoint(), map);
         // player.setWorldToScreen(new ScreenMappingTool(map.getMapWidth(), map.getMapHeight(), canvas));
