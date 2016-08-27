@@ -86,4 +86,12 @@ public class TextDrawer {
 
         drawCenteredString(g, x, y, strings);
     }
+
+    public static int getTextWidth(Graphics g, String s) {
+        return g.getFontMetrics().stringWidth(s);
+    }
+
+    public static int getTextHeight(Graphics g) {
+        return g.getFontMetrics().getHeight();
+    }
 }
