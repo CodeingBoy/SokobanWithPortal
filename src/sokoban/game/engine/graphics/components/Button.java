@@ -92,6 +92,14 @@ public abstract class Button extends Rect implements Clickable, Drawable {
         isHovering = true;
     }
 
+    protected boolean isClicking() {
+        return isClicking;
+    }
+
+    protected boolean isHovering() {
+        return isHovering;
+    }
+
     @Override
     protected void drawDebugInf(Graphics g) {
         TextDrawer.drawString(g, (int) currentVectors[0].x, (int) currentVectors[0].y, null, TextDrawer.COLOR_DEBUGINF, new String[]{

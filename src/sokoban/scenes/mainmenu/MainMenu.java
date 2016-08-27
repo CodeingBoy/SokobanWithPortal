@@ -13,7 +13,7 @@ import sokoban.game.engine.input.handler.Clickable;
 import sokoban.game.engine.input.handler.SuperKeyboardInputHandler;
 import sokoban.game.engine.input.handler.SuperMouseInputHandler;
 import sokoban.game.engine.scenes.SuperScene;
-import sokoban.scenes.gamescene.GameScene;
+import sokoban.popups.MapSelectingPopup;
 import sokoban.scenes.testscene.TestScene;
 
 import javax.swing.*;
@@ -119,8 +119,8 @@ public final class MainMenu extends SuperScene {
                     @Override
                     public void onClick(Point p) {
                         super.onClick(p);
-                        requestSwitchScene(new GameScene());
-                        // attachPopup(new MapSelectingPopup(MainMenu.this));
+                        //requestSwitchScene(new GameScene());
+                        attachPopup(new MapSelectingPopup(MainMenu.this));
                     }
                 };
         ((SuperMouseInputHandler) getMouseInputHandler()).add("btnStart", btnStart, btnStart);

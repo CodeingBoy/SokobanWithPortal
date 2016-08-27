@@ -53,11 +53,11 @@ public class GameScene extends SuperScene {
 
     @Override
     public void onPrepare() {
-        try {
-            map = MapParser.parseMapFile(new File("map/level2.map"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        // try {
+        //     map = MapParser.parseMapFile(new File("map/level2.map"));
+        // } catch (FileNotFoundException e) {
+        //     e.printStackTrace();
+        // }
 
         map.setCompleteListener(new ActionListener() {
             @Override
