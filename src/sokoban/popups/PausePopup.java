@@ -10,6 +10,7 @@ import sokoban.game.engine.popups.Popup;
 import sokoban.game.engine.scenes.SuperScene;
 import sokoban.scenes.mainmenu.MainMenu;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,14 +20,14 @@ import java.util.EnumSet;
  * 游戏中暂停画面的 Popup
  */
 public class PausePopup extends Popup {
-    private final static Image IMG_BACK = Toolkit.getDefaultToolkit().getImage("pic/buttons/pause/back.png");
-    private final static Image IMG_BACK_HOVER = Toolkit.getDefaultToolkit().getImage("pic/buttons/pause/back_hover.png");
-    private final static Image IMG_SETTINGS = Toolkit.getDefaultToolkit().getImage("pic/buttons/pause/setting.png");
-    private final static Image IMG_SETTINGS_HOVER = Toolkit.getDefaultToolkit().getImage("pic/buttons/pause/setting_hover.png");
-    private final static Image IMG_MAINMENU = Toolkit.getDefaultToolkit().getImage("pic/buttons/pause/mainmenu.png");
-    private final static Image IMG_MAINMENU_HOVER = Toolkit.getDefaultToolkit().getImage("pic/buttons/pause/mainmenu_hover.png");
-    private final static Image IMG_EXIT = Toolkit.getDefaultToolkit().getImage("pic/buttons/pause/exit.png");
-    private final static Image IMG_EXIT_HOVER = Toolkit.getDefaultToolkit().getImage("pic/buttons/pause/exit_hover.png");
+    private final static Image IMG_BACK = new ImageIcon("pic/buttons/pause/back.png").getImage();
+    private final static Image IMG_BACK_HOVER = new ImageIcon("pic/buttons/pause/back_hover.png").getImage();
+    private final static Image IMG_SETTINGS = new ImageIcon("pic/buttons/pause/setting.png").getImage();
+    private final static Image IMG_SETTINGS_HOVER = new ImageIcon("pic/buttons/pause/setting_hover.png").getImage();
+    private final static Image IMG_MAINMENU = new ImageIcon("pic/buttons/pause/mainmenu.png").getImage();
+    private final static Image IMG_MAINMENU_HOVER = new ImageIcon("pic/buttons/pause/mainmenu_hover.png").getImage();
+    private final static Image IMG_EXIT = new ImageIcon("pic/buttons/pause/exit.png").getImage();
+    private final static Image IMG_EXIT_HOVER = new ImageIcon("pic/buttons/pause/exit_hover.png").getImage();
 
     private SuperMouseInputHandler superMouseInputHandler = new SuperMouseInputHandler(new MouseInput());
     private Button btnBack, btnSetting, btnMainmenu, btnExit;

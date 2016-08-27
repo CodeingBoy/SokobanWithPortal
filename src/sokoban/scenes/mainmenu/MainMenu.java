@@ -27,15 +27,15 @@ import java.awt.event.ComponentEvent;
 public final class MainMenu extends SuperScene {
     private static final int WORLD_WIDTH = 100;
     private static final int WORLD_HEIGHT = 100;
-    private final Image banner = Toolkit.getDefaultToolkit().getImage("banner.png");
-    private final Image start = Toolkit.getDefaultToolkit().getImage("start.png");
-    private final Image start_hover = Toolkit.getDefaultToolkit().getImage("start_hover.png");
-    private final Image exit = Toolkit.getDefaultToolkit().getImage("exit.png");
-    private final Image exit_hover = Toolkit.getDefaultToolkit().getImage("exit_hover.png");
-    private final Image test = Toolkit.getDefaultToolkit().getImage("pic/buttons/test/test.png");
-    private final Image test_hover = Toolkit.getDefaultToolkit().getImage("pic/buttons/test/test_hover.png");
-    private final Image setting = Toolkit.getDefaultToolkit().getImage("pic/buttons/setting/setting.png");
-    private final Image setting_hover = Toolkit.getDefaultToolkit().getImage("pic/buttons/setting/setting_hover.png");
+    private final Image banner = new ImageIcon("banner.png").getImage();
+    private final Image start = new ImageIcon("start.png").getImage();
+    private final Image start_hover = new ImageIcon("start_hover.png").getImage();
+    private final Image exit = new ImageIcon("exit.png").getImage();
+    private final Image exit_hover = new ImageIcon("exit_hover.png").getImage();
+    private final Image test = new ImageIcon("pic/buttons/test/test.png").getImage();
+    private final Image test_hover = new ImageIcon("pic/buttons/test/test_hover.png").getImage();
+    private final Image setting = new ImageIcon("pic/buttons/setting/setting.png").getImage();
+    private final Image setting_hover = new ImageIcon("pic/buttons/setting/setting_hover.png").getImage();
     private ScreenMappingTool screenMappingTool;
 
     public MainMenu() {

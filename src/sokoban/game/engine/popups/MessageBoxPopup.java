@@ -11,6 +11,7 @@ import sokoban.game.engine.input.handler.SuperMouseInputHandler;
 import sokoban.game.engine.scenes.SuperScene;
 import sokoban.game.utils.TextDrawer;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -210,8 +211,8 @@ public class MessageBoxPopup extends Popup {
  * “好的”按钮定义
  */
 class OKButton extends Button {
-    private final static Image OK = Toolkit.getDefaultToolkit().getImage("pic/buttons/popups/OK.png");
-    private final static Image OK_HOVER = Toolkit.getDefaultToolkit().getImage("pic/buttons/popups/OK_hover.png");
+    private final static Image OK = new ImageIcon("pic/buttons/popups/OK.png").getImage();
+    private final static Image OK_HOVER = new ImageIcon("pic/buttons/popups/OK_hover.png").getImage();
     private ActionListener listener = null;
 
     public OKButton(Point start) {
@@ -233,10 +234,9 @@ class OKButton extends Button {
  * “是”按钮定义
  */
 class YesButton extends Button {
-    private final static Image YES = Toolkit.getDefaultToolkit().getImage("pic/buttons/popups/Yes.png");
-    private final static Image YES_HOVER = Toolkit.getDefaultToolkit().getImage("pic/buttons/popups/Yes_hover.png");
+    private final static Image YES = new ImageIcon("pic/buttons/popups/Yes.png").getImage();
+    private final static Image YES_HOVER = new ImageIcon("pic/buttons/popups/Yes_hover.png").getImage();
     private ActionListener listener = null;
-
 
     public YesButton(Point start) {
         super(start, YES, YES_HOVER, YES);
@@ -257,8 +257,8 @@ class YesButton extends Button {
  * “否”按钮定义
  */
 class NoButton extends Button {
-    private final static Image NO = Toolkit.getDefaultToolkit().getImage("pic/buttons/popups/No.png");
-    private final static Image NO_HOVER = Toolkit.getDefaultToolkit().getImage("pic/buttons/popups/No_hover.png");
+    private final static Image NO = new ImageIcon("pic/buttons/popups/No.png").getImage();
+    private final static Image NO_HOVER = new ImageIcon("pic/buttons/popups/No_hover.png").getImage();
     private ActionListener listener = null;
 
     public NoButton(Point start) {
