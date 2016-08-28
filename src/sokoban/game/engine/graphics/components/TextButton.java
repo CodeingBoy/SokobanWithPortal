@@ -5,14 +5,17 @@ import com.sun.istack.internal.Nullable;
 import sokoban.game.utils.TextDrawer;
 
 import java.awt.*;
+import java.util.EnumSet;
 import java.util.Set;
+
+import static sokoban.game.utils.TextDrawer.RelativePos.*;
 
 /**
  * 带文本的按钮类
  */
 public abstract class TextButton extends Button {
     private String[] texts;
-    private Point textPos;
+    private Point textOffset;
     private Font font;
     private Color normalColor, hoverColor, clickColor;
     private Set<Style> styles;
@@ -24,16 +27,16 @@ public abstract class TextButton extends Button {
      * @param normalImg   普通状态下的背景图片
      * @param hoverImg    悬停状态下的背景图片
      * @param pressImg    按下状态下的背景图片
-     * @param textPos     文本相对于按钮左上角的坐标
+     * @param textOffset  文本相对于按钮左上角的坐标
      * @param font        文本字体
      * @param normalColor 文本颜色
      * @param texts       文本
      */
     public TextButton(Point start, @Nullable Image normalImg, @Nullable Image hoverImg, @Nullable Image pressImg,
-                      Point textPos, Font font, Color normalColor, Color hoverColor, Color clickColor, String... texts) {
+                      Point textOffset, Font font, Color normalColor, Color hoverColor, Color clickColor, String... texts) {
         super(start, normalImg, hoverImg, pressImg);
         this.texts = texts;
-        this.textPos = textPos;
+        this.textOffset = textOffset;
         this.font = font;
         this.normalColor = normalColor;
         this.hoverColor = hoverColor;
@@ -49,7 +52,7 @@ public abstract class TextButton extends Button {
      * @param normalImg   普通状态下的背景图片
      * @param hoverImg    悬停状态下的背景图片
      * @param pressImg    按下状态下的背景图片
-     * @param textPos     文本相对于按钮左上角的坐标
+     * @param textOffset  文本相对于按钮左上角的坐标
      * @param font        文本字体
      * @param normalColor 文本颜色
      * @param hoverColor  悬停时文本颜色
@@ -57,10 +60,10 @@ public abstract class TextButton extends Button {
      * @param texts       文本
      */
     public TextButton(Point start, int width, int height, @Nullable Image normalImg, @Nullable Image hoverImg, @Nullable Image pressImg,
-                      Point textPos, Font font, Color normalColor, Color hoverColor, Color clickColor, String... texts) {
+                      Point textOffset, Font font, Color normalColor, Color hoverColor, Color clickColor, String... texts) {
         super(start, width, height, normalImg, hoverImg, pressImg);
         this.texts = texts;
-        this.textPos = textPos;
+        this.textOffset = textOffset;
         this.font = font;
         this.normalColor = normalColor;
         this.hoverColor = hoverColor;
@@ -76,7 +79,7 @@ public abstract class TextButton extends Button {
      * @param normalImg   普通状态下的背景图片
      * @param hoverImg    悬停状态下的背景图片
      * @param pressImg    按下状态下的背景图片
-     * @param textPos     文本相对于按钮左上角的坐标
+     * @param textOffset  文本相对于按钮左上角的坐标
      * @param font        文本字体
      * @param normalColor 文本颜色
      * @param hoverColor  悬停时文本颜色
@@ -85,10 +88,10 @@ public abstract class TextButton extends Button {
      * @param texts       文本
      */
     public TextButton(Point start, int width, int height, @Nullable Image normalImg, @Nullable Image hoverImg, @Nullable Image pressImg,
-                      Point textPos, Font font, Color normalColor, Color hoverColor, Color clickColor, Set<Style> styles, String... texts) {
+                      Point textOffset, Font font, Color normalColor, Color hoverColor, Color clickColor, Set<Style> styles, String... texts) {
         super(start, width, height, normalImg, hoverImg, pressImg);
         this.texts = texts;
-        this.textPos = textPos;
+        this.textOffset = textOffset;
         this.font = font;
         this.normalColor = normalColor;
         this.hoverColor = hoverColor;
@@ -106,7 +109,7 @@ public abstract class TextButton extends Button {
      * @param normalImg   普通状态下的背景图片
      * @param hoverImg    悬停状态下的背景图片
      * @param pressImg    按下状态下的背景图片
-     * @param textPos     文本相对于按钮左上角的坐标
+     * @param textOffset  文本相对于按钮左上角的坐标
      * @param font        文本字体
      * @param normalColor 文本颜色
      * @param hoverColor  悬停时文本颜色
@@ -115,8 +118,8 @@ public abstract class TextButton extends Button {
      * @param texts       文本
      */
     public TextButton(boolean center, Point start, int width, int height, @Nullable Image normalImg, @Nullable Image hoverImg, @Nullable Image pressImg,
-                      Point textPos, Font font, Color normalColor, Color hoverColor, Color clickColor, Set<Style> styles, String... texts) {
-        this(new Point(start.x - width / 2, start.y - height / 2), width, height, normalImg, hoverImg, pressImg, textPos, font, normalColor, hoverColor, clickColor, styles, texts);
+                      Point textOffset, Font font, Color normalColor, Color hoverColor, Color clickColor, Set<Style> styles, String... texts) {
+        this(new Point(start.x - width / 2, start.y - height / 2), width, height, normalImg, hoverImg, pressImg, textOffset, font, normalColor, hoverColor, clickColor, styles, texts);
     }
 
     @Override
@@ -125,25 +128,27 @@ public abstract class TextButton extends Button {
 
         super.draw(g, delta);
 
+        int x, y;
+        Set<TextDrawer.RelativePos> posSet;
         if (styles != null && styles.contains(Style.CENTER_TEXT)) {
-            if (isHovering && hoverColor != null)
-                TextDrawer.drawCenteredString(g, (int) (originVectors[0].x + getWidth() / 2 + textPos.x),
-                        (int) (originVectors[0].y + getHeight() / 2 + textPos.y), font, hoverColor, texts);
-            else if (isClicking && clickColor != null)
-                TextDrawer.drawCenteredString(g, (int) (originVectors[0].x + getWidth() / 2 + textPos.x),
-                        (int) (originVectors[0].y + getHeight() / 2 + textPos.y), font, clickColor, texts);
-            else
-                TextDrawer.drawCenteredString(g, (int) (originVectors[0].x + getWidth() / 2 + textPos.x),
-                        (int) (originVectors[0].y + getHeight() / 2 + textPos.y), font, normalColor, texts);
+            x = (int) (originVectors[0].x + getWidth() / 2 + textOffset.x);
+            y = (int) (originVectors[0].y + getHeight() / 2 + textOffset.y);
+            posSet = EnumSet.of(POS_CENTER_FIRSTLINE);
         } else {
-            if (isHovering && hoverColor != null)
-                TextDrawer.drawString(g, (int) originVectors[0].x + textPos.x, (int) originVectors[0].y + textPos.y, font, hoverColor, texts);
-            else if (isClicking && clickColor != null)
-                TextDrawer.drawString(g, (int) originVectors[0].x + textPos.x, (int) originVectors[0].y + textPos.y, font, clickColor, texts);
-            else
-                TextDrawer.drawString(g, (int) originVectors[0].x + textPos.x, (int) originVectors[0].y + textPos.y, font, normalColor, texts);
+            x = (int) (originVectors[0].x + textOffset.x);
+            y = (int) (originVectors[0].y + textOffset.y);
+            posSet = EnumSet.of(POS_LEFT, POS_TOP);
         }
 
+        Color textColor;
+        if (isHovering && hoverColor != null)
+            textColor = hoverColor;
+        else if (isClicking && clickColor != null)
+            textColor = clickColor;
+        else
+            textColor = normalColor;
+
+        TextDrawer.drawString(g, x, y, posSet, font, textColor, texts);
     }
 
     public enum Style {
