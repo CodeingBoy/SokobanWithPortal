@@ -196,6 +196,8 @@ public final class MainMenu extends SuperScene {
 
         setKeyboardInputHandler(new SuperKeyboardInputHandler(new KeyboardInput()));
         setMouseInputHandler(new SuperMouseInputHandler(new MouseInput()));
+
+        window.setTitle("推箱子");
     }
 
     @Override

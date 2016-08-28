@@ -106,5 +106,8 @@ public abstract class Button extends Rect implements Clickable, Drawable {
                 originVectors[0].x + "," + originVectors[0].y,
                 (int) currentVectors[0].x + "," + (int) currentVectors[0].y,
         });
+
+        g.drawRect((int) currentVectors[0].x, (int) currentVectors[0].y,
+                (int) (currentVectors[2].x - currentVectors[0].x), (int) (currentVectors[2].y - currentVectors[0].y));
     }
 }
