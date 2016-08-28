@@ -111,7 +111,7 @@ public abstract class TextButton extends Button {
      * @param normalColor 文本颜色
      * @param hoverColor  悬停时文本颜色
      * @param clickColor  点击时文本颜色
-     * @param styles      按钮样式，传入多个是请使用 EnumSet.of
+     * @param styles      按钮样式，传入多个时请使用 EnumSet.of
      * @param texts       文本
      */
     public TextButton(boolean center, Point start, int width, int height, @Nullable Image normalImg, @Nullable Image hoverImg, @Nullable Image pressImg,
