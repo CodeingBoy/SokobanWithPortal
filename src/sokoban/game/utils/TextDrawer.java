@@ -1,5 +1,7 @@
 package sokoban.game.utils;
 
+import sokoban.utils.Settings;
+
 import java.awt.*;
 
 /**
@@ -62,10 +64,21 @@ public class TextDrawer {
         int ascent = fontMetrics.getAscent();
         int height = fontMetrics.getHeight();
 
-        int curY = y;
+        int curY = y; // for multiple lines of texts
         for (String s : strings) {
             int width = fontMetrics.stringWidth(s);
-            g.drawString(s, x - width / 2, curY + ascent);
+            // calculate string pos based on the upper left corner
+            int stringX = x - width / 2;
+            int stringY = curY - height / 2 + ascent; // add ascent so that string can draw on where we want
+            g.drawString(s, stringX, stringY);
+
+            if (Settings.isDebugMode()) { // for debug
+                g.drawRect(x - width / 2, curY - height / 2, width, height);
+
+                g.drawLine(0, stringY, 500, stringY);
+                drawString(g, 0, stringY, "new baseline");
+            }
+
             curY += height;
         }
     }
