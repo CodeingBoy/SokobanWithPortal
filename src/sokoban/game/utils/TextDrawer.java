@@ -9,6 +9,7 @@ import java.awt.*;
  */
 public class TextDrawer {
     public final static Color COLOR_DEBUGINF = new Color(255, 255, 255, 150);
+    public final static Font FONT_DEBUGINF = new Font("宋体", Font.PLAIN, 12);
 
     private TextDrawer() {
 

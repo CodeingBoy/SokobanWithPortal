@@ -102,7 +102,7 @@ public abstract class Button extends Rect implements Clickable, Drawable {
 
     @Override
     protected void drawDebugInf(Graphics g) {
-        TextDrawer.drawString(g, (int) currentVectors[0].x, (int) currentVectors[0].y, null, TextDrawer.COLOR_DEBUGINF, new String[]{
+        TextDrawer.drawString(g, (int) currentVectors[0].x, (int) currentVectors[0].y, TextDrawer.FONT_DEBUGINF, TextDrawer.COLOR_DEBUGINF, new String[]{
                 originVectors[0].x + "," + originVectors[0].y,
                 (int) currentVectors[0].x + "," + (int) currentVectors[0].y,
         });
