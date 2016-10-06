@@ -10,14 +10,14 @@ import java.util.Map;
  * Created by CodeingBoy on 2016-7-11-0011.
  */
 public class SuperKeyboardInputHandler extends KeyboardInputHandler {
-    protected Map<KeyEvent, Enterable> enterables = new HashMap<>();
+    protected Map<Integer, Enterable> enterables = new HashMap<>();
 
     public SuperKeyboardInputHandler(KeyboardInput input) {
         super(input);
     }
 
-    public void add(KeyEvent keyEvent, Enterable enterable) {
-        enterables.put(keyEvent, enterable);
+    public void add(int keyCode, Enterable enterable) {
+        enterables.put(keyCode, enterable);
     }
 
     public void remove(KeyEvent keyEvent) {
@@ -26,8 +26,8 @@ public class SuperKeyboardInputHandler extends KeyboardInputHandler {
 
     @Override
     public void processInput() {
-        for (Map.Entry<KeyEvent, Enterable> entry : enterables.entrySet()) {
-            if (getInput().isKeyDownOnce(entry.getKey().getKeyCode())) {
+        for (Map.Entry<Integer, Enterable> entry : enterables.entrySet()) {
+            if (getInput().isKeyDownOnce(entry.getKey())) {
                 entry.getValue().onEnter();
             }
         }
