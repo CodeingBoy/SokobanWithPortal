@@ -16,7 +16,7 @@ public class Player extends MapObject {
     private final static Image PIC_LEFT = Toolkit.getDefaultToolkit().getImage("pic/player/left.png");
     private final static Image PIC_RIGHT = Toolkit.getDefaultToolkit().getImage("pic/player/right.png");
     private GameMap map;
-    private Direction lastDirection = Direction.DOWN;
+    private Direction lastDirection = Direction.LEFT;
 
     /**
      * 构造一个玩家对象
