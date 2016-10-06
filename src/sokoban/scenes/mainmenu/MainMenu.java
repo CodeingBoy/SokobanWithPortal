@@ -13,6 +13,7 @@ import sokoban.game.engine.input.handler.Clickable;
 import sokoban.game.engine.input.handler.SuperKeyboardInputHandler;
 import sokoban.game.engine.input.handler.SuperMouseInputHandler;
 import sokoban.game.engine.scenes.SuperScene;
+import sokoban.game.engine.sound.SoundManager;
 import sokoban.popups.MapSelectingPopup;
 import sokoban.scenes.testscene.TestScene;
 
@@ -249,6 +250,10 @@ public final class MainMenu extends SuperScene {
         setMouseInputHandler(new SuperMouseInputHandler(new MouseInput()));
 
         window.setTitle("推箱子");
+
+        SoundManager soundManager = SoundManager.getInstance();
+        soundManager.addClip("bg", new File("sound/bg.wav"));
+        soundManager.loopClip("bg");
     }
 
     @Override
