@@ -11,8 +11,12 @@ import java.awt.*;
  */
 public class Player extends MapObject {
     private final static Class LOGCLASS = Player.class;
-    private final static Image PIC = Toolkit.getDefaultToolkit().getImage("pic/box.png");
+    private final static Image PIC_UP = Toolkit.getDefaultToolkit().getImage("pic/player/up.png");
+    private final static Image PIC_DOWN = Toolkit.getDefaultToolkit().getImage("pic/player/down.png");
+    private final static Image PIC_LEFT = Toolkit.getDefaultToolkit().getImage("pic/player/left.png");
+    private final static Image PIC_RIGHT = Toolkit.getDefaultToolkit().getImage("pic/player/right.png");
     private GameMap map;
+    private Direction lastDirection = Direction.DOWN;
 
     /**
      * 构造一个玩家对象
@@ -21,7 +25,7 @@ public class Player extends MapObject {
      * @param map 所在的地图
      */
     public Player(Point pos, GameMap map) {
-        super(pos, PIC);
+        super(pos, PIC_UP);
         this.map = map;
     }
 
@@ -51,6 +55,34 @@ public class Player extends MapObject {
         if (success) map.onPlayerMoved(getPos());
     }
 
+    @Override
+    public void draw(Graphics g, double delta) {
+        super.draw(g, delta);
+
+        Image drawingPic = null;
+
+        switch (lastDirection) {
+            case UP:
+                drawingPic = PIC_UP;
+                break;
+            case DOWN:
+                drawingPic = PIC_DOWN;
+                break;
+            case LEFT:
+                drawingPic = PIC_LEFT;
+                break;
+            case RIGHT:
+                drawingPic = PIC_RIGHT;
+                break;
+        }
+
+        if (drawingPic == null)
+            throw new RuntimeException("have no drawingPic!");
+
+        g.drawImage(drawingPic, (int) currentVectors[0].x, (int) currentVectors[0].y,
+                (int) (currentVectors[2].x - currentVectors[0].x), (int) (currentVectors[2].y - currentVectors[0].y), null);
+    }
+
     /**
      * 移动到指定的坐标
      *
@@ -63,7 +95,9 @@ public class Player extends MapObject {
         Log.i("Player requesting move to " + x + "," + y);
         if (map.isOKtoMove(x, y, direction)) {
             setPos(new Point(x, y));
+            lastDirection = direction;
             Log.i(LOGCLASS, "Move approved! New pos " + x + "," + y);
+            Log.i(LOGCLASS, "Player direction had been set to " + lastDirection);
             return true;
         } else {
             Log.i(LOGCLASS, "Move rejected!");
