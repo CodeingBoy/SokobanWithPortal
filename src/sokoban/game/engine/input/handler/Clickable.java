@@ -27,4 +27,8 @@ public interface Clickable {
      * @param p 悬停时的点
      */
     void onHover(Point p);
+
+    void onEnteringHover(Point p);
+
+    void onExitingHover(Point p);
 }
