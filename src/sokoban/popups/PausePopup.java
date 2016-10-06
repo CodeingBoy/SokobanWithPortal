@@ -18,6 +18,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
 import java.util.EnumSet;
 
 /**
@@ -32,6 +34,9 @@ public class PausePopup extends Popup {
     private final static Image IMG_MAINMENU_HOVER = new ImageIcon("pic/buttons/pause/mainmenu_hover.png").getImage();
     private final static Image IMG_EXIT = new ImageIcon("pic/buttons/pause/exit.png").getImage();
     private final static Image IMG_EXIT_HOVER = new ImageIcon("pic/buttons/pause/exit_hover.png").getImage();
+
+    private final static File hoverSound = new File("sound/hover.wav");
+    private final static File clickSound = new File("sound/click.wav");
 
     private SuperMouseInputHandler superMouseInputHandler = new SuperMouseInputHandler(new MouseInput());
     private SuperKeyboardInputHandler superKeyboardInputHandler = new SuperKeyboardInputHandler(new KeyboardInput());
@@ -73,6 +78,12 @@ public class PausePopup extends Popup {
                 super.onHover(p);
             }
         };
+        try {
+            btnBack.setHoverSound(hoverSound);
+            btnBack.setClickSound(clickSound);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         drawables.put("btnBack", btnBack);
         superMouseInputHandler.add("btnBack", btnBack);
@@ -87,6 +98,17 @@ public class PausePopup extends Popup {
                 new SettingDialog(scene.getWindow()).setVisible(true);
             }
         };
+        try {
+            btnSetting.setHoverSound(hoverSound);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            btnSetting.setHoverSound(hoverSound);
+            btnSetting.setClickSound(clickSound);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         drawables.put("btnSetting", btnSetting);
         superMouseInputHandler.add("btnSetting", btnSetting);
@@ -120,6 +142,12 @@ public class PausePopup extends Popup {
                 attachPopup(popup);
             }
         };
+        try {
+            btnMainmenu.setHoverSound(hoverSound);
+            btnMainmenu.setClickSound(clickSound);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         drawables.put("btnMainmenu", btnMainmenu);
         superMouseInputHandler.add("btnMainmenu", btnMainmenu);
@@ -152,6 +180,12 @@ public class PausePopup extends Popup {
                 attachPopup(popup);
             }
         };
+        try {
+            btnExit.setHoverSound(hoverSound);
+            btnExit.setClickSound(clickSound);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         drawables.put("btnExit", btnExit);
         superMouseInputHandler.add("btnExit", btnExit);
