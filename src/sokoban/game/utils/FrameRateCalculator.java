@@ -20,7 +20,7 @@ public class FrameRateCalculator {
 
     }
 
-    public void initialize(){
+    public void initialize() {
         lasttime = System.currentTimeMillis();
         isInitalized = true;
     }

@@ -64,7 +64,8 @@ public class GameMap implements Drawable, Clickable {
 
     /**
      * 构建一张游戏地图
-     * @param mapObjs 地图对象二维数组引用
+     *
+     * @param mapObjs     地图对象二维数组引用
      * @param mapProperty 地图属性
      */
     public GameMap(MapObject[][] mapObjs, Map<String, String> mapProperty) {
@@ -110,6 +111,7 @@ public class GameMap implements Drawable, Clickable {
 
     /**
      * 获取地图文件中定义的属性
+     *
      * @param name 属性名
      * @return 属性对应的值 若无该属性，返回null
      */

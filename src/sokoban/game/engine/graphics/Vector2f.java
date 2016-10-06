@@ -23,7 +23,22 @@ public class Vector2f {
     }
 
     /**
+     * 返回基于弧度值创建的向量
+     *
+     * @param angle  角度
+     * @param radius 半径
+     * @return 基于弧度值的向量
+     */
+    public static Vector2f fromPolar(double angle, double radius) {
+        return new Vector2f(
+                radius * Math.cos(angle),
+                radius * Math.sin(angle)
+        );
+    }
+
+    /**
      * 对向量进行平移
+     *
      * @param tx x偏移
      * @param ty y偏移
      */
@@ -34,6 +49,7 @@ public class Vector2f {
 
     /**
      * 对向量进行缩放
+     *
      * @param sx x轴缩放值
      * @param sy y轴缩放值
      */
@@ -44,6 +60,7 @@ public class Vector2f {
 
     /**
      * 对向量进行旋转
+     *
      * @param rad 旋转的角度
      */
     public void rotate(double rad) {
@@ -54,6 +71,7 @@ public class Vector2f {
 
     /**
      * 对向量进行切变
+     *
      * @param sx x轴切变系数
      * @param sy y轴切变系数
      */
@@ -65,6 +83,7 @@ public class Vector2f {
 
     /**
      * 获取当前向量的反向量
+     *
      * @return 当前向量的反向量
      */
     public Vector2f reverse() {
@@ -73,6 +92,7 @@ public class Vector2f {
 
     /**
      * 将当前向量与传入向量进行相加
+     *
      * @param v 欲相加的向量
      * @return 相加结果的向量
      */
@@ -82,6 +102,7 @@ public class Vector2f {
 
     /**
      * 将当前向量与传入向量进行相减
+     *
      * @param v 欲相减的向量
      * @return 相减结果的向量
      */
@@ -91,6 +112,7 @@ public class Vector2f {
 
     /**
      * 将当前向量与一个系数进行相乘
+     *
      * @param scale 欲相乘的系数
      * @return 相乘结果的向量
      */
@@ -100,6 +122,7 @@ public class Vector2f {
 
     /**
      * 将当前向量与一个系数进行相除
+     *
      * @param scale 欲相除的系数
      * @return 相除结果的向量
      * @throws IllegalArgumentException 除数为零
@@ -112,6 +135,7 @@ public class Vector2f {
 
     /**
      * 运用勾股定理计算向量长度
+     *
      * @return 向量长度
      */
     public double length() {
@@ -120,6 +144,7 @@ public class Vector2f {
 
     /**
      * 获取向量长度的未开方版本，这在大致比较向量长度时比较有用
+     *
      * @return 向量长度的未开方版本
      */
     public double lengthSquare() {
@@ -128,6 +153,7 @@ public class Vector2f {
 
     /**
      * 判断当前向量是否长于传入向量
+     *
      * @param v 欲比较的向量
      * @return 是否长于传入向量
      */
@@ -140,6 +166,7 @@ public class Vector2f {
 
     /**
      * 获取当前向量的单位向量
+     *
      * @return 当前向量的单位向量
      */
     public Vector2f norn() {
@@ -148,6 +175,7 @@ public class Vector2f {
 
     /**
      * 获得当前向量的垂直向量
+     *
      * @return 当前向量的垂直向量
      */
     public Vector2f prep() {
@@ -156,6 +184,7 @@ public class Vector2f {
 
     /**
      * 返回当前向量与传入向量的点积
+     *
      * @param v 欲进行点积运算的向量
      * @return 当前向量与传入向量的点积单位向量
      */
@@ -165,23 +194,11 @@ public class Vector2f {
 
     /**
      * 获得向量与x轴所成的角度
+     *
      * @return 向量与x轴所成的角度
      */
     public double getAngle() {
         return Math.atan2(y, x);
-    }
-
-    /**
-     * 返回基于弧度值创建的向量
-     * @param angle 角度
-     * @param radius 半径
-     * @return 基于弧度值的向量
-     */
-    public static Vector2f fromPolar(double angle, double radius) {
-        return new Vector2f(
-                radius * Math.cos(angle),
-                radius * Math.sin(angle)
-        );
     }
 
     @Override
