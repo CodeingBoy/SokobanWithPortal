@@ -89,6 +89,7 @@ public final class MainMenu extends SuperScene {
         }
 
         bgRect.setOriginVectors(new Vector2f(-width / 2, -width / 2), width);
+        bgRect.setColor(Color.white);
         // bgRect.setWorldToScreen(screenMappingTool);
         Point center = screenMappingTool.worldToScreen(new Point(0, 0));
         bgRect.setCenter(Matrix3x3f.translate(center.x, center.y));
