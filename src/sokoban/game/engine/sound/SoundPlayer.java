@@ -10,9 +10,15 @@ import java.io.IOException;
  * Created by CodeingBoy on 2016-10-7-0007.
  */
 public class SoundPlayer {
-
     public static Clip PlaySoundFile(File soundFile) {
         Clip clip = getClipFromFile(soundFile);
+        clip.start();
+        return clip;
+    }
+
+    public static Clip PlayLoopSoundFile(File soundFile,int times) {
+        Clip clip = getClipFromFile(soundFile);
+        clip.loop(times);
         clip.start();
         return clip;
     }
