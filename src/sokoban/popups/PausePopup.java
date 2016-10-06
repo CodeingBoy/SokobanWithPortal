@@ -3,7 +3,10 @@ package sokoban.popups;
 import sokoban.dialog.SettingDialog;
 import sokoban.game.engine.graphics.ScreenMappingTool;
 import sokoban.game.engine.graphics.components.Button;
+import sokoban.game.engine.input.KeyboardInput;
 import sokoban.game.engine.input.MouseInput;
+import sokoban.game.engine.input.handler.Enterable;
+import sokoban.game.engine.input.handler.SuperKeyboardInputHandler;
 import sokoban.game.engine.input.handler.SuperMouseInputHandler;
 import sokoban.game.engine.popups.MessageBoxPopup;
 import sokoban.game.engine.popups.Popup;
@@ -14,6 +17,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.EnumSet;
 
 /**
@@ -30,6 +34,7 @@ public class PausePopup extends Popup {
     private final static Image IMG_EXIT_HOVER = new ImageIcon("pic/buttons/pause/exit_hover.png").getImage();
 
     private SuperMouseInputHandler superMouseInputHandler = new SuperMouseInputHandler(new MouseInput());
+    private SuperKeyboardInputHandler superKeyboardInputHandler = new SuperKeyboardInputHandler(new KeyboardInput());
     private Button btnBack, btnSetting, btnMainmenu, btnExit;
     private ScreenMappingTool screenMappingTool;
 
@@ -41,7 +46,7 @@ public class PausePopup extends Popup {
     public PausePopup(SuperScene scene) {
         super(scene, new Color(0, 0, 0, 150));
         setMouseInputHandler(superMouseInputHandler);
-
+        setKeyboardInputHandler(superKeyboardInputHandler);
     }
 
     @Override
@@ -150,5 +155,14 @@ public class PausePopup extends Popup {
 
         drawables.put("btnExit", btnExit);
         superMouseInputHandler.add("btnExit", btnExit);
+
+        superKeyboardInputHandler.add(KeyEvent.VK_ESCAPE, new Enterable() {
+            @Override
+            public void onEnter() {
+                dispose();
+            }
+        });
     }
+
+
 }
