@@ -58,7 +58,7 @@ public class PausePopup extends Popup {
     public void refreshObjects() {
         screenMappingTool = new ScreenMappingTool(2, 5, scene.getCanvas());
 
-        int yStart = (int) (getWidth() * 0.2);
+        int yStart = (int) (getHeight() * 0.2);
 
         btnBack = new Button(new Point((getWidth() - IMG_BACK.getWidth(null)) / 2, yStart),
                 IMG_BACK, IMG_BACK_HOVER, IMG_BACK_HOVER) {
@@ -77,7 +77,7 @@ public class PausePopup extends Popup {
         drawables.put("btnBack", btnBack);
         superMouseInputHandler.add("btnBack", btnBack);
 
-        yStart = (int) (getWidth() * 0.4);
+        yStart = (int) (getHeight() * 0.4);
 
         btnSetting = new Button(new Point((getWidth() - IMG_BACK.getWidth(null)) / 2, yStart),
                 IMG_SETTINGS, IMG_SETTINGS_HOVER, IMG_SETTINGS_HOVER) {
@@ -91,7 +91,7 @@ public class PausePopup extends Popup {
         drawables.put("btnSetting", btnSetting);
         superMouseInputHandler.add("btnSetting", btnSetting);
 
-        yStart = (int) (getWidth() * 0.6);
+        yStart = (int) (getHeight() * 0.6);
 
         btnMainmenu = new Button(new Point((getWidth() - IMG_BACK.getWidth(null)) / 2, yStart),
                 IMG_MAINMENU, IMG_MAINMENU_HOVER, IMG_MAINMENU_HOVER) {
@@ -124,7 +124,7 @@ public class PausePopup extends Popup {
         drawables.put("btnMainmenu", btnMainmenu);
         superMouseInputHandler.add("btnMainmenu", btnMainmenu);
 
-        yStart = (int) (getWidth() * 0.8);
+        yStart = (int) (getHeight() * 0.8);
 
         btnExit = new Button(new Point((getWidth() - IMG_BACK.getWidth(null)) / 2, yStart),
                 IMG_EXIT, IMG_EXIT_HOVER, IMG_EXIT_HOVER) {
