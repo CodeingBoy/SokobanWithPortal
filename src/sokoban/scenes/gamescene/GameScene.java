@@ -28,8 +28,6 @@ import java.util.EnumSet;
  * Created by CodeingBoy on 2016-8-4-0004.
  */
 public class GameScene extends SuperScene {
-    private static final int WORLD_WIDTH = 300;
-    private static final int WORLD_HEIGHT = 300;
     Player player;
     private ScreenMappingTool screenMappingTool;
     private GameMap map;
@@ -53,12 +51,6 @@ public class GameScene extends SuperScene {
 
     @Override
     public void onPrepare() {
-        // try {
-        //     map = MapParser.parseMapFile(new File("map/level2.map"));
-        // } catch (FileNotFoundException e) {
-        //     e.printStackTrace();
-        // }
-
         map.setCompleteListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
