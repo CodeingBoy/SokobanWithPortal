@@ -5,11 +5,15 @@ import sokoban.game.engine.input.MouseInput;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class SuperMouseInputHandler extends MouseInputHandler {
     protected Map<String, Clickable> clickables = new HashMap<>();
+    private ArrayList<Clickable> lastHovering = new ArrayList<>();
+    private Clickable lastClicking = null;
 
     public SuperMouseInputHandler(MouseInput input) {
         super(input);
@@ -31,12 +35,28 @@ public class SuperMouseInputHandler extends MouseInputHandler {
     @Override
     public void processInput() {
         Point curPoint = input.getPosition();
+
+        Iterator<Clickable> iterator = lastHovering.iterator();
+        while (iterator.hasNext()) {
+            Clickable clickable = iterator.next();
+            if (!clickable.isPointInside(curPoint)) {
+                clickable.onExitingHover(curPoint);
+                iterator.remove();
+            }
+        }
+
         for (Clickable clickable : clickables.values()) {
             if (clickable.isPointInside(curPoint)) {
+                if (!lastHovering.contains(clickable)) {
+                    clickable.onEnteringHover(curPoint);
+                    lastHovering.add(clickable);
+                }
+
                 clickable.onHover(curPoint);
                 if (input.isButtonDownOnce(MouseEvent.BUTTON1))
                     clickable.onClick(curPoint);
             }
         }
+
     }
 }
