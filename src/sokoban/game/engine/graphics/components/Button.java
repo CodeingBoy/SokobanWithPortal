@@ -4,14 +4,13 @@ import sokoban.game.engine.graphics.Vector2f;
 import sokoban.game.engine.graphics.shapes.Drawable;
 import sokoban.game.engine.graphics.shapes.Rect;
 import sokoban.game.engine.input.handler.Clickable;
+import sokoban.game.engine.sound.SoundPlayer;
 import sokoban.game.utils.TextDrawer;
 import sokoban.utils.Settings;
 
-import javax.sound.sampled.*;
+import javax.sound.sampled.Clip;
 import java.awt.*;
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 
 /**
@@ -126,50 +125,11 @@ public abstract class Button extends Rect implements Drawable, Clickable {
     }
 
     public void setHoverSound(File soundFile) throws IOException {
-        try {
-            hoverSound = AudioSystem.getClip();
-        } catch (LineUnavailableException e) {
-            e.printStackTrace();
-        }
-
-        AudioInputStream audioInputStream = readAudioInputStreamFromFile(soundFile);
-        try {
-            hoverSound.open(audioInputStream);
-        } catch (LineUnavailableException e) {
-            e.printStackTrace();
-        }
+        hoverSound = SoundPlayer.getClipFromFile(soundFile);
     }
 
     public void setClickSound(File soundFile) throws IOException {
-        try {
-            clickSound = AudioSystem.getClip();
-        } catch (LineUnavailableException e) {
-            e.printStackTrace();
-        }
-
-        AudioInputStream audioInputStream = readAudioInputStreamFromFile(soundFile);
-        try {
-            clickSound.open(audioInputStream);
-        } catch (LineUnavailableException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private AudioInputStream readAudioInputStreamFromFile(File file) throws IOException {
-        FileInputStream fileInputStream = new FileInputStream(file);
-
-        byte[] bytes = new byte[fileInputStream.available()];
-        fileInputStream.read(bytes);
-
-        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
-
-        AudioInputStream audioInputStream = null;
-        try {
-            audioInputStream = AudioSystem.getAudioInputStream(byteArrayInputStream);
-        } catch (UnsupportedAudioFileException e) {
-            e.printStackTrace();
-        }
-        return audioInputStream;
+        clickSound = SoundPlayer.getClipFromFile(soundFile);
     }
 
     @Override
