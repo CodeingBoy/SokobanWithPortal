@@ -71,6 +71,8 @@ public class GameScene extends SuperScene {
                         detachPopup();
                     }
                 });
+                popup.setHoverSound(new File("sound/hover.wav"));
+                popup.setClickSound(new File("sound/click.wav"));
 
                 attachPopup(popup);
                 completedHinted = true;

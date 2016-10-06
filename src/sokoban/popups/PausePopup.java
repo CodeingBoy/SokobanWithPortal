@@ -121,8 +121,9 @@ public class PausePopup extends Popup {
             public void onClick(Point p) {
                 super.onClick(p);
 
-                MessageBoxPopup popup = new MessageBoxPopup(scene, new Color(0, 0, 0, 200), "确定退出",
+                MessageBoxPopup popup = new MessageBoxPopup(scene, new Color(0, 0, 0, 200),
                         EnumSet.of(MessageBoxPopup.Style.MBP_YESNO),
+                        "确定退出",
                         new String[]{
                                 "确认要返回主画面吗？", "您的游戏进度将丢失"
                         });
@@ -138,6 +139,8 @@ public class PausePopup extends Popup {
                         detachPopup();
                     }
                 });
+                popup.setHoverSound(hoverSound);
+                popup.setClickSound(clickSound);
 
                 attachPopup(popup);
             }
@@ -160,8 +163,9 @@ public class PausePopup extends Popup {
             public void onClick(Point p) {
                 super.onClick(p);
 
-                MessageBoxPopup popup = new MessageBoxPopup(scene, new Color(0, 0, 0, 200), "确定退出",
+                MessageBoxPopup popup = new MessageBoxPopup(scene, new Color(0, 0, 0, 200),
                         EnumSet.of(MessageBoxPopup.Style.MBP_YESNO),
+                        "确定退出",
                         new String[]{
                                 "是否退出游戏？", "您的游戏进度将丢失"
                         });
@@ -177,6 +181,9 @@ public class PausePopup extends Popup {
                         detachPopup();
                     }
                 });
+                popup.setHoverSound(new File("sound/hover.wav"));
+                popup.setClickSound(new File("sound/click.wav"));
+
                 attachPopup(popup);
             }
         };

@@ -20,6 +20,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by CodeingBoy on 2016-8-2-0002.
@@ -36,6 +38,10 @@ public final class MainMenu extends SuperScene {
     private final Image test_hover = new ImageIcon("pic/buttons/test/test_hover.png").getImage();
     private final Image setting = new ImageIcon("pic/buttons/setting/setting.png").getImage();
     private final Image setting_hover = new ImageIcon("pic/buttons/setting/setting_hover.png").getImage();
+
+    private final static File hoverSound = new File("sound/hover.wav");
+    private final static File clickSound = new File("sound/click.wav");
+
     private ScreenMappingTool screenMappingTool;
 
     public MainMenu() {
@@ -144,6 +150,12 @@ public final class MainMenu extends SuperScene {
                         attachPopup(new MapSelectingPopup(MainMenu.this));
                     }
                 };
+        try {
+            btnStart.setHoverSound(hoverSound);
+            btnStart.setClickSound(clickSound);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         ((SuperMouseInputHandler) getMouseInputHandler()).add("btnStart", btnStart, btnStart);
         drawables.put("btnStart", btnStart);
 
@@ -157,6 +169,12 @@ public final class MainMenu extends SuperScene {
                         requestSwitchScene(new TestScene());
                     }
                 };
+        try {
+            btnTest.setHoverSound(hoverSound);
+            btnTest.setClickSound(clickSound);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         drawables.put("btnTest", btnTest);
         ((SuperMouseInputHandler) getMouseInputHandler()).add("btnTest", btnTest, btnTest);
 
@@ -176,6 +194,12 @@ public final class MainMenu extends SuperScene {
                         });
                     }
                 };
+        try {
+            btnSetting.setHoverSound(hoverSound);
+            btnSetting.setClickSound(clickSound);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         drawables.put("btnSetting", btnSetting);
         ((SuperMouseInputHandler) getMouseInputHandler()).add("btnSetting", btnSetting, btnSetting);
 
@@ -190,6 +214,12 @@ public final class MainMenu extends SuperScene {
                         window.close();
                     }
                 };
+        try {
+            btnExit.setHoverSound(hoverSound);
+            btnExit.setClickSound(clickSound);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         drawables.put("btnExit", btnExit);
         ((SuperMouseInputHandler) getMouseInputHandler()).add("btnExit", btnExit, btnExit);
     }
