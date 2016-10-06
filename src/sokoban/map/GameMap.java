@@ -244,6 +244,16 @@ public class GameMap implements Drawable, Clickable {
         }
     }
 
+    @Override
+    public void onEnteringHover(Point p) {
+
+    }
+
+    @Override
+    public void onExitingHover(Point p) {
+
+    }
+
     /**
      * 当玩家产生移动动作后，此函数会被调用
      *

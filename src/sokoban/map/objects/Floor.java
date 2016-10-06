@@ -30,6 +30,16 @@ public class Floor extends MapObject implements Placeable, Clickable {
     }
 
     @Override
+    public void onEnteringHover(Point p) {
+
+    }
+
+    @Override
+    public void onExitingHover(Point p) {
+
+    }
+
+    @Override
     public void draw(Graphics g, double delta) {
         super.draw(g, delta);
 

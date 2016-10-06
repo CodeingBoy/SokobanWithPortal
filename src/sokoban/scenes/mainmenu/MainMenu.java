@@ -76,6 +76,16 @@ public final class MainMenu extends SuperScene {
             public void onHover(Point p) {
                 bgRect.setRotateSpeed(bgRect.getRotateSpeed() + Math.toRadians(1));
             }
+
+            @Override
+            public void onEnteringHover(Point p) {
+
+            }
+
+            @Override
+            public void onExitingHover(Point p) {
+
+            }
         });
     }
 
@@ -110,6 +120,16 @@ public final class MainMenu extends SuperScene {
             @Override
             public void onHover(Point p) {
                 finalBgRect.setRotateSpeed(finalBgRect.getRotateSpeed() + Math.toRadians(0.1));
+            }
+
+            @Override
+            public void onEnteringHover(Point p) {
+
+            }
+
+            @Override
+            public void onExitingHover(Point p) {
+
             }
         });
 
