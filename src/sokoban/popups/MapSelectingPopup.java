@@ -13,6 +13,7 @@ import sokoban.scenes.gamescene.GameScene;
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.Map;
@@ -25,6 +26,9 @@ public class MapSelectingPopup extends Popup {
     private Map<String, File> maplist;
     private TextButton btnBack;
     private ArrayList<TextButton> mapBtns;
+
+    private final static File hoverSound = new File("sound/hover.wav");
+    private final static File clickSound = new File("sound/click.wav");
 
     /**
      * 创建一个 Popup
@@ -64,6 +68,12 @@ public class MapSelectingPopup extends Popup {
                 dispose();
             }
         };
+        try {
+            btnBack.setHoverSound(hoverSound);
+            btnBack.setClickSound(clickSound);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         ((SuperMouseInputHandler) getMouseInputHandler()).add("btnBack", btnBack);
 
         mapBtns = new ArrayList<>();
@@ -83,6 +93,12 @@ public class MapSelectingPopup extends Popup {
                     }
                 }
             };
+            try {
+                btn.setHoverSound(hoverSound);
+                btn.setClickSound(clickSound);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             mapBtns.add(btn);
             ((SuperMouseInputHandler) getMouseInputHandler()).add(entry.getKey(), btn);
 
