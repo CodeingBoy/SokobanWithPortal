@@ -15,6 +15,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
 import java.util.Set;
 
 /**
@@ -35,6 +37,7 @@ public class MessageBoxPopup extends Popup {
     private ActionListener btnOKListener;
     private ActionListener dismissListener;
     private boolean canDismiss = true;
+    private File hoverSound, clickSound;
 
     /**
      * 构建一个消息确认弹框 Popup
@@ -133,6 +136,13 @@ public class MessageBoxPopup extends Popup {
 
             drawables.put("btnOK", btnOK);
             superMouseInputHandler.add("btnOK", btnOK);
+
+            try {
+                btnOK.setHoverSound(hoverSound);
+                btnOK.setClickSound(clickSound);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } else if (styles.contains(Style.MBP_YESNO)) {
             if (drawables.get("btnYes") != null) {
                 superMouseInputHandler.remove((YesButton) drawables.get("btnYes"));
@@ -148,11 +158,22 @@ public class MessageBoxPopup extends Popup {
             btnNo = new NoButton(screenMappingTool.worldToScreen(new Point(0, 120)));
             ((NoButton) btnNo).setListener(btnNoListener);
 
+
             drawables.put("btnYes", btnYes);
             drawables.put("btnNo", btnNo);
             superMouseInputHandler.add("btnYes", btnYes);
             superMouseInputHandler.add("btnNo", btnNo);
+
+            try {
+                btnYes.setHoverSound(hoverSound);
+                btnNo.setHoverSound(hoverSound);
+                btnYes.setClickSound(clickSound);
+                btnNo.setClickSound(clickSound);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+
 
         // popupFrame.setCenter(Matrix3x3f.translate(screenMappingTool.worldToScreen(new Point(0, 0))));
 
@@ -183,6 +204,14 @@ public class MessageBoxPopup extends Popup {
      */
     public void setOKListener(ActionListener actionListener) {
         btnOKListener = actionListener;
+    }
+
+    public void setHoverSound(File soundFile) {
+        hoverSound = soundFile;
+    }
+
+    public void setClickSound(File soundFile) {
+        clickSound = soundFile;
     }
 
     public enum Style {
