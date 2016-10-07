@@ -110,6 +110,7 @@ public class SettingDialog extends JDialog {
                     displayModeJComboBox.setEnabled(checkBox.isSelected());
                 }
             });
+            displayModeJComboBox.setEnabled(Settings.isFullScreen());
 
             bgmVolume.addChangeListener(new ChangeListener() {
                 @Override
@@ -126,6 +127,11 @@ public class SettingDialog extends JDialog {
                     clip.start();
                 }
             });
+
+            if (!sokoban.game.utils.DisplayMode.isFullScreenSupported()) {
+                fullScreen.setEnabled(false);
+                displayModeJComboBox.setEnabled(false);
+            }
         }
 
         void load() {
