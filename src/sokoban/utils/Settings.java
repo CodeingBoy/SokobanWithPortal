@@ -17,6 +17,7 @@ public class Settings {
     public final static String KEY_FULLSCREEN = "graphics.fullScreen";
     public final static String KEY_RESOLUTION = "graphics.resolution";
     public final static String KEY_BITDEPTH = "graphics.bitDepth";
+    public final static String KEY_REFRESHRATE = "graphics.refreshRate";
     public final static String KEY_BGMVOLUME = "sound.bgmVolume";
     public final static String KEY_SEVOLUME = "sound.seVolume";
     private final static String FILENAME = "settings.properties";
@@ -122,12 +123,15 @@ public class Settings {
     public static void setResolution(DisplayMode displayMode) {
         setProperty(KEY_RESOLUTION, displayMode.getSize().width + "x" + displayMode.getSize().height);
         setProperty(KEY_BITDEPTH, String.valueOf(displayMode.getBitDepth()));
+        setProperty(KEY_REFRESHRATE, String.valueOf(displayMode.getRefreshRate()));
     }
 
     public static DisplayMode getDisplayMode() {
         Dimension size = getResolution();
         int bitDepth = Integer.parseInt(PROPERTIES.getProperty(KEY_BITDEPTH, "32"));
-        return new DisplayMode(size, bitDepth, java.awt.DisplayMode.REFRESH_RATE_UNKNOWN);
+        int refreshRate = Integer.parseInt(PROPERTIES.getProperty(KEY_REFRESHRATE, "0"));
+
+        return new DisplayMode(size, bitDepth, refreshRate);
     }
 
     public static int getBGMVolume() {

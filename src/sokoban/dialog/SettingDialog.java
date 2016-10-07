@@ -2,6 +2,7 @@ package sokoban.dialog;
 
 import sokoban.game.engine.sound.SoundManager;
 import sokoban.game.engine.sound.SoundPlayer;
+import sokoban.game.utils.DisplayMode;
 import sokoban.game.utils.SimpleDisplayMode;
 import sokoban.utils.Settings;
 
@@ -128,7 +129,7 @@ public class SettingDialog extends JDialog {
                 }
             });
 
-            if (!sokoban.game.utils.DisplayMode.isFullScreenSupported()) {
+            if (!DisplayMode.isFullScreenSupported()) {
                 fullScreen.setEnabled(false);
                 displayModeJComboBox.setEnabled(false);
             }
@@ -136,6 +137,7 @@ public class SettingDialog extends JDialog {
 
         void load() {
             fullScreen.setSelected(Settings.isFullScreen());
+
             bgmVolume.setValue(Settings.getBGMVolume());
             seVolume.setValue(Settings.getSEVolume());
         }
@@ -143,7 +145,7 @@ public class SettingDialog extends JDialog {
         void save() {
             Settings.setFullScreen(fullScreen.isSelected());
             SimpleDisplayMode displayMode = (SimpleDisplayMode) displayModeJComboBox.getSelectedItem();
-            Settings.setResolution(new sokoban.game.utils.DisplayMode(displayMode.getSize(),
+            Settings.setResolution(new DisplayMode(displayMode.getSize(),
                     displayMode.getBitDepth(), displayMode.getRefreshRate()));
             Settings.setBGMVolume(bgmVolume.getValue());
             Settings.setSEVolume(seVolume.getValue());
