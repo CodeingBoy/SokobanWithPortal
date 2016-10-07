@@ -1,10 +1,14 @@
 package sokoban.game.engine;
 
+import sokoban.dialog.SettingDialog;
 import sokoban.game.engine.scenes.Scene;
 import sokoban.utils.Log;
+import sokoban.utils.Settings;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -13,6 +17,7 @@ import java.awt.event.WindowEvent;
  */
 public class GameWindow extends JFrame {
     private final static Class LOGCLASS = GameWindow.class;
+    private DisplayMode lastDisplayMode = null;
     private Scene scene;
 
     /**
@@ -40,12 +45,35 @@ public class GameWindow extends JFrame {
         });
         Log.d(LOGCLASS, "properties set!");
 
+        if (Settings.isFullScreen()) { // entering fullscreen mode
+            onEnteringFullScreen();
+        }
+
         if (scene != null) {
             Log.d(LOGCLASS, "preparing scene...");
             this.scene = scene;
             scene.setWindow(this);
             scene.onPrepare();
         }
+
+        SettingDialog.addSettingsChangedListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GraphicsDevice graphicsDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+                if (Settings.isFullScreen() && lastDisplayMode == null) { // entering fullscreen mode
+                    onEnteringFullScreen();
+                }
+
+                if (!Settings.isFullScreen() && lastDisplayMode != null) { // exiting fullscreen mode
+                    onExitingFullScreen();
+                }
+
+                if (Settings.isFullScreen() && Settings.getDisplayMode().toAWTDisplayMode() != graphicsDevice.getDisplayMode()) {
+                    onExitingFullScreen();
+                    onEnteringFullScreen();
+                }
+            }
+        });
     }
     // public static void main(String[] args) {
     //     TestScene dialog = new TestScene();
@@ -115,9 +143,16 @@ public class GameWindow extends JFrame {
 
     /**
      * 关闭窗口，会对场景进行destroy
+     *
      * @see Scene#destroy()
      */
     public final void close() {
+        if (lastDisplayMode != null) { // exiting fullscreen mode
+            GraphicsDevice graphicsDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+            graphicsDevice.setDisplayMode(lastDisplayMode);
+            graphicsDevice.setFullScreenWindow(null);
+        }
+
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -127,5 +162,28 @@ public class GameWindow extends JFrame {
                 System.exit(0);
             }
         });
+    }
+
+    private void onEnteringFullScreen() {
+        dispose();
+        setUndecorated(true);
+
+        GraphicsDevice graphicsDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        lastDisplayMode = graphicsDevice.getDisplayMode();
+        graphicsDevice.setFullScreenWindow(GameWindow.this);
+        graphicsDevice.setDisplayMode(Settings.getDisplayMode().toAWTDisplayMode());
+
+        setVisible(true);
+    }
+
+    private void onExitingFullScreen() {
+        dispose();
+        setUndecorated(false);
+
+        GraphicsDevice graphicsDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        // graphicsDevice.setDisplayMode(lastDisplayMode);
+        graphicsDevice.setFullScreenWindow(null);
+        setVisible(true);
+        lastDisplayMode = null;
     }
 }
