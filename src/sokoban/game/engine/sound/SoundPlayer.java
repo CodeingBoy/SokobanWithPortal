@@ -16,7 +16,7 @@ public class SoundPlayer {
      * @param soundFile 欲播放之声音文件
      * @return 创建的 Clip 对象 可以使用该对象对声音进行操纵
      */
-    public static Clip PlaySoundFile(File soundFile) {
+    public static Clip playSoundFile(File soundFile) {
         Clip clip = getClipFromFile(soundFile);
         clip.start();
         return clip;
@@ -29,7 +29,7 @@ public class SoundPlayer {
      * @param times     循环次数
      * @return 创建的 Clip 对象 可以使用该对象对声音进行操纵
      */
-    public static Clip PlayLoopSoundFile(File soundFile, int times) {
+    public static Clip playLoopSoundFile(File soundFile, int times) {
         Clip clip = getClipFromFile(soundFile);
         clip.loop(times);
         clip.start();

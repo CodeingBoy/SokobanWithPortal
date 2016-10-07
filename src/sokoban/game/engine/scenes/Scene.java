@@ -65,7 +65,7 @@ public abstract class Scene implements Runnable {
      * @throws IllegalArgumentException 所需的参数不足 请补全参数
      * @see #onInitialize
      */
-    public final void Initialize() throws IllegalArgumentException {
+    public final void initialize() throws IllegalArgumentException {
         Log.d(LOGCLASS, "invoking onInitialize()");
         onInitialize();
 

@@ -78,7 +78,7 @@ public class GameWindow extends JFrame {
             throw new IllegalStateException("have no scene");
 
         Log.d(LOGCLASS, "initialing scene");
-        scene.Initialize();
+        scene.initialize();
 
         if (scene.getCanvas() == null) {
             throw new IllegalArgumentException("have not canvas");
