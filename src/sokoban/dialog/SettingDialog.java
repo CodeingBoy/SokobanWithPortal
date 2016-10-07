@@ -137,7 +137,7 @@ public class SettingDialog extends JDialog {
 
         void load() {
             fullScreen.setSelected(Settings.isFullScreen());
-
+            displayModeJComboBox.setSelectedItem(new SimpleDisplayMode(Settings.getDisplayMode()));
             bgmVolume.setValue(Settings.getBGMVolume());
             seVolume.setValue(Settings.getSEVolume());
         }
