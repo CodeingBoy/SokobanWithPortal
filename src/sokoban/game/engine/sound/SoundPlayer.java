@@ -7,22 +7,41 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 /**
- * Created by CodeingBoy on 2016-10-7-0007.
+ * 声音播放器
  */
 public class SoundPlayer {
+    /**
+     * 播放声音文件
+     *
+     * @param soundFile 欲播放之声音文件
+     * @return 创建的Clip对象 可以使用该对象对声音进行操纵
+     */
     public static Clip PlaySoundFile(File soundFile) {
         Clip clip = getClipFromFile(soundFile);
         clip.start();
         return clip;
     }
 
-    public static Clip PlayLoopSoundFile(File soundFile,int times) {
+    /**
+     * 循环播放声音文件
+     *
+     * @param soundFile 欲播放之声音文件
+     * @param times     循环次数
+     * @return 创建的Clip对象 可以使用该对象对声音进行操纵
+     */
+    public static Clip PlayLoopSoundFile(File soundFile, int times) {
         Clip clip = getClipFromFile(soundFile);
         clip.loop(times);
         clip.start();
         return clip;
     }
 
+    /**
+     * 创建一个Clip对象，并将传入文件与之关联
+     *
+     * @param soundFile 欲关联之声音文件
+     * @return 创建的Clip对象 可以使用该对象对声音进行操纵
+     */
     public static Clip getClipFromFile(File soundFile) {
         try {
             Clip clip = AudioSystem.getClip();
@@ -39,6 +58,12 @@ public class SoundPlayer {
         return null;
     }
 
+    /**
+     * 创建一个AudioInputStream对象，并将传入文件与之关联
+     * @param file 欲关联之声音文件
+     * @return 创建的AudioInputStream对象
+     * @throws IOException
+     */
     public static AudioInputStream readAudioInputStreamFromFile(File file) throws IOException {
         FileInputStream fileInputStream = new FileInputStream(file);
 
