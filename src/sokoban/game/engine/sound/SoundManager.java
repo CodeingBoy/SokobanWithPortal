@@ -1,6 +1,9 @@
 package sokoban.game.engine.sound;
 
+import com.sun.xml.internal.ws.server.UnsupportedMediaException;
+
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,23 +13,24 @@ import java.util.Map;
  * 用于全局性的声音播放及管理
  */
 public class SoundManager {
+    private static SoundManager ourInstance = new SoundManager();
     private Map<String, Clip> clipList = new HashMap<>();
 
-    private static SoundManager ourInstance = new SoundManager();
+    private SoundManager() {
+    }
 
     /**
      * 获得唯一的 SoundManager 实例
+     *
      * @return SoundManager实例
      */
     public static SoundManager getInstance() {
         return ourInstance;
     }
 
-    private SoundManager() {
-    }
-
     /**
      * 向管理器添加 Clip 对象
+     *
      * @param name 标识名
      * @param clip Clip 对象
      */
@@ -38,7 +42,8 @@ public class SoundManager {
 
     /**
      * 使用传入的声音文件构造 Clip 对象，并将其添加到管理器中
-     * @param name 标识名
+     *
+     * @param name      标识名
      * @param soundFile 欲添加的声音文件
      */
     public void addClip(String name, File soundFile) {
@@ -49,6 +54,7 @@ public class SoundManager {
 
     /**
      * 获得传入标识名的 Clip 引用
+     *
      * @param name 标识名
      * @return Clip 对象
      */
@@ -58,6 +64,7 @@ public class SoundManager {
 
     /**
      * 开始播放指定的 Clip
+     *
      * @param name 标识名
      */
     public void startClip(String name) {
@@ -70,6 +77,7 @@ public class SoundManager {
 
     /**
      * 循环（不间断地）播放指定的 Clip
+     *
      * @param name 标识名
      */
     public void loopClip(String name) {
@@ -82,9 +90,10 @@ public class SoundManager {
 
     /**
      * 设置循环区间
-     * @param name 标识名
+     *
+     * @param name  标识名
      * @param start 循环区间开始
-     * @param end 循环区间结束
+     * @param end   循环区间结束
      * @see Clip#setLoopPoints(int, int)
      */
     public void setLoopPoint(String name, int start, int end) {
@@ -97,6 +106,7 @@ public class SoundManager {
 
     /**
      * 停止播放指定的 Clip
+     *
      * @param name 标识名
      */
     public void stopClip(String name) {
@@ -109,6 +119,7 @@ public class SoundManager {
 
     /**
      * 复位指定的 Clip
+     *
      * @param name 标识名
      */
     public void resetClip(String name) {
@@ -117,5 +128,50 @@ public class SoundManager {
             throw new IllegalArgumentException();
 
         clip.setFramePosition(0);
+    }
+
+    /**
+     * 设置 Clip 音量
+     *
+     * @param name   标识名
+     * @param volume 0~100之间的数，数值越大，音量越大
+     */
+    public void setClipVolume(String name, float volume) {
+        Clip clip = getClip(name);
+        if (clip == null)
+            throw new IllegalArgumentException();
+
+        if (!clip.isControlSupported(FloatControl.Type.MASTER_GAIN))
+            throw new UnsupportedMediaException();
+
+        FloatControl gainControl =
+                (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        float max = gainControl.getMaximum();
+        float min = gainControl.getMinimum();
+
+        gainControl.setValue(min + (max - min) * (volume / 100));
+    }
+
+    /**
+     * 平滑设置 Clip 音量
+     *
+     * @param name    标识名
+     * @param volume  0~100之间的数，数值越大，音量越大
+     * @param shiftms 平滑时间
+     */
+    public void shiftClipVolume(String name, float volume, int shiftms) {
+        Clip clip = getClip(name);
+        if (clip == null)
+            throw new IllegalArgumentException();
+
+        if (!clip.isControlSupported(FloatControl.Type.MASTER_GAIN))
+            throw new UnsupportedMediaException();
+
+        FloatControl gainControl =
+                (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        float max = gainControl.getMaximum();
+        float min = gainControl.getMinimum();
+
+        gainControl.shift(gainControl.getValue(), min + (max - min) * (volume / 100), shiftms);
     }
 }
