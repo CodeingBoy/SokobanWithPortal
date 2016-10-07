@@ -89,7 +89,7 @@ public class SettingDialog extends JDialog {
 
     private class SettingGridPanel extends JPanel {
         private final JCheckBox fullScreen = new JCheckBox("全屏模式运行");
-        private final JComboBox<SimpleDisplayMode> displayModeJComboBox = new JComboBox<SimpleDisplayMode>(SimpleDisplayMode.getDisplayModes());
+        private final JComboBox<SimpleDisplayMode> displayModeJComboBox = new JComboBox<>(SimpleDisplayMode.getDisplayModes());
         private final JSlider bgmVolume = new JSlider();
         private final JSlider seVolume = new JSlider();
 
@@ -142,6 +142,9 @@ public class SettingDialog extends JDialog {
 
         void save() {
             Settings.setFullScreen(fullScreen.isSelected());
+            SimpleDisplayMode displayMode = (SimpleDisplayMode) displayModeJComboBox.getSelectedItem();
+            Settings.setResolution(new sokoban.game.utils.DisplayMode(displayMode.getSize(),
+                    displayMode.getBitDepth(), displayMode.getRefreshRate()));
             Settings.setBGMVolume(bgmVolume.getValue());
             Settings.setSEVolume(seVolume.getValue());
         }
