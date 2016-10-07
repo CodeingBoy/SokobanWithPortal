@@ -1,9 +1,12 @@
 package sokoban.dialog;
 
+import sokoban.game.engine.sound.SoundManager;
 import sokoban.game.utils.SimpleDisplayMode;
 import sokoban.utils.Settings;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -102,6 +105,13 @@ public class SettingDialog extends JDialog {
                 public void itemStateChanged(ItemEvent e) {
                     JCheckBox checkBox = (JCheckBox) e.getItem();
                     displayModeJComboBox.setEnabled(checkBox.isSelected());
+                }
+            });
+
+            bgmVolume.addChangeListener(new ChangeListener() {
+                @Override
+                public void stateChanged(ChangeEvent e) {
+                    SoundManager.getInstance().setClipVolume("bg", bgmVolume.getValue());
                 }
             });
         }
