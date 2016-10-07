@@ -135,6 +135,11 @@ public abstract class Scene implements Runnable {
         return canvas.getHeight();
     }
 
+    /**
+     * 向上层的 GameWindow 请求切换场景，最终的请求将由 GameWindow 处理
+     *
+     * @param newScene 欲切换之场景
+     */
     public final void requestSwitchScene(Scene newScene) {
         Log.i(LOGCLASS, "Requesting switching to scene " + newScene.getClass().getSimpleName());
         // 给消息队列投递消息 让 Swing 消息队列处理该事件
@@ -146,10 +151,18 @@ public abstract class Scene implements Runnable {
         });
     }
 
+    /**
+     * 获得上层的 GameWindow 引用
+     * @return GameWindow 引用
+     */
     public GameWindow getWindow() {
         return window;
     }
 
+    /**
+     * 设置上层的 GameWindow
+     * @param window 欲设置之 GameWindow
+     */
     public void setWindow(GameWindow window) {
         this.window = window;
     }

@@ -11,7 +11,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by CodeingBoy on 2016-8-4-0004.
+ * 地图解析器
+ * <p>
+ * 负责将对应的地图解析为地图对象以供游戏使用
  */
 public class MapParser {
 

@@ -19,16 +19,15 @@ import java.util.EnumSet;
 import java.util.Map;
 
 /**
- * Created by CodeingBoy on 2016-8-26-0026.
+ * 游戏地图选择 Popup
  */
 public class MapSelectingPopup extends Popup {
+    private final static File hoverSound = new File("sound/hover.wav");
+    private final static File clickSound = new File("sound/click.wav");
     private ScreenMappingTool screenMappingTool;
     private Map<String, File> maplist;
     private TextButton btnBack;
     private ArrayList<TextButton> mapBtns;
-
-    private final static File hoverSound = new File("sound/hover.wav");
-    private final static File clickSound = new File("sound/click.wav");
 
     /**
      * 创建一个 Popup
