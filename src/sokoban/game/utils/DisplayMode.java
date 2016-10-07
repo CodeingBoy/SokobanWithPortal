@@ -39,6 +39,10 @@ public class DisplayMode {
         }
     }
 
+    public static boolean isFullScreenSupported() {
+        return GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().isFullScreenSupported();
+    }
+
     public Dimension getSize() {
         return size;
     }
