@@ -16,6 +16,7 @@ import sokoban.game.engine.scenes.SuperScene;
 import sokoban.game.engine.sound.SoundManager;
 import sokoban.popups.MapSelectingPopup;
 import sokoban.scenes.testscene.TestScene;
+import sokoban.utils.Settings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,6 +31,8 @@ import java.io.IOException;
 public final class MainMenu extends SuperScene {
     private static final int WORLD_WIDTH = 100;
     private static final int WORLD_HEIGHT = 100;
+    private final static File hoverSound = new File("sound/hover.wav");
+    private final static File clickSound = new File("sound/click.wav");
     private final Image banner = new ImageIcon("banner.png").getImage();
     private final Image start = new ImageIcon("start.png").getImage();
     private final Image start_hover = new ImageIcon("start_hover.png").getImage();
@@ -39,10 +42,6 @@ public final class MainMenu extends SuperScene {
     private final Image test_hover = new ImageIcon("pic/buttons/test/test_hover.png").getImage();
     private final Image setting = new ImageIcon("pic/buttons/setting/setting.png").getImage();
     private final Image setting_hover = new ImageIcon("pic/buttons/setting/setting_hover.png").getImage();
-
-    private final static File hoverSound = new File("sound/hover.wav");
-    private final static File clickSound = new File("sound/click.wav");
-
     private ScreenMappingTool screenMappingTool;
 
     public MainMenu() {
@@ -253,6 +252,7 @@ public final class MainMenu extends SuperScene {
 
         SoundManager soundManager = SoundManager.getInstance();
         soundManager.addClip("bg", new File("sound/bg.wav"));
+        soundManager.setClipVolume("bg", Settings.getBGMVolume());
         soundManager.loopClip("bg");
     }
 
