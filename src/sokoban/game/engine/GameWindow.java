@@ -62,10 +62,12 @@ public class GameWindow extends JFrame {
                 GraphicsDevice graphicsDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
                 if (Settings.isFullScreen() && lastDisplayMode == null) { // entering fullscreen mode
                     onEnteringFullScreen();
+                    return;
                 }
 
                 if (!Settings.isFullScreen() && lastDisplayMode != null) { // exiting fullscreen mode
                     onExitingFullScreen();
+                    return;
                 }
 
                 if (Settings.isFullScreen() && Settings.getDisplayMode().toAWTDisplayMode() != graphicsDevice.getDisplayMode()) {
@@ -165,10 +167,16 @@ public class GameWindow extends JFrame {
     }
 
     private void onEnteringFullScreen() {
+        Log.d(LOGCLASS, "Entering full screen");
         dispose();
         setUndecorated(true);
 
         GraphicsDevice graphicsDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        Log.d(LOGCLASS, "Current resolution: " +
+                graphicsDevice.getDisplayMode().getWidth() + " x " + graphicsDevice.getDisplayMode().getHeight());
+        Log.d(LOGCLASS, "Changing resolution: " +
+                Settings.getDisplayMode().getSize().getWidth() + " x " + Settings.getDisplayMode().getSize().getHeight());
+
         lastDisplayMode = graphicsDevice.getDisplayMode();
         graphicsDevice.setFullScreenWindow(GameWindow.this);
         graphicsDevice.setDisplayMode(Settings.getDisplayMode().toAWTDisplayMode());
@@ -177,12 +185,21 @@ public class GameWindow extends JFrame {
     }
 
     private void onExitingFullScreen() {
+        Log.d(LOGCLASS, "Exiting full screen");
+
         dispose();
         setUndecorated(false);
 
         GraphicsDevice graphicsDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-        // graphicsDevice.setDisplayMode(lastDisplayMode);
+        Log.d(LOGCLASS, "Current resolution: " +
+                graphicsDevice.getDisplayMode().getWidth() + " x " + graphicsDevice.getDisplayMode().getHeight());
+        Log.d(LOGCLASS, "Changing resolution: " +
+                lastDisplayMode.getWidth() + " x " + lastDisplayMode.getHeight());
+
+        if (graphicsDevice.isDisplayChangeSupported())
+            graphicsDevice.setDisplayMode(lastDisplayMode);
         graphicsDevice.setFullScreenWindow(null);
+
         setVisible(true);
         lastDisplayMode = null;
     }
