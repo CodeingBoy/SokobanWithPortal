@@ -55,6 +55,10 @@ public class DisplayMode {
         return refreshRate;
     }
 
+    public java.awt.DisplayMode toAWTDisplayMode() {
+        return new java.awt.DisplayMode(size.width, size.height, bitDepth, refreshRate);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
