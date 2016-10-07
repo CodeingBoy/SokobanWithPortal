@@ -45,19 +45,19 @@ public class GameMap implements Drawable, Clickable {
         this.mapProperty = mapProperty;
 
         String s = this.mapProperty.get("PlayerStartPoint");
-        playerStartPoint = new Point(Integer.valueOf(s.split(",")[0]) - 1,
+        playerStartPoint = new Point(Integer.parseInt(s.split(",")[0]) - 1,
                 Integer.parseInt(s.split(",")[1]) - 1); // 减一是因为屏幕坐标系从0,0开始
 
         Box.setMap(this);
         s = this.mapProperty.get("BoxesStartPoint");
         for (String s1 : s.split(";")) {
-            boxes.add(new Box(new Point(Integer.valueOf(s1.split(",")[0]) - 1,
+            boxes.add(new Box(new Point(Integer.parseInt(s1.split(",")[0]) - 1,
                     Integer.parseInt(s1.split(",")[1]) - 1)));
         }
 
         s = this.mapProperty.get("CheckPoints");
         for (String s1 : s.split(";")) {
-            checkPoints.add(new Point(Integer.valueOf(s1.split(",")[0]) - 1,
+            checkPoints.add(new Point(Integer.parseInt(s1.split(",")[0]) - 1,
                     Integer.parseInt(s1.split(",")[1]) - 1));
         }
     }

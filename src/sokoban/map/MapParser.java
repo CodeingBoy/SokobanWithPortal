@@ -90,6 +90,12 @@ public class MapParser {
             }
         }
 
+        try {
+            bufferedReader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return new GameMap(mapObjects, mapWidth, mapHeight, inf.get("MapName"), inf);
 
     }
@@ -108,23 +114,24 @@ public class MapParser {
 
         for (File f : dir.listFiles()) {
             if (f.getName().endsWith(".map")) {
-                BufferedReader bufferedReader = null;
-                try {
-                    bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(f)));
+                try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(f)))) {
+                    StringBuffer stringBuffer = new StringBuffer();
+                    try {
+                        stringBuffer.append(bufferedReader.readLine());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    String[] line = stringBuffer.toString().split(":");
+
+                    list.put(line[1], f);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
-                }
-
-                StringBuffer stringBuffer = new StringBuffer();
-                try {
-                    stringBuffer.append(bufferedReader.readLine());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
-                String[] line = stringBuffer.toString().split(":");
 
-                list.put(line[1], f);
             }
         }
         return list;

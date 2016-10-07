@@ -65,20 +65,20 @@ public class SoundPlayer {
      * @throws IOException
      */
     public static AudioInputStream readAudioInputStreamFromFile(File file) throws IOException {
-        FileInputStream fileInputStream = new FileInputStream(file);
+        try (FileInputStream fileInputStream = new FileInputStream(file)) {
+            byte[] bytes = new byte[fileInputStream.available()];
+            fileInputStream.read(bytes);
 
-        byte[] bytes = new byte[fileInputStream.available()];
-        fileInputStream.read(bytes);
+            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
 
-        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
-
-        AudioInputStream audioInputStream = null;
-        try {
-            audioInputStream = AudioSystem.getAudioInputStream(byteArrayInputStream);
-        } catch (UnsupportedAudioFileException e) {
-            e.printStackTrace();
+            AudioInputStream audioInputStream = null;
+            try {
+                audioInputStream = AudioSystem.getAudioInputStream(byteArrayInputStream);
+            } catch (UnsupportedAudioFileException e) {
+                e.printStackTrace();
+            }
+            return audioInputStream;
         }
-        return audioInputStream;
     }
 
 }

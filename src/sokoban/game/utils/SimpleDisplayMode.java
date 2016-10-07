@@ -34,6 +34,7 @@ public class SimpleDisplayMode extends sokoban.game.utils.DisplayMode {
 
     @Override
     public boolean equals(Object obj) {
+        if (obj == null || !(obj instanceof DisplayMode)) return false;
         sokoban.game.utils.DisplayMode that = (sokoban.game.utils.DisplayMode) obj;
 
         if (this.size.equals(that.size))
