@@ -92,6 +92,7 @@ public abstract class Button extends Rect implements Drawable, Clickable {
     public void onClick(Point p) {
         if (clickSound != null) {
             clickSound.setFramePosition(0);
+            SoundPlayer.setClipVolume(clickSound, Settings.getSEVolume());
             clickSound.start();
         }
 
@@ -107,6 +108,7 @@ public abstract class Button extends Rect implements Drawable, Clickable {
     public void onEnteringHover(Point p) {
         if (hoverSound != null) {
             hoverSound.setFramePosition(0);
+            SoundPlayer.setClipVolume(hoverSound, Settings.getSEVolume());
             hoverSound.start();
         }
     }

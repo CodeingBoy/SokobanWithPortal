@@ -1,5 +1,7 @@
 package sokoban.game.engine.sound;
 
+import com.sun.xml.internal.ws.server.UnsupportedMediaException;
+
 import javax.sound.sampled.*;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -60,6 +62,7 @@ public class SoundPlayer {
 
     /**
      * 创建一个 AudioInputStream 对象，并将传入文件与之关联
+     *
      * @param file 欲关联之声音文件
      * @return 创建的 AudioInputStream 对象
      * @throws IOException
@@ -81,4 +84,24 @@ public class SoundPlayer {
         }
     }
 
+    /**
+     * 设置 Clip 音量
+     *
+     * @param clip   欲操纵之 Clip 对象
+     * @param volume 0~100之间的数，数值越大，音量越大
+     */
+    public static void setClipVolume(Clip clip, float volume) {
+        if (clip == null)
+            throw new IllegalArgumentException();
+
+        if (!clip.isControlSupported(FloatControl.Type.MASTER_GAIN))
+            throw new UnsupportedMediaException();
+
+        FloatControl gainControl =
+                (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        float max = gainControl.getMaximum();
+        float min = gainControl.getMinimum();
+
+        gainControl.setValue(min + (max - min) * (volume / 100));
+    }
 }
