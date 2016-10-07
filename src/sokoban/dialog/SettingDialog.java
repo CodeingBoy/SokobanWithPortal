@@ -16,11 +16,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
+import java.util.ArrayList;
 
 /**
  * Created by CodeingBoy on 2016-7-7-0007.
  */
 public class SettingDialog extends JDialog {
+    private static ArrayList<ActionListener> actionListeners = new ArrayList<>();
     private final ConfirmPanel confirmPanel;
     private final SettingGridPanel settingGridPanel = new SettingGridPanel();
     private final CheckBoxPanel checkBoxPanel = new CheckBoxPanel();
@@ -59,8 +61,10 @@ public class SettingDialog extends JDialog {
                 Settings.saveSettings();
 
                 LogDialog.getInstance().setVisible(Settings.shouldLogWindow());
+                excuteListener();
 
                 dispose();
+                modalDlg.requestFocus();
             }
         });
 
@@ -76,6 +80,20 @@ public class SettingDialog extends JDialog {
     public static void main(String[] args) {
         new SettingDialog(null).setVisible(true);
         Settings.saveSettings();
+    }
+
+    public static void addSettingsChangedListener(ActionListener actionListener) {
+        actionListeners.add(actionListener);
+    }
+
+    private static void excuteListener() {
+        for (ActionListener listener : actionListeners) {
+            listener.actionPerformed(new ActionEvent(new Object(), ActionEvent.ACTION_PERFORMED, null));
+        }
+    }
+
+    public static void removeSettingsChangedListener(ActionListener actionListener) {
+        actionListeners.remove(actionListener);
     }
 
     private void load() {
