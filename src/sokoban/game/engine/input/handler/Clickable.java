@@ -28,7 +28,16 @@ public interface Clickable {
      */
     void onHover(Point p);
 
+    /**
+     * 定义鼠标从未悬停到悬停时的动作
+     *
+     * @param p 悬停时的点
+     */
     void onEnteringHover(Point p);
 
+    /**
+     * 定义鼠标从悬停到未悬停时的动作
+     * @param p 悬停时的点
+     */
     void onExitingHover(Point p);
 }

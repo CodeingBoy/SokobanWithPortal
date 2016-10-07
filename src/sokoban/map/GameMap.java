@@ -73,6 +73,11 @@ public class GameMap implements Drawable, Clickable {
                 mapProperty.get("mapName"), mapProperty);
     }
 
+    /**
+     * 设置游戏目标完成监听器，该监听器会在游戏目标完成时被调用
+     *
+     * @param completeListener 欲设置之游戏目标完成监听器
+     */
     public void setCompleteListener(ActionListener completeListener) {
         this.completeListener = completeListener;
     }

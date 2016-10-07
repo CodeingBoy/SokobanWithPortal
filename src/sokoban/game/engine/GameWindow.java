@@ -9,12 +9,20 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 /**
- * Created by CodeingBoy on 2016-7-28-0028.
+ * 承载游戏内容的框架窗口
  */
 public class GameWindow extends JFrame {
     private final static Class LOGCLASS = GameWindow.class;
     private Scene scene;
 
+    /**
+     * 构造游戏窗口
+     *
+     * @param size  窗口初始大小
+     * @param title 窗口标题
+     * @param scene 窗口起始场景
+     * @throws HeadlessException
+     */
     public GameWindow(Dimension size, String title, Scene scene) throws HeadlessException {
         setLayout(null);
         setBackground(Color.BLACK);
@@ -61,6 +69,10 @@ public class GameWindow extends JFrame {
         return this;
     }
 
+    /**
+     * 显示窗口<br/>
+     * 调用之前，请确保已正确设置场景及场景中的画布
+     */
     public final void showWindow() {
         if (scene == null)
             throw new IllegalStateException("have no scene");
@@ -79,6 +91,11 @@ public class GameWindow extends JFrame {
         scene.startRendering();
     }
 
+    /**
+     * 切换场景
+     *
+     * @param newScene 欲切换之场景
+     */
     public final void switchScene(Scene newScene) {
         Log.d(GameWindow.class, "switching scene");
         Log.d(GameWindow.class, "old scene:" + scene.getClass().getName());
@@ -96,6 +113,10 @@ public class GameWindow extends JFrame {
         }
     }
 
+    /**
+     * 关闭窗口，会对场景进行destroy
+     * @see Scene#destroy()
+     */
     public final void close() {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
