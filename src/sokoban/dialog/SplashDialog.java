@@ -74,6 +74,9 @@ public class SplashDialog extends JFrame {
         // dlg.setVisible(false);
         // dlg.dispose();
 
+        if (!Settings.isSettingsExist())
+            new SettingDialog(null).setVisible(true);
+
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {

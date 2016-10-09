@@ -64,7 +64,8 @@ public class SettingDialog extends JDialog {
                 excuteListener();
 
                 dispose();
-                modalDlg.requestFocus();
+                if (modalDlg != null)
+                    modalDlg.requestFocus();
             }
         });
 
