@@ -24,7 +24,7 @@ import java.util.Set;
  */
 public class MessageBoxPopup extends Popup {
     private final static int FRAMEWIDTH = 4, FRAMEHEIGHT = 3;
-    private final static double FRAMEPADDINGRATIO = 0.9;
+    private final static double FRAMEPADDINGRATIO = 0.85;
     private boolean haveAnimation = true;
     private String title, message[];
     private Rect popupFrame;
