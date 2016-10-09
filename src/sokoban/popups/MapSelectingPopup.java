@@ -4,6 +4,7 @@ import sokoban.game.engine.graphics.ScreenMappingTool;
 import sokoban.game.engine.graphics.components.TextButton;
 import sokoban.game.engine.input.MouseInput;
 import sokoban.game.engine.input.handler.SuperMouseInputHandler;
+import sokoban.game.engine.popups.MessageBoxPopup;
 import sokoban.game.engine.popups.Popup;
 import sokoban.game.engine.scenes.SuperScene;
 import sokoban.game.utils.TextDrawer;
@@ -11,6 +12,8 @@ import sokoban.map.MapParser;
 import sokoban.scenes.gamescene.GameScene;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -26,7 +29,7 @@ public class MapSelectingPopup extends Popup {
     private final static File clickSound = new File("sound/click.wav");
     private ScreenMappingTool screenMappingTool;
     private Map<String, File> maplist;
-    private TextButton btnBack;
+    private TextButton btnBack, btnHelp;
     private ArrayList<TextButton> mapBtns;
 
     /**
@@ -48,6 +51,7 @@ public class MapSelectingPopup extends Popup {
                 new Font("微软雅黑", Font.PLAIN, 50), Color.ORANGE, "请选择地图");
 
         btnBack.draw(g, delta);
+        btnHelp.draw(g, delta);
 
         for (TextButton btn : mapBtns) {
             btn.draw(g, delta);
@@ -74,6 +78,37 @@ public class MapSelectingPopup extends Popup {
             e.printStackTrace();
         }
         ((SuperMouseInputHandler) getMouseInputHandler()).add("btnBack", btnBack);
+
+        btnHelp = new TextButton(new Point((int) (getWidth() * 0.1), (int) (getHeight() * 0.7)), 100, 70, null, null, null,
+                new Point(0, 0), new Font("微软雅黑", Font.PLAIN, 35), Color.white, Color.cyan, Color.BLACK,
+                EnumSet.of(TextButton.Style.CENTER_TEXT), "帮助") {
+            @Override
+            public void onClick(Point p) {
+                MessageBoxPopup popup = new MessageBoxPopup(scene, new Color(0, 0, 0, 200),
+                        EnumSet.of(MessageBoxPopup.Style.MBP_OK),
+                        "游戏帮助",
+                        new String[]{
+                                "方向键：控制角色移动", "Esc键：调出游戏菜单"
+                        });
+                popup.setOKListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        detachPopup();
+                    }
+                });
+                popup.setHoverSound(hoverSound);
+                popup.setClickSound(clickSound);
+
+                attachPopup(popup);
+            }
+        };
+        try {
+            btnHelp.setHoverSound(hoverSound);
+            btnHelp.setClickSound(clickSound);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ((SuperMouseInputHandler) getMouseInputHandler()).add("btnHelp", btnHelp);
 
         mapBtns = new ArrayList<>();
 
