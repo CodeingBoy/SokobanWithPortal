@@ -33,11 +33,11 @@ public final class MainMenu extends SuperScene {
     private static final int WORLD_HEIGHT = 100;
     private final static File hoverSound = new File("sound/hover.wav");
     private final static File clickSound = new File("sound/click.wav");
-    private final Image banner = new ImageIcon("banner.png").getImage();
-    private final Image start = new ImageIcon("start.png").getImage();
-    private final Image start_hover = new ImageIcon("start_hover.png").getImage();
-    private final Image exit = new ImageIcon("exit.png").getImage();
-    private final Image exit_hover = new ImageIcon("exit_hover.png").getImage();
+    private final Image banner = new ImageIcon("pic/mainmenu/banner.png").getImage();
+    private final Image start = new ImageIcon("pic/mainmenu/start.png").getImage();
+    private final Image start_hover = new ImageIcon("pic/mainmenu/start_hover.png").getImage();
+    private final Image exit = new ImageIcon("pic/mainmenu/exit.png").getImage();
+    private final Image exit_hover = new ImageIcon("pic/mainmenu/exit_hover.png").getImage();
     private final Image test = new ImageIcon("pic/buttons/test/test.png").getImage();
     private final Image test_hover = new ImageIcon("pic/buttons/test/test_hover.png").getImage();
     private final Image setting = new ImageIcon("pic/buttons/setting/setting.png").getImage();
