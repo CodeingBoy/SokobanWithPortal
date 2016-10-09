@@ -53,8 +53,10 @@ public class MapSelectingPopup extends Popup {
         btnBack.draw(g, delta);
         btnHelp.draw(g, delta);
 
-        for (TextButton btn : mapBtns) {
-            btn.draw(g, delta);
+        synchronized (mapBtns) {
+            for (TextButton btn : mapBtns) {
+                btn.draw(g, delta);
+            }
         }
     }
 
@@ -112,31 +114,33 @@ public class MapSelectingPopup extends Popup {
 
         mapBtns = new ArrayList<>();
 
-        int y = (int) (getHeight() * 0.25);
-        for (Map.Entry<String, File> entry : maplist.entrySet()) {
-            TextButton btn = new TextButton(true, new Point(getWidth() / 2, y), 200, 40, null, null, null,
-                    new Point(0, 0), new Font("微软雅黑", Font.PLAIN, 30), Color.WHITE, Color.green, Color.WHITE,
-                    EnumSet.of(TextButton.Style.CENTER_TEXT), entry.getKey()) {
-                @Override
-                public void onClick(Point p) {
-                    super.onClick(p);
-                    try {
-                        scene.requestSwitchScene(new GameScene(entry.getValue()));
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
+        synchronized (mapBtns) {
+            int y = (int) (getHeight() * 0.25);
+            for (Map.Entry<String, File> entry : maplist.entrySet()) {
+                TextButton btn = new TextButton(true, new Point(getWidth() / 2, y), 200, 40, null, null, null,
+                        new Point(0, 0), new Font("微软雅黑", Font.PLAIN, 30), Color.WHITE, Color.green, Color.WHITE,
+                        EnumSet.of(TextButton.Style.CENTER_TEXT), entry.getKey()) {
+                    @Override
+                    public void onClick(Point p) {
+                        super.onClick(p);
+                        try {
+                            scene.requestSwitchScene(new GameScene(entry.getValue()));
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
                     }
+                };
+                try {
+                    btn.setHoverSound(hoverSound);
+                    btn.setClickSound(clickSound);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            };
-            try {
-                btn.setHoverSound(hoverSound);
-                btn.setClickSound(clickSound);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            mapBtns.add(btn);
-            ((SuperMouseInputHandler) getMouseInputHandler()).add(entry.getKey(), btn);
+                mapBtns.add(btn);
+                ((SuperMouseInputHandler) getMouseInputHandler()).add(entry.getKey(), btn);
 
-            y += 50;
+                y += 50;
+            }
         }
     }
 }
