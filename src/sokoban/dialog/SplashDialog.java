@@ -56,23 +56,23 @@ public class SplashDialog extends JFrame {
 
         Settings.logSettings();
 
-        SplashDialog dlg = new SplashDialog();
-        dlg.setVisible(true);
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        dlg.expand(500, 400, 5, false);
-
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        dlg.setVisible(false);
-        dlg.dispose();
+        // SplashDialog dlg = new SplashDialog();
+        // dlg.setVisible(true);
+        // try {
+        //     Thread.sleep(2000);
+        // } catch (InterruptedException e) {
+        //     e.printStackTrace();
+        // }
+        // dlg.expand(500, 400, 5, false);
+        //
+        // try {
+        //     Thread.sleep(2000);
+        // } catch (InterruptedException e) {
+        //     e.printStackTrace();
+        // }
+        //
+        // dlg.setVisible(false);
+        // dlg.dispose();
 
         SwingUtilities.invokeLater(new Runnable() {
             @Override
