@@ -5,7 +5,7 @@ import sokoban.game.engine.graphics.ScreenMappingTool;
 import java.awt.*;
 
 /**
- * Created by CodeingBoy on 2016-8-2-0002.
+ * 椭圆图形类
  */
 public class Oval extends Shape {
     protected Point center;

@@ -10,6 +10,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+/**
+ * 鼠标输入器的常用实现
+ */
 public class SuperMouseInputHandler extends MouseInputHandler {
     protected Map<String, Clickable> clickables = new HashMap<>();
     private ArrayList<Clickable> lastHovering = new ArrayList<>();

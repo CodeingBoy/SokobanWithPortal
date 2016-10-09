@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by CodeingBoy on 2016-7-11-0011.
+ * 键盘处理器的常用实现
  */
 public class SuperKeyboardInputHandler extends KeyboardInputHandler {
     protected Map<Integer, Enterable> enterables = new HashMap<>();

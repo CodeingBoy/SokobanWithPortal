@@ -6,7 +6,7 @@ import sokoban.map.GameMap;
 import java.awt.*;
 
 /**
- * Created by CodeingBoy on 2016-8-4-0004.
+ * 箱子类
  */
 public class Box extends MapObject {
     private final static Image PIC = Toolkit.getDefaultToolkit().getImage("pic/box.png");

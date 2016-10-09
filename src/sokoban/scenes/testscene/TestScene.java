@@ -12,7 +12,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
 /**
- * Created by CodeigBoy on 2016-7-10-0010.
+ * 测试场景
  */
 public class TestScene extends SuperScene implements Runnable {
     private float angel;

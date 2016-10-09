@@ -26,7 +26,7 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * Created by CodeingBoy on 2016-8-2-0002.
+ * 主菜单场景
  */
 public final class MainMenu extends SuperScene {
     private static final int WORLD_WIDTH = 100;

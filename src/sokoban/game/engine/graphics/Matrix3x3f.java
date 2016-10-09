@@ -3,7 +3,7 @@ package sokoban.game.engine.graphics;
 import java.awt.*;
 
 /**
- * Created by CodeingBoy on 2016-7-26-0026.
+ * 矩阵类，提供矩阵的表示和运算
  */
 public class Matrix3x3f {
     public final static Matrix3x3f ZERO = new Matrix3x3f(

@@ -7,7 +7,7 @@ import sokoban.game.utils.TextDrawer;
 import java.awt.*;
 
 /**
- * Created by CodeingBoy on 2016-8-2-0002.
+ * 矩形图形类
  */
 public class Rect extends Polygon {
     private double width, height;

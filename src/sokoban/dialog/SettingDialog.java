@@ -19,7 +19,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 /**
- * Created by CodeingBoy on 2016-7-7-0007.
+ * 设置对话框
  */
 public class SettingDialog extends JDialog {
     private static ArrayList<ActionListener> actionListeners = new ArrayList<>();

@@ -3,7 +3,7 @@ package sokoban.game.engine.graphics;
 import java.awt.*;
 
 /**
- * Created by CodeingBoy on 2016-7-16-0016.
+ * 向量类，提供了向量的表示和运算
  */
 public class Vector2f {
     public double x, y, w;

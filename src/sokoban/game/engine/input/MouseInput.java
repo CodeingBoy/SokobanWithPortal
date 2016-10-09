@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 /**
- * Created by CodeingBoy on 2016-7-11-0011.
+ * 鼠标输入底层类
  */
 public class MouseInput implements MouseListener, MouseMotionListener, MouseWheelListener {
     private boolean[] isButtonPressing = new boolean[3];

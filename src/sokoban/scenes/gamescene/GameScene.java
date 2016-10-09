@@ -25,7 +25,7 @@ import java.io.FileNotFoundException;
 import java.util.EnumSet;
 
 /**
- * Created by CodeingBoy on 2016-8-4-0004.
+ * 游戏场景
  */
 public class GameScene extends SuperScene {
     Player player;

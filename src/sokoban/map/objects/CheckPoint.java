@@ -3,7 +3,7 @@ package sokoban.map.objects;
 import java.awt.*;
 
 /**
- * Created by CodeingBoy on 2016-8-19-0019.
+ * 检查点类
  */
 public class CheckPoint extends Floor implements Placeable {
     private final static Image PIC = Toolkit.getDefaultToolkit().getImage("pic/checkpoint.png");

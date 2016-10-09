@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Created by CodeingBoy on 2016-7-9-0009.
+ * 日志记录工具
  */
 public class Log {
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("HH:mm:ss.SSS");

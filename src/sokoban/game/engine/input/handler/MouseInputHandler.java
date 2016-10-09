@@ -3,7 +3,7 @@ package sokoban.game.engine.input.handler;
 import sokoban.game.engine.input.MouseInput;
 
 /**
- * Created by CodeingBoy on 2016-7-11-0011.
+ * 鼠标输入处理器抽象类
  */
 public abstract class MouseInputHandler implements InputHandler {
     protected MouseInput input;

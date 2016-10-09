@@ -4,7 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 /**
- * Created by CodeingBoy on 2016-7-11-0011.
+ * 键盘输入底层类
  */
 public class KeyboardInput implements KeyListener {
     private int[] keyLastFrames = new int[256];

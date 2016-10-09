@@ -3,7 +3,7 @@ package sokoban.game.engine.graphics.shapes;
 import java.awt.*;
 
 /**
- * Created by CodeingBoy on 2016-8-2-0002.
+ * 圆形图形类
  */
 public class Circle extends Oval {
 

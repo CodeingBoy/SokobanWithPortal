@@ -4,6 +4,9 @@ import sokoban.game.engine.graphics.Matrix3x3f;
 
 import java.awt.*;
 
+/**
+ * 地图对象坐标映射工具
+ */
 public class GameObjectsMappingTool {
 
     private float worldWidth, worldHeight;

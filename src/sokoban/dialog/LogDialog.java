@@ -11,7 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Created by CodeingBoy on 2016-7-9-0009.
+ * 日志对话框
  */
 public class LogDialog extends JFrame {
     private static LogDialog ourInstance = new LogDialog();

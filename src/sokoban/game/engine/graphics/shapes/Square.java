@@ -3,7 +3,7 @@ package sokoban.game.engine.graphics.shapes;
 import sokoban.game.engine.graphics.Vector2f;
 
 /**
- * Created by CodeingBoy on 2016-8-3-0003.
+ * 正方形图形类
  */
 public class Square extends Rect {
     public Square(Vector2f start, int width) {

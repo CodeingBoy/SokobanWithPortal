@@ -9,7 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Created by CodeingBoy on 2016-7-7-0007.
+ * 启动画面对话框
  */
 public class SplashDialog extends JFrame {
     final LoadingInformationPanel infPanel;

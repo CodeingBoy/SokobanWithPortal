@@ -3,7 +3,7 @@ package sokoban.game.engine.graphics;
 import java.awt.*;
 
 /**
- * Created by CodeingBoy on 2016-7-28-0028.
+ * 屏幕映射工具，用于世界坐标系与屏幕坐标系之间的转换
  */
 public class ScreenMappingTool {
     private float worldWidth, worldHeight;

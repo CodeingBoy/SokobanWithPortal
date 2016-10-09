@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Properties;
 
+/**
+ * 设置持久化类
+ */
 public class Settings {
     public final static String KEY_DEBUGMODE = "debug.debugging";
     public final static String KEY_SHOWFRMMERATE = "debug.showFrameRate";

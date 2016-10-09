@@ -5,7 +5,7 @@ import sokoban.game.engine.input.handler.Clickable;
 import java.awt.*;
 
 /**
- * Created by CodeingBoy on 2016-8-4-0004.
+ * 地板类
  */
 public class Floor extends MapObject implements Placeable, Clickable {
     private final static Image PIC = Toolkit.getDefaultToolkit().getImage("pic/floor.png");

@@ -17,6 +17,9 @@ import java.awt.event.ComponentEvent;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Scene 的一种扩充实现
+ */
 public abstract class SuperScene extends Scene {
     private final Class LOGCLASS = SuperScene.class;
     protected FrameRateDrawable frameRateDrawable;

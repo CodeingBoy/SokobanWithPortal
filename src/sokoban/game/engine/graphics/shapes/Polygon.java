@@ -10,7 +10,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 
 /**
- * Created by CodeingBoy on 2016-8-2-0002.
+ * 多边形图形类
  */
 public class Polygon extends Shape {
     protected Vector2f[] originVectors;

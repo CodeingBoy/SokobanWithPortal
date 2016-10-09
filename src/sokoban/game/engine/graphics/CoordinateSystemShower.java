@@ -5,7 +5,7 @@ import sokoban.game.engine.graphics.shapes.Square;
 import java.awt.*;
 
 /**
- * Created by CodeingBoy on 2016-7-28-0028.
+ * 坐标系绘制工具，用于协助调试
  */
 public class CoordinateSystemShower {
 

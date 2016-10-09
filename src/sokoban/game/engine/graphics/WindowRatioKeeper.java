@@ -5,7 +5,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
 /**
- * Created by CodeingBoy on 2016-7-28-0028.
+ * 画面比例调节器，用于维持画面的比例
  */
 public class WindowRatioKeeper extends ComponentAdapter {
     private Canvas canvas;

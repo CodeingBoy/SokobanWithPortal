@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 /**
- * Created by CodeingBoy on 2016-8-2-0002.
+ * 形状抽象类
  */
 public abstract class Shape implements Drawable {
     protected double rotateDelta;

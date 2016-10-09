@@ -37,6 +37,7 @@ public interface Clickable {
 
     /**
      * 定义鼠标从悬停到未悬停时的动作
+     *
      * @param p 悬停时的点
      */
     void onExitingHover(Point p);

@@ -1,7 +1,7 @@
 package sokoban.game.engine.scenes;
 
 /**
- * Created by CodeingBoy on 2016-7-28-0028.
+ * 场景，为画布提供基础设施，与 GameWindow 直接交互
  */
 
 import sokoban.game.engine.GameWindow;
@@ -153,6 +153,7 @@ public abstract class Scene implements Runnable {
 
     /**
      * 获得上层的 GameWindow 引用
+     *
      * @return GameWindow 引用
      */
     public GameWindow getWindow() {
@@ -161,6 +162,7 @@ public abstract class Scene implements Runnable {
 
     /**
      * 设置上层的 GameWindow
+     *
      * @param window 欲设置之 GameWindow
      */
     public void setWindow(GameWindow window) {
