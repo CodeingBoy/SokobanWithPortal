@@ -74,8 +74,12 @@ public class SplashDialog extends JFrame {
         // dlg.setVisible(false);
         // dlg.dispose();
 
-        if (!Settings.isSettingsExist())
+        if (!Settings.isSettingsExist()) {
+            JOptionPane.showMessageDialog(null, "欢迎您游玩本游戏！\n" +
+                    "程序没有检测到配置文件，稍后将显示设置对话框，您可以点击确定使用默认配置游戏。\n" +
+                    "保存设置后，您可在主菜单界面呼出设置窗口进行游戏设置", "欢迎！", JOptionPane.INFORMATION_MESSAGE);
             new SettingDialog(null).setVisible(true);
+        }
 
         SwingUtilities.invokeLater(new Runnable() {
             @Override
