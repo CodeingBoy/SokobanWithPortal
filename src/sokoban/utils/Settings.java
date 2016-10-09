@@ -119,7 +119,7 @@ public class Settings {
     }
 
     public static Dimension getResolution() {
-        String s = PROPERTIES.getProperty(KEY_RESOLUTION, "");
+        String s = PROPERTIES.getProperty(KEY_RESOLUTION, "1024x768");
         return new Dimension(Integer.parseInt(s.split("x")[0]), Integer.parseInt(s.split("x")[1]));
     }
 
